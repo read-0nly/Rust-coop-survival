@@ -31,3 +31,5 @@ Roadmap:
     - Deer like corn and berries and hemp
     - Bears like corn and berries and pumpkin
     - Pigs like mushroom, corn, and pumpkin
+- No chat, voicechat only
+- Phones, CCTVs, some leftover computers for communication/surveillance
