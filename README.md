@@ -1,0 +1,33 @@
+# Repo for development of my modded Rust server
+
+Roadmap:
+- ~Remove downsides to eating human meat~ < Done but in a lazy way - it would be better to modify the prefab defaults
+- ~add chance of cannibal status~ < Done
+- ~Cannibalism lowers hunger.max by A LOT but boosts max health. You can have more health than normal - as long as you KEEP EATING~ < Done but hackish and lazy
+- *Cannibalism should grant nightvision* < Refuses to work - Current focus
+- Base hunger and thirst reduced, driving more focus on scavenging 
+- On death, some sort of log function tugs max health towards hunger/max point. So if you die hungry, you respawn with lower max health. Drive more scavenging
+- Reduce gather rates considerably, increase loot tables especially of basic things like tools.
+- No bases means no gigantic storage rooms with 200000k coal - you have a bag and whatever chest you put down that survives the night. 
+  - Inventory management and choosing to keep the tuna can or the knife becomes hopefully an important decision again
+  - The entire point here is to remove abundance. Scarcity motivates acquisition, motivates interaction and engagement with environment.
+  - Abundance motivates shuffling chests for an hour.
+  - The comfort of a safe hovel is fleeting.
+  - Logging off becomes a quest for the best hiding spots
+- 5 different towns with their own themes, scattered points of interest between
+- No build restrictions in structures - building entirely new map with custom monuments to serve the purpose
+- No decay protection - so you need to maintain what you wanna keep manually.
+- Decay fiddling so that most things last 24 hours unattended
+- Hidden shops scattered with their own inventories and prices. No map pins
+- More car availability
+- Remove crafting of high-tier things like AKs, most ammo crafting, or change costs to make it unviable. 
+  - Guns should be there as a wildcard but should be hard to acquire. No one should be armed to the teeth. 
+    - Ideally, they mostly get used in desperation facing off cannibals (or by those cannibals desperate for a meal)
+- Permanent fog
+- Custom plant breeding code, Custom animal breeding code, based off population in range on some event. 
+  - Animals that have eaten drop a seed of something they ate that night
+  - When an animal eats, if there are 1-3 others nearby, they breed
+  - Animals have their own hunger system
+    - Deer like corn and berries and hemp
+    - Bears like corn and berries and pumpkin
+    - Pigs like mushroom, corn, and pumpkin
