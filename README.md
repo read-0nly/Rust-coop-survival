@@ -5,7 +5,7 @@ Roadmap:
 - ~add chance of cannibal status~ < Done
 - ~Cannibalism lowers hunger.max by A LOT but boosts max health. You can have more health than normal - as long as you KEEP EATING~ < Done but hackish and lazy
 - ~Cannibalism should grant nightvision~
-- ~Base hunger and thirst reduced, driving more focus on scavenging ~
+- ~Base hunger and thirst reduced, driving more focus on scavenging~
 - On death, some sort of log function tugs max health towards hunger/max point. So if you die hungry, you respawn with lower max health. Drive more scavenging
 - Reduce gather rates considerably, increase loot tables especially of basic things like tools.
 - No bases means no gigantic storage rooms with 200000k coal - you have a bag and whatever chest you put down that survives the night. 
