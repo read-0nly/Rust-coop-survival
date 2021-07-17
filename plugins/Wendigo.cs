@@ -45,17 +45,17 @@ namespace Oxide.Plugins
         class StoredData
         {
             public Dictionary<ulong, string> Wendis = new Dictionary<ulong, string>();
-            public Dictionary<ulong, int> WendiTime = new Dictionary<ulong, int>();
+            public Dictionary<ulong, Double> WendiTime = new Dictionary<ulong, Double>();
             public StoredData()
             {
             }
         }
 
 		int defaultHealth = 100;
-		int defaultCals = 100;
+		int defaultCals = 50;
 		int defaultWater = 100;
-		int wendiHealth = 150;
-		int wendiCals = 50;
+		int wendiHealth = 100;
+		int wendiCals = 30;
 		int wendiWater = 200;
 		int baseTime=8;
 		
@@ -65,61 +65,7 @@ namespace Oxide.Plugins
         private StoredData storedData;
 		private EnvSync _envSync;
         private DateTime _sunnyDayDate = new DateTime(2024, 1, 25);
-		private void OnServerInitialized()
-        {
-            _envSync = BaseNetworkable.serverEntities.OfType<EnvSync>().FirstOrDefault();
-
-            timer.Every(5f, () => {
-                if (!_envSync.limitNetworking)
-                    _envSync.limitNetworking = true;
-
-                List<Connection> subscribers = _envSync.net.group.subscribers;
-                if (subscribers != null && subscribers.Count > 0)
-                {
-                    for (int i = 0; i < subscribers.Count; i++)
-                    {
-                        Connection connection = subscribers[i];
-                        global::BasePlayer basePlayer = connection.player as global::BasePlayer;
-
-                        if (!(basePlayer == null)) {
-                            //NVPlayerData nvPlayerData = GetNVPlayerData(basePlayer);
-                            if (storedData.Wendis.ContainsKey(basePlayer.userID) == false) continue;
-
-                            if (Net.sv.write.Start())
-                            {
-                                connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
-                                BaseNetworkable.SaveInfo saveInfo = new global::BaseNetworkable.SaveInfo
-                                {
-                                    forConnection = connection,
-                                    forDisk = false
-                                };
-                                Net.sv.write.PacketID(Message.Type.Entities);
-                                Net.sv.write.UInt32(connection.validate.entityUpdates);
-                                using (saveInfo.msg = Facepunch.Pool.Get<ProtoBuf.Entity>())
-                                {
-                                    _envSync.Save(saveInfo);
-									saveInfo.msg.environment.dateTime = _sunnyDayDate.AddHours(storedData.WendiTime[basePlayer.userID]).ToBinary();
-									saveInfo.msg.environment.fog = 0;
-									saveInfo.msg.environment.rain = 0;
-									saveInfo.msg.environment.clouds = 0;
-                                    if (saveInfo.msg.baseEntity == null)
-                                    {
-                                        //LogError(this + ": ToStream - no BaseEntity!?");
-                                    }
-                                    if (saveInfo.msg.baseNetworkable == null)
-                                    {
-                                        //LogError(this + ": ToStream - no baseNetworkable!?");
-                                    }
-                                    saveInfo.msg.ToProto(Net.sv.write);
-                                    _envSync.PostSave(saveInfo);
-                                    Net.sv.write.Send(new SendInfo(connection));
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
+		
         public List<string> NotForWendigo = new List<string>()
         {
 
@@ -185,12 +131,12 @@ namespace Oxide.Plugins
         {
             Eater.metabolism.poison.value = 0;
             Eater.metabolism.bleeding.value = 0;
-            Eater.metabolism.calories.value = Eater.metabolism.calories.value + 50;
-            Eater.health = Eater.health + 10;
-			Eater._maxHealth += 1;						
-            Eater.metabolism.hydration.value = Eater.metabolism.hydration.value + 50;
+            Eater.metabolism.calories.value += (Eater.metabolism.calories.value+20<=Eater.metabolism.calories.max? 20:0);
+			Eater.Heal(20);
+			Eater._maxHealth += 1;					
+            Eater.metabolism.hydration.value += (Eater.metabolism.hydration.value+50<=Eater.metabolism.hydration.max? 50:30);
 			Eater.metabolism.comfort.value += 10;	
-			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 1)% 24;
+			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 0.25)% 24;
 			//NightVision.CallHook("UnlockPlayerTime", player);	
 			//Interface.uMod.CallHook("LockPlayerTime", Eater, storedData.WendiTime[Eater.userID], 0, 0);	
         }
@@ -198,28 +144,32 @@ namespace Oxide.Plugins
         {
 			Eater.metabolism.poison.value = Eater.metabolism.poison.value + 2;
 			Eater.metabolism.bleeding.value = 0;
-			Eater.metabolism.calories.value = Eater.metabolism.calories.value + 15;
-			Eater.health = Eater.health + 2;
-			Eater.metabolism.hydration.value = Eater.metabolism.hydration.value + 10;
+			Eater.metabolism.calories.value = Eater.metabolism.calories.value + 5;
+			Eater.metabolism.hydration.value = Eater.metabolism.hydration.value + 5;
 			Eater.metabolism.comfort.value = 0;
-			if(Oxide.Core.Random.Range(0, 100)<90){
+			if(Oxide.Core.Random.Range(0, 100)<10){
 				setWendigo(Eater,true);
 			};
         }
         void WhenAWendigoEatsMeat(BasePlayer Eater, string ItemToEat)
         {
-            Eater.metabolism.poison.value = Eater.metabolism.poison.value + 2;
-            Eater.metabolism.calories.value = Eater.metabolism.calories.value +10;
+            Eater.metabolism.calories.value = Eater.metabolism.calories.value +5;
             Eater.metabolism.hydration.value = Eater.metabolism.hydration.value +5;
+			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 0.5)% 24;
+            Eater.metabolism.calories.max = ((Eater.metabolism.calories.max * 1.05f)<100?(Eater.metabolism.calories.max * 1.05f):100);
 			//NightVision.CallHook("UnlockPlayerTime", player);	
 			//Interface.uMod.CallHook("LockPlayerTime", Eater, storedData.WendiTime[Eater.userID], 0, 1);	
         }
         void WhenAWendigoEatsPlant(BasePlayer Eater, string ItemToEat)
         {
-            Eater.metabolism.poison.value = Eater.metabolism.poison.value + 5;
-            Eater.metabolism.calories.value = Eater.metabolism.calories.value - 40;
-            Eater.health = Eater.health - 40;
+            Eater.metabolism.poison.value = Eater.metabolism.poison.value + 20;
+            Eater.metabolism.calories.value = Eater.metabolism.calories.value - 20;
             Eater.metabolism.hydration.value = Eater.metabolism.hydration.value - 30;
+			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 1)% 24;
+			Eater._maxHealth += 4;		
+			if(Oxide.Core.Random.Range(0, 100)<5){
+				setWendigo(Eater,true);
+			};			
 			//NightVision.CallHook("UnlockPlayerTime", player);	
 			//Interface.uMod.CallHook("LockPlayerTime", Eater, storedData.WendiTime[Eater.userID], 1, 1);	
         }
@@ -246,7 +196,7 @@ namespace Oxide.Plugins
 					setWendigo(Eater,false);
 				}
 			}			
-            if (ItemToEat.Contains("human") == true)
+            if (ItemToEat.Contains("human") == true && ItemToEat.Contains("cooked")==true)
             {
 				//Human on human
 				if(!(storedData.Wendis.ContainsKey(Eater.userID))){
@@ -273,6 +223,69 @@ namespace Oxide.Plugins
 					}
 				}
 			}
+        }
+		private void OnServerInitialized()
+        {
+            _envSync = BaseNetworkable.serverEntities.OfType<EnvSync>().FirstOrDefault();
+
+            timer.Every(5f, () => {
+                if (!_envSync.limitNetworking)
+                    _envSync.limitNetworking = true;
+
+                List<Connection> subscribers = _envSync.net.group.subscribers;
+                if (subscribers != null && subscribers.Count > 0)
+                {
+                    for (int i = 0; i < subscribers.Count; i++)
+                    {
+                        Connection connection = subscribers[i];
+                        global::BasePlayer basePlayer = connection.player as global::BasePlayer;
+
+                        if (!(basePlayer == null)) {
+							if(storedData.Wendis.ContainsKey(basePlayer.userID)){
+								if (Net.sv.write.Start())
+								{
+									connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
+									BaseNetworkable.SaveInfo saveInfo = new global::BaseNetworkable.SaveInfo
+									{
+										forConnection = connection,
+										forDisk = false
+									};
+									Net.sv.write.PacketID(Message.Type.Entities);
+									Net.sv.write.UInt32(connection.validate.entityUpdates);
+									using (saveInfo.msg = Facepunch.Pool.Get<ProtoBuf.Entity>())
+									{
+										_envSync.Save(saveInfo);
+										saveInfo.msg.environment.dateTime = _sunnyDayDate.AddHours(storedData.WendiTime[basePlayer.userID]).ToBinary();
+										saveInfo.msg.environment.fog = 0;
+										saveInfo.msg.environment.rain = 0;
+										saveInfo.msg.environment.clouds = 0;
+										if (saveInfo.msg.baseEntity == null)
+										{
+											return;
+										}
+										if (saveInfo.msg.baseNetworkable == null)
+										{
+											return;
+										}
+										saveInfo.msg.ToProto(Net.sv.write);
+										_envSync.PostSave(saveInfo);
+										Net.sv.write.Send(new SendInfo(connection));
+									}
+								}
+							}
+							else{
+								if(basePlayer.metabolism.calories.value < 10 && basePlayer.metabolism.calories.max > 20){
+									basePlayer.metabolism.calories.max+= -1.5f;									
+								}else if (basePlayer.metabolism.calories.value<20 && basePlayer.metabolism.calories.max > 30){
+									basePlayer.metabolism.calories.max+= -0.5f;
+								}else if (basePlayer.metabolism.calories.max-basePlayer.metabolism.calories.value<5 && basePlayer.metabolism.calories.max < defaultCals){
+									basePlayer.metabolism.calories.max+= 0.5f;
+								}
+							}
+                        }
+                    }
+                }
+            });
         }
 
         private void OnPlayerRespawned(BasePlayer player)
