@@ -45,3 +45,4 @@ Current issues:
   - But the rocket science building lets us and it's made of two parts, one concave shell and one convex shell
   - Hardcoded nobuild in assets?
 - "Deployables" break for a bunch of reasons. Statics seem uninteractable. This one might require I take the time to deploy and wire those sorts of things myself at wipe, ugh. 
+- Remember to sleep ffs
