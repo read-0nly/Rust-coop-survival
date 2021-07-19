@@ -20,9 +20,9 @@ Roadmap:
 - ~Decay fiddling so that most things last 24 hours unattended~ < needs balance but works
 - Hidden shops scattered with their own inventories and prices. No map pins
 - ~More car availability~
-- ~Remove crafting of high-tier things like AKs, most ammo crafting, or change costs to make it unviable. ~
-  - Guns should be there as a wildcard but should be hard to acquire. No one should be armed to the teeth. 
-    - Ideally, they mostly get used in desperation facing off cannibals (or by those cannibals desperate for a meal)
+- ~Remove crafting of high-tier things like AKs, most ammo crafting, or change costs to make it unviable.~
+  - ~Guns should be there as a wildcard but should be hard to acquire. No one should be armed to the teeth.~ 
+    - ~Ideally, they mostly get used in desperation facing off cannibals (or by those cannibals desperate for a meal)~
 - Permanent fog
 - Custom plant breeding code, Custom animal breeding code, based off population in range on some event. 
   - Animals that have eaten drop a seed of something they ate that night
@@ -33,3 +33,15 @@ Roadmap:
     - Pigs like mushroom, corn, and pumpkin
 - No chat, voicechat only
 - Phones, CCTVs, some leftover computers for communication/surveillance
+
+Current issues:
+- Map triggers are fucked, deadzones in the sewers
+- Building in sewer parts don't work at all. Caves neither. 
+  - But Oil Pipe and the build pockets work.
+  - The parts that work seem to have a fully contiguous shape whereas those that refuse it are just shells
+  - Crossing a build pocket or pipe through a sewer part doesn't allow building on that within the sewer part.
+  - This suggests the piece has a nobuild zone like the roads. Maybe the base cause is the same? 
+  - Nobuild if within X of onesided part?
+  - But the rocket science building lets us and it's made of two parts, one concave shell and one convex shell
+  - Hardcoded nobuild in assets?
+- "Deployables" break for a bunch of reasons. Statics seem uninteractable. This one might require I take the time to deploy and wire those sorts of things myself at wipe, ugh. 
