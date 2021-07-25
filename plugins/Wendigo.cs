@@ -53,9 +53,11 @@ namespace Oxide.Plugins
 
 		int defaultHealth = 100;
 		int defaultCals = 50;
+		int maxCals = 100;
 		int defaultWater = 100;
 		int wendiHealth = 100;
-		int wendiCals = 30;
+		int wendiCals = 50;
+		int wendiMaxCals = 200;
 		int wendiWater = 200;
 		int baseTime=8;
 		
@@ -136,7 +138,7 @@ namespace Oxide.Plugins
 			Eater._maxHealth += 1;					
             Eater.metabolism.hydration.value += (Eater.metabolism.hydration.value+50<=Eater.metabolism.hydration.max? 50:30);
 			Eater.metabolism.comfort.value += 10;	
-			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 0.25)% 24;
+			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 0.1)% 24;
 			//NightVision.CallHook("UnlockPlayerTime", player);	
 			//Interface.uMod.CallHook("LockPlayerTime", Eater, storedData.WendiTime[Eater.userID], 0, 0);	
         }
@@ -167,7 +169,7 @@ namespace Oxide.Plugins
             Eater.metabolism.hydration.value = Eater.metabolism.hydration.value - 30;
 			storedData.WendiTime[Eater.userID]= (storedData.WendiTime[Eater.userID] + 1)% 24;
 			Eater._maxHealth += 4;		
-			if(Oxide.Core.Random.Range(0, 100)<5){
+			if(Oxide.Core.Random.Range(0, 100)<25){
 				setWendigo(Eater,true);
 			};			
 			//NightVision.CallHook("UnlockPlayerTime", player);	
@@ -278,8 +280,12 @@ namespace Oxide.Plugins
 									basePlayer.metabolism.calories.max+= -1.5f;									
 								}else if (basePlayer.metabolism.calories.value<20 && basePlayer.metabolism.calories.max > 30){
 									basePlayer.metabolism.calories.max+= -0.5f;
-								}else if (basePlayer.metabolism.calories.max-basePlayer.metabolism.calories.value<5 && basePlayer.metabolism.calories.max < defaultCals){
-									basePlayer.metabolism.calories.max+= 0.5f;
+								}else if (basePlayer.metabolism.calories.max-basePlayer.metabolism.calories.value<10){
+									if( storedData.Wendis.ContainsKey(basePlayer.userID)){
+										basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < wendiMaxCals?0.5f:0);
+									}else{
+										basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < maxCals?0.5f:0);
+									}
 								}
 							}
                         }
