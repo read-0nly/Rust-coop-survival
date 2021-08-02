@@ -182,6 +182,7 @@ namespace Oxide.Plugins
             ItemContainer Container = item.GetRootContainer();
             if (Container == null){return;}
             BasePlayer Eater = Container.GetOwnerPlayer();
+			setDefaults(Eater);
             if (Eater == null){return;}
 			//if cannibal && cannibaltime > 24
 			//FlipWendigo
@@ -220,7 +221,7 @@ namespace Oxide.Plugins
 							isForbidden = true;
 						}
 					}
-					if(!isForbidden){
+					if(!isForbidden && ItemToEat.Contains("cooked")){
 						WhenAWendigoEatsMeat(Eater, ItemToEat);
 					}
 				}
@@ -275,17 +276,16 @@ namespace Oxide.Plugins
 									}
 								}
 							}
-							else{
-								if(basePlayer.metabolism.calories.value < 10 && basePlayer.metabolism.calories.max > 20){
-									basePlayer.metabolism.calories.max+= -1.5f;									
-								}else if (basePlayer.metabolism.calories.value<20 && basePlayer.metabolism.calories.max > 30){
-									basePlayer.metabolism.calories.max+= -0.5f;
-								}else if (basePlayer.metabolism.calories.max-basePlayer.metabolism.calories.value<10){
-									if( storedData.Wendis.ContainsKey(basePlayer.userID)){
-										basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < wendiMaxCals?0.5f:0);
-									}else{
-										basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < maxCals?0.5f:0);
-									}
+						
+							if(basePlayer.metabolism.calories.value < 10 && basePlayer.metabolism.calories.max > 20){
+								basePlayer.metabolism.calories.max+= -1.5f;									
+							}else if (basePlayer.metabolism.calories.value<20 && basePlayer.metabolism.calories.max > 30){
+								basePlayer.metabolism.calories.max+= -0.5f;
+							}else if (basePlayer.metabolism.calories.max-basePlayer.metabolism.calories.value<10){
+								if( storedData.Wendis.ContainsKey(basePlayer.userID)){
+									basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < wendiMaxCals?0.5f:0);
+								}else{
+									basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < maxCals?0.5f:0);
 								}
 							}
                         }
@@ -296,6 +296,10 @@ namespace Oxide.Plugins
 
         private void OnPlayerRespawned(BasePlayer player)
         {			
+          setDefaults(player);
+        }
+		
+		void setDefaults(BasePlayer player){
 			if (storedData.Wendis.ContainsKey(player.userID)){
 				player._maxHealth = wendiHealth;						
 				player.metabolism.hydration.max = wendiWater;
@@ -304,9 +308,9 @@ namespace Oxide.Plugins
 				player._maxHealth = defaultHealth;						
 				player.metabolism.hydration.max = defaultWater;
 				player.metabolism.calories.max = defaultCals;
-			}            
-        }
-
+			}  	
+		}
+		
 		void setWendigo(BasePlayer player, bool wending)
 		{
 			if(wending){

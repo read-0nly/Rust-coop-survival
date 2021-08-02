@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Oxide.Core;
+using Oxide.Core.Plugins;
 using Oxide.Core.Libraries.Covalence;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 
 namespace Oxide.Plugins
@@ -134,7 +136,7 @@ namespace Oxide.Plugins
             }
 
             var bplist = ItemManager.bpList.Where(item => config.CraftingOptions.ContainsKey(item.targetItem.shortname) == false).ToList();
-            bplist.ForEach(x => config.CraftingOptions.Add(x.targetItem.shortname, new CraftingData() { craftTime = x.time, workbenchLevel = x.workbenchLevelRequired }));
+            bplist.ForEach(x => config.CraftingOptions.Add(x.targetItem.shortname, new CraftingData() { craftTime = x.time, workbenchLevel = x.workbenchLevelRequired}));
 
             SaveConfig();
             UpdateCraftingRate();
@@ -409,6 +411,7 @@ namespace Oxide.Plugins
                 bp.time *= (float)(config.CraftingRate / 100);
                 if (data.workbenchLevel > -1 && data.workbenchLevel < 4)
                     bp.workbenchLevelRequired = data.workbenchLevel;
+				
             }
         }
 
@@ -449,6 +452,8 @@ namespace Oxide.Plugins
 
         #region Hooks
         private Dictionary<ItemCraftTask, ulong> skinupdate = new Dictionary<ItemCraftTask, ulong>();
+		//bp.workbenchLevelRequired, bp.userCraftable
+				
         private object OnItemCraft(ItemCraftTask task, BasePlayer crafter)
         {
             var player = task.owner;

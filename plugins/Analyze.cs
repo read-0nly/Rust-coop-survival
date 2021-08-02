@@ -52,21 +52,21 @@ namespace Oxide.Plugins
         private void AnalyzeCommand(IPlayer player, string command, string[] args)
         {
 			string[] parseString = args[0].Split(':');
+					
+			string[] paths = new string[0];
+			if(parseString.Count()>1){
+				if(parseString[1].Contains('>')){
+					paths=parseString[1].Split('>');
+				}
+				else{
+					if(parseString[1]!=""){
+						paths= new string[1];
+						paths[0] =parseString[1];
+					}
+				}
+			}
 			switch (parseString[0].ToLower()){
 				case "self":
-					
-					string[] paths = new string[0];
-					if(parseString.Count()>1){
-						if(parseString[1].Contains('>')){
-							paths=parseString[1].Split('>');
-						}
-						else{
-							if(parseString[1]!=""){
-								paths= new string[1];
-								paths[0] =parseString[1];
-							}
-						}
-					}
 					if(parseString.Count()>2){
 						switch(parseString[2]){
 							case "lm":
@@ -88,6 +88,27 @@ namespace Oxide.Plugins
 						SendChatMsg((BasePlayer)player.Object,recursePropertyValue(player,(BasePlayer)player.Object,((BasePlayer)player.Object).GetType().GetMembers(),paths));
 					}
 					break;
+				case "assemblies":
+					List<Type> list = new List<Type>();
+					foreach (System.Reflection.Assembly ass in AppDomain.CurrentDomain.GetAssemblies())
+					{
+						foreach (Type t in ass.GetExportedTypes())
+						{
+							if (t.IsEnum)
+							{
+								list.Add(t);
+							}
+						}
+					}
+					foreach (Type t in list){
+						Puts(t.FullName);
+					}
+					break;
+				case "blueprint":
+					var bp = ItemManager.bpList[0];
+					recurseMemberObj(player,((Translate.Phrase)bp.targetItem.displayName),"Constructor",paths);
+					break;
+
 				default:
 					break;
 			}
@@ -127,9 +148,9 @@ namespace Oxide.Plugins
 				if (mis.Count()>0){
 					foreach(System.Reflection.MemberInfo mi in mis){
 						if(mi.MemberType.ToString() == memberType){
-							finalString+= (" ["+mi.Name + ":" + mi.MemberType.ToString()+"] <br> ");
+							finalString+= (" ["+mi.Name + ":" + mi.MemberType.ToString()+":"+(memberType=="Property"?((System.Reflection.PropertyInfo)mi).GetValue(t):"")+"] <br> ");
 						}
-					}
+					} 
 				}
 				SendChatMsg((BasePlayer)player.Object,finalString);
 			}
