@@ -1,0 +1,2 @@
+ID: LOADINGSTATION01 - Location: (-72.3, 24.0, 37.8)
+ID: LOADINGSTATION05 - Location: (-121.0, 22.2, 54.0)
