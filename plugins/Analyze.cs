@@ -108,6 +108,26 @@ namespace Oxide.Plugins
 					var bp = ItemManager.bpList[0];
 					recurseMemberObj(player,((Translate.Phrase)bp.targetItem.displayName),"Constructor",paths);
 					break;
+				case "scene":					
+					GameObject[] gos = (UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
+					GameObject compound = null;
+					for(int i = 0; i < gos.Count(); i++){
+						if(gos[i].name == "Decor"){
+							Puts(gos[i].name);
+							Puts(gos[i].transform.childCount.ToString());
+							compound=gos[i];
+							SendChatMsg((BasePlayer)player.Object,gos[i].name);
+							SendChatMsg((BasePlayer)player.Object,gos[i].transform.childCount.ToString());
+						}
+					}
+					for(int i = 0; i < compound.transform.childCount;i++){
+							String name = compound.transform.GetChild(i).gameObject.name;
+							if(name.StartsWith("assets/bundled/prefabs/modding")){
+								Puts(compound.transform.GetChild(i).gameObject.name);
+								SendChatMsg((BasePlayer)player.Object,compound.transform.GetChild(i).gameObject.name);
+							}
+					}
+					break;
 
 				default:
 					break;
