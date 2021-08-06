@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using Rust.Ai;
 using System;
 using UnityEngine; 
 using Oxide.Core.Libraries.Covalence;
@@ -47,19 +48,19 @@ Block picking up deployables except:
 		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
 		{
 			if((""+entity.name).Contains("scientist")){
-				Puts(npc.name+"_:_" + entity.name);
-					//HumanPlayer hn = npc.gameObject.GetComponent<HumanPlayer>();
-					Component[] components = npc.gameObject.GetComponents(typeof(Component));
-					foreach(Component component in components) {
-						Puts(component.ToString());
-					}
+					Puts(npc.name+"_:_" + entity.name);
+					//BaseNpc hn = entity as BaseNpc;
 					//BasePlayer bp = (BasePlayer)npc;
 					//NPCPlayer np = (NPCPlayer)bp;
 					//ScientistNPC hn = np as ScientistNPC;
 					
-				    //Puts((hn==null?"IsNull":"All"));
+				    Puts(((npc as BasePlayer)==null?"IsNull":"All"));
+					//Puts(hn.AttackTarget.name+"=");
+					//((BaseNpc)hn).AiContext.EnemyNpc = null;
+					
 				    //Puts(entity.gameObject.GetComponent<BaseCombatEntity>().gameObject.name);
-					//np.currentTarget = null;
+					
+					//Puts(hn.AttackTarget.name);
 					return true;
 				
 			}
