@@ -44,5 +44,34 @@ Block picking up deployables except:
 		{
 			return false;
 		}
+		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
+		{
+			if((""+entity.name).Contains("scientist")){
+				Puts(npc.name+"_:_" + entity.name);
+					//HumanPlayer hn = npc.gameObject.GetComponent<HumanPlayer>();
+					Component[] components = npc.gameObject.GetComponents(typeof(Component));
+					foreach(Component component in components) {
+						Puts(component.ToString());
+					}
+					//BasePlayer bp = (BasePlayer)npc;
+					//NPCPlayer np = (NPCPlayer)bp;
+					//ScientistNPC hn = np as ScientistNPC;
+					
+				    //Puts((hn==null?"IsNull":"All"));
+				    //Puts(entity.gameObject.GetComponent<BaseCombatEntity>().gameObject.name);
+					//np.currentTarget = null;
+					return true;
+				
+			}
+			return null;
+		}
+		object OnNpcPlayerTarget(NPCPlayerApex npcPlayer, BaseEntity entity)
+		{
+			Puts("OnNpcPlayerTarget works!");
+			return null;
+		}
+		//this.currentTarget = (BaseCombatEntity) component;
+		///this.currentTargetLOS = this.IsPlayerVisibleToUs(component);
+		
     }
 }
