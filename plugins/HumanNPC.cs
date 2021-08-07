@@ -80,6 +80,22 @@ namespace Oxide.Plugins
             }
         }
 
+		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
+		{
+			if((""+entity.name).Contains("NPC")){
+					Puts(npc.name+"_:_" + entity.name);
+					HumanLocomotion hn = entity.GetComponent<HumanLocomotion>();
+					if(hn==null){return null;}
+					if(hn.attackEntity.name == npc.name){return null;}
+					//hn.StartAttackingEntity(npc);
+					foreach(Component c in entity.GetComponents(typeof(Component))){
+						Puts(c.ToString());
+					}
+					return true;
+				
+			}
+			return null;
+		}
         public static bool IsLayerBlocked(Vector3 position, float radius, int mask)
         {
             var colliders = Pool.GetList<Collider>();

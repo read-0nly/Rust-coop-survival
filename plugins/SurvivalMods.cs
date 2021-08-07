@@ -12,6 +12,7 @@ using Rust.Ai;
 using System;
 using UnityEngine; 
 using Oxide.Core.Libraries.Covalence;
+using Oxide.Plugins;
 
 namespace Oxide.Plugins
 {
@@ -45,22 +46,11 @@ Block picking up deployables except:
 		{
 			return false;
 		}
-		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
-		{
-			if((""+entity.name).Contains("bandit")){
-					Puts(npc.name+"_:_" + entity.name);
-					HumanNPC hn = entity/GetComponent<HumanNPC>();
-					if(hn==null){return null;}
-					if(gn.locomotion.attackEntity.name == npc.name){return null;}
-					gn.StartAttackingEntity(npc);
+					
 					//BaseNpc hn = entity as BaseNpc;
 					//BasePlayer bp = (BasePlayer)npc;
 					//NPCPlayer np = (NPCPlayer)bp;
 					//ScientistNPC hn = np as ScientistNPC;
-					/*foreach(Component c in entity.GetComponents(typeof(Component))){
-						Puts(c.ToString());
-					}*/
-					
 				    //Puts(((entity as BasePlayer)==null?"IsNull":"All"));
 				    //Puts(((entity as HumanNPCNew).Brain==null?"IsNull":"All"));
 				   // Puts(((entity as HumanNPCNew).Brain.Senses==null?"IsNull":"All"));
@@ -82,11 +72,6 @@ Block picking up deployables except:
 				    //Puts(entity.gameObject.GetComponent<BaseCombatEntity>().gameObject.name);
 					
 					//Puts(hn.AttackTarget.name);
-					return true;
-				
-			}
-			return null;
-		}
 		object OnNpcPlayerTarget(NPCPlayerApex npcPlayer, BaseEntity entity)
 		{
 			Puts("OnNpcPlayerTarget works!");
