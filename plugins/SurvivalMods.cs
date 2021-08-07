@@ -47,14 +47,35 @@ Block picking up deployables except:
 		}
 		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
 		{
-			if((""+entity.name).Contains("scientist")){
+			if((""+entity.name).Contains("bandit")){
 					Puts(npc.name+"_:_" + entity.name);
+					HumanNPC hn = entity/GetComponent<HumanNPC>();
+					if(hn==null){return null;}
+					if(gn.locomotion.attackEntity.name == npc.name){return null;}
+					gn.StartAttackingEntity(npc);
 					//BaseNpc hn = entity as BaseNpc;
 					//BasePlayer bp = (BasePlayer)npc;
 					//NPCPlayer np = (NPCPlayer)bp;
 					//ScientistNPC hn = np as ScientistNPC;
+					/*foreach(Component c in entity.GetComponents(typeof(Component))){
+						Puts(c.ToString());
+					}*/
 					
-				    Puts(((npc as BasePlayer)==null?"IsNull":"All"));
+				    //Puts(((entity as BasePlayer)==null?"IsNull":"All"));
+				    //Puts(((entity as HumanNPCNew).Brain==null?"IsNull":"All"));
+				   // Puts(((entity as HumanNPCNew).Brain.Senses==null?"IsNull":"All"));
+				   // Puts(((entity as HumanNPCNew).Brain.Senses.Memory==null?"IsNull":"All"));
+				    //Puts(((entity as HumanNPCNew).Brain.Senses.Memory.Threats==null?"IsNull":"All"));
+				    //Puts((entity as HumanNPCNew).Brain.HostileTargetsOnly.ToString());
+				    //(npc as HumanNPCNew).Brain.GetEntity().currentTarget = npc;
+					//(entity as HumanNPCNew).Brain.SenseTypes = (EntityType)67;
+					//(entity as HumanNPCNew).currentTarget = npc;
+					//(entity as HumanNPCNew).Brain.Senses.Init();
+					
+				    //Puts((entity as Scientist).ToString());//
+					//(entity as HumanNPCNew).Brain.Senses.Memory.Threats.Add(npc);
+				    //Puts(((npc as BasePlayer)==null?"IsNull":"All"));
+				    //Puts(((entity.GetComponent<ScientistBrain>() as ScientistBrain)==null?"IsNull":"All"));
 					//Puts(hn.AttackTarget.name+"=");
 					//((BaseNpc)hn).AiContext.EnemyNpc = null;
 					

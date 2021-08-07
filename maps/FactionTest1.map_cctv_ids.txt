@@ -1,0 +1,4 @@
+ID: COBALT2604 - Location: (102.5, 5.0, 48.0)
+ID: COBALT7922 - Location: (105.8, 5.0, 65.7)
+ID: COBALT1371 - Location: (45.8, 6.8, 14.9)
+ID: COBALT2580 - Location: (52.8, 6.8, 38.3)
