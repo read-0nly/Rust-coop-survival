@@ -45,7 +45,23 @@ Block picking up deployables except:
 		bool CanPickupEntity(BasePlayer player, BaseEntity entity)
 		{
 			return false;
-		}
+		}/*
+		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
+		{
+			if((""+entity.name).Contains("NPC")){
+					Puts(npc.name+"_:_" + entity.name);
+					HumanNPC.HumanLocomotion hn = entity.GetComponent<HumanLocomotion>();
+					if(hn==null){return null;}
+					if(hn.locomotion.attackEntity.name == npc.name){return null;}
+					hn.StartAttackingEntity(npc);
+					foreach(Component c in entity.GetComponents(typeof(Component))){
+						Puts(c.ToString());
+					}
+					return true;
+				
+			}
+			return null;
+		}*/
 					
 					//BaseNpc hn = entity as BaseNpc;
 					//BasePlayer bp = (BasePlayer)npc;

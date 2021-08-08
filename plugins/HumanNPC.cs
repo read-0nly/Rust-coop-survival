@@ -39,6 +39,7 @@ namespace Oxide.Plugins
 		private Hash<ulong, RelationshipManager.PlayerTeam> PlayersTeams = new Hash<ulong, RelationshipManager.PlayerTeam>();
  
         private Hash<ulong, HumanNPCInfo> humannpcs = new Hash<ulong, HumanNPCInfo>();
+        static List<HumanPlayer> humannpcPlayers = new List<HumanPlayer>();
 
         static int playerMask = LayerMask.GetMask("Player (Server)");
         static int obstructionMask = LayerMask.GetMask(new[] { "Player (Server)", "Construction", "Deployed", "Clutter" });
@@ -82,19 +83,20 @@ namespace Oxide.Plugins
 
 		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
 		{
-			if((""+entity.name).Contains("NPC")){
-					Puts(npc.name+"_:_" + entity.name);
+			//if((""+entity.name).Contains("player.prefab")){
+					//Puts(npc.name+"_:_" + entity.name);
 					HumanLocomotion hn = entity.GetComponent<HumanLocomotion>();
 					if(hn==null){return null;}
-					if(hn.attackEntity.name == npc.name){return null;}
-					//hn.StartAttackingEntity(npc);
-					foreach(Component c in entity.GetComponents(typeof(Component))){
-						Puts(c.ToString());
-					}
-					return true;
+					if(hn.attackEntity != null){if(hn.attackEntity.name == npc.name){return null;}}
+					
+					hn.npc.StartAttackingEntity((BaseCombatEntity)npc);
+					//foreach(Component c in entity.GetComponents(typeof(Component))){
+					//	Puts(c.ToString());
+					///}
+					return null;
 				
-			}
-			return null;
+			//}
+			//return null;
 		}
         public static bool IsLayerBlocked(Vector3 position, float radius, int mask)
         {
@@ -435,7 +437,7 @@ namespace Oxide.Plugins
         //////////////////////////////////////////////////////
         public class HumanLocomotion : MonoBehaviour
         {
-            private HumanPlayer npc;
+            public HumanPlayer npc;
             public Vector3 StartPos = new Vector3(0f, 0f, 0f);
             public Vector3 EndPos = new Vector3(0f, 0f, 0f);
             public Vector3 LastPos = new Vector3(0f, 0f, 0f);
@@ -2095,7 +2097,7 @@ namespace Oxide.Plugins
 					return;
 				}
 
-				if ((BaseCombatEntity)hitinfo?.Initiator == entity)
+				if ((BaseCombatEntity)(hitinfo?.Initiator) == entity)///
 				{
                     hitinfo.damageTypes = new DamageTypeList();
                     hitinfo.DoHitEffects = false;
@@ -2133,13 +2135,36 @@ namespace Oxide.Plugins
                     humanPlayer.protection.Scale(hitinfo.damageTypes);
                 }
 
-                if(humanPlayer.locomotion.sitting)
+                if(humanPlayer.locomotion.sitting)///
                 {
                     humanPlayer.locomotion.Stand();
                     humanPlayer.locomotion.Evade();
                 }
                 humanPlayer.locomotion.Evade();
             }
+            if(entity.name.Contains("player"))
+            {
+				Puts("Target was player");
+				if (hitinfo?.Initiator != null){//
+					foreach(HumanPlayer bp in humannpcPlayers){
+						if(Vector3.Distance(bp.transform.position, hitinfo.Initiator.transform.position) < bp.info.maxDistance &&
+						bp.locomotion.attackEntity == null){
+							bool isFriend = false;
+							foreach(HumanPlayer np in humannpcPlayers){
+								if(!(hitinfo.Initiator==null)){
+									if(np.player == hitinfo.Initiator){
+										isFriend=true;
+									}
+								}
+							}
+							try{
+								if(!isFriend && (hitinfo.Initiator as BaseCombatEntity) != null){bp.StartAttackingEntity((BaseCombatEntity)(hitinfo.Initiator));}
+							}
+							catch(Exception e){}
+						}
+					}
+				}
+			}
         }
 
         //////////////////////////////////////////////////////
@@ -2161,6 +2186,7 @@ namespace Oxide.Plugins
         {
             var humanPlayer = entity.GetComponent<HumanPlayer>();
             if (humanPlayer?.info == null) return;
+			humannpcPlayers.Remove(humanPlayer);
             if (!humanPlayer.info.lootable)
             {
 				if (humanPlayer.player.inventory != null)
@@ -2329,6 +2355,7 @@ namespace Oxide.Plugins
             var humanPlayer = newPlayer.gameObject.AddComponent<HumanPlayer>();
             humanPlayer.SetInfo(info);
             newPlayer.Spawn();
+			humannpcPlayers.Add(humanPlayer);
 
             humanPlayer.UpdateHealth(info);
             cache[userid] = humanPlayer;
