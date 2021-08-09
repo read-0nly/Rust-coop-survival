@@ -2144,7 +2144,7 @@ namespace Oxide.Plugins
             }
             if(entity.name.Contains("player"))
             {
-				Puts("Target was player");
+				//Puts("Target was player");
 				if (hitinfo?.Initiator != null){//
 					foreach(HumanPlayer bp in humannpcPlayers){
 						if(Vector3.Distance(bp.transform.position, hitinfo.Initiator.transform.position) < bp.info.maxDistance &&
