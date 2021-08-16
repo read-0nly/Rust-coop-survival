@@ -41,11 +41,117 @@ Block picking up deployables except:
 		private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 		private void SendChatMsg(BasePlayer pl, string msg) =>
             _rustPlayer.Message(pl, msg,  "<color=#00ff00>[Analyze]</color>", 0, Array.Empty<object>());
+	    //		Armed = false
+		private bool envUpdateArmed=false;
+		private float newOcean = 0.0f;
 			
 		bool CanPickupEntity(BasePlayer player, BaseEntity entity)
 		{
 			return false;
-		}/*
+		}
+			
+		private void OnServerInitialized()
+        {
+			
+			/*
+			timer 5{
+				if getTime > 23
+					show "Kick incoming at 0: 24-gettime"
+					if(not Armed){Armed=true;}
+				if getTime < 1 && Armed{
+					refreshAll;
+					Armed=false;
+				}
+			}
+			*/
+            timer.Every(10f, () => {
+				Puts(ConVar.Env.time.ToString());
+				if(ConVar.Env.time > 23 && envUpdateArmed){
+					foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
+					{
+						if(basePlayer == null){return;}
+						if(basePlayer.IsConnected == false){return;}
+						WaterSystem.OceanLevel=0f;
+						basePlayer.Kick("Night Cycle");
+					}
+					envUpdateArmed=false;
+				}
+			});
+			//	origSplat = getSplatMap();
+			//	data.add("OriginalSplat", origSplat);
+			//	data.add("CurrentSplat", origSplat);
+			//	data.add("NextSplat", origSplat);
+			//	origTopo = getTopo();
+			//	data.add("OriginalTopo",origTopo);
+			//	data.add("CurrentTopo",origTopo);
+			//	data.add("NextTopo",origTopo);
+		}
+			
+		void OnItemUse(Item item, int amountToUse)
+        {
+			string ItemToEat = item.info.shortname.ToString();
+			if(ItemToEat.ToLower().Contains("cactus")){
+				envUpdateArmed = true;
+			}
+		}
+		/*
+
+		onTreeCut{	
+				data["NextTopo"][x,y] = data["OriginalTopo"][x,y]
+				data["NextTopo"][TerrainTopology.FOREST].SetTopo(x,y,0);
+				data["NextTopo"][TerrainTopology.SAND].SetTopo(x,y,1);
+				data["NextSplat"].setsplat(x,y, Splat.Sand);
+		}
+		*/
+		/*
+		onPlant{
+				data["NextTopo"][x,y] = data["OriginalTopo"][x,y]
+				data["NextTopo"][TerrainTopology.FOREST].SetTopo(x,y,1);
+				data["NextTopo"][TerrainTopology.SAND].SetTopo(x,y,0);
+				data["NextSplat"].setsplat(x,y, Splat.FOREST);
+		}
+		*/
+		/*
+		riseOcean(float level){
+			OceanLevel+=level
+			for(int x =0 < NextSplat.Width ++){
+				for(y = 0 < NextSplat.Height ++){
+					if(HeightMap.getHeight(x,y) < level-1){
+						data["NextTopo"].setTopo(x,y,Topo.OCEAN,1);
+						
+					}
+					else if(HeightMap.getHeight(x,y) <= level+1){
+						data["NextTopo"].setTopo(x,y,Topo.BEACH,1);
+					}
+					else if(HeightMap.getHeight(x,y) > level+1){
+						data["NextTopo"].setTopo(x,y,Topo.BEACH,0);
+					}
+				}
+			}
+		}
+		*/
+		/*
+		refreshAll(){
+			data[currenttopo]=data[newtopo];
+			data[currentsplat]=data[newsplat];
+			riseOcean(float level)
+			foreach basePlayer{basePlayer.kick};
+		}
+		*/
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
 		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
 		{
 			if((""+entity.name).Contains("NPC")){
@@ -62,6 +168,13 @@ Block picking up deployables except:
 			}
 			return null;
 		}*/
+		
+		
+		
+		
+		
+		
+		
 					
 					//BaseNpc hn = entity as BaseNpc;
 					//BasePlayer bp = (BasePlayer)npc;

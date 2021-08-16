@@ -10,11 +10,13 @@ using System.Text;
 using System;
 using UnityEngine; 
 using Oxide.Core.Libraries.Covalence;
+using Oxide.Game.Rust.Libraries.Covalence;
+using ProtoBuf;
 
 namespace Oxide.Plugins
 {
-	[Info("Trigger Zapper", "obsol", "0.0.1")]
-	[Description("Build everywhere! Never be warm! Who knows!")]
+	[Info("Nuild Everywhere", "obsol", "0.0.1")]
+	[Description("Build everywhere!")]
 
 /*======================================================================================================================= 
 * 
@@ -30,14 +32,20 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 
 	public class BuildEverywhere : CovalencePlugin
 	{
+		void OnItemUse(Item item, int amountToUse)
+        {
+			
+			
+		}
+		object CanBuild(Planner planner, Construction prefab, Construction.Target target)
+{
+			
+            Puts("Canbuild called");
+			return null;
+}
         private void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
         {
-            if (!(trigger is TriggerSafeZone) && !(entity is BasePlayer)) return;
-            var safeZone = trigger as TriggerSafeZone;
-            if (safeZone == null) return;
-
-            safeZone.enabled = false;
-        }
-
-    }
+        }return buildingPrivlidge;
+		}
+	}
 }
