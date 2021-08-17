@@ -35,17 +35,15 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 		void OnItemUse(Item item, int amountToUse)
         {
 			
-			
 		}
 		object CanBuild(Planner planner, Construction prefab, Construction.Target target)
-{
-			
+		{
             Puts("Canbuild called");
 			return null;
-}
+		}
         private void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
         {
-        }return buildingPrivlidge;
+			return;
 		}
 	}
 }

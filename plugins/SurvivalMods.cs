@@ -90,8 +90,14 @@ Block picking up deployables except:
 		void OnItemUse(Item item, int amountToUse)
         {
 			string ItemToEat = item.info.shortname.ToString();
+            if (ItemToEat == null){return;}
+            ItemContainer Container = item.GetRootContainer();
+            if (Container == null){return;}
 			if(ItemToEat.ToLower().Contains("cactus")){
 				envUpdateArmed = true;
+				BasePlayer Eater = Container.GetOwnerPlayer();
+				if (Eater == null){return;}
+				
 			}
 		}
 		/*
@@ -139,27 +145,16 @@ Block picking up deployables except:
 		}
 		*/
 			
-
-
-
-
-
-
-
-
-
-
-
-
+/*
 
 		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
 		{
 			if((""+entity.name).Contains("NPC")){
 					Puts(npc.name+"_:_" + entity.name);
 					HumanNPC.HumanLocomotion hn = entity.GetComponent<HumanLocomotion>();
-					if(hn==null){return null;}
-					if(hn.locomotion.attackEntity.name == npc.name){return null;}
-					hn.StartAttackingEntity(npc);
+					//if(hn==null){return null;}
+					//if(hn.locomotion.attackEntity.name == npc.name){return null;}
+					//hn.StartAttackingEntity(npc);
 					foreach(Component c in entity.GetComponents(typeof(Component))){
 						Puts(c.ToString());
 					}
@@ -167,9 +162,9 @@ Block picking up deployables except:
 				
 			}
 			return null;
-		}*/
-		
-		
+		}
+		*/
+		//
 		
 		
 		
