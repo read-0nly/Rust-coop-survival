@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System;
 using UnityEngine; 
+using UnityEngine.SceneManagement;
 using Oxide.Core.Libraries.Covalence;
 using Oxide.Game.Rust.Libraries.Covalence;
 using ProtoBuf;
@@ -35,11 +36,39 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 		void OnItemUse(Item item, int amountToUse)
         {
 			
+			 // get root objects in scene
+			 /*
+			 GameObject[] rootObjects;
+			 Scene scene = SceneManager.GetActiveScene();
+			 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
+			 
+			 Puts("Try Destroy");
+			 // iterate root objects and do something
+			 for (int i = 0; i < rootObjects.Count(); ++i)
+			 {
+					 if(rootObjects[ i ].name.Contains("prevent_building")){
+						 MonoBehaviour.Destroy(rootObjects[ i ]);
+						 Puts("Destroyed");
+					 }
+			 }	
+*/			 
+		}
+		
+		void removePreventBuilds(GameObject g){
+			 List<GameObject> rootObjects = new List<GameObject>();
+			
+			 for (int i = 0; i < rootObjects.Count; ++i)
+			 {
+				 GameObject gameObject = rootObjects[ i ];
+				 //gameObject.DoSomething();
+				 if(gameObject.name == "prevent_building"){
+					 
+				 }
+			 }				
 		}
 		object CanBuild(Planner planner, Construction prefab, Construction.Target target)
-		{
-            Puts("Canbuild called");
-			return null;
+		{/*
+            Puts("Canbuild called");*/
 		}
         private void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
         {

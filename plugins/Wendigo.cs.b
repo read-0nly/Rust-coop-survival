@@ -51,10 +51,6 @@ namespace Oxide.Plugins
             }
         }
 
-		int defaultHealth = 100;
-		int defaultCals = 75;
-		int maxCals = 250;
-		int defaultWater = 100;
 		int wendiHealth = 100;
 		int wendiCals = 50;
 		int wendiMaxCals = 200;

@@ -40,10 +40,15 @@ Block picking up deployables except:
 	{
 		private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 		private void SendChatMsg(BasePlayer pl, string msg) =>
-            _rustPlayer.Message(pl, msg,  "<color=#00ff00>[Analyze]</color>", 0, Array.Empty<object>());
+            _rustPlayer.Message(pl, msg,  "<color=#00ff00>[Survival]</color>", 0, Array.Empty<object>());
 	    //		Armed = false
 		private bool envUpdateArmed=false;
-		private float newOcean = 0.0f;
+		int defaultHealth = 50;
+		int maxHealth = 150;
+		int defaultCals = 75;
+		int maxCals = 400;
+		int defaultWater = 100;
+		int maxWater = 500;
 			
 		bool CanPickupEntity(BasePlayer player, BaseEntity entity)
 		{
@@ -52,6 +57,116 @@ Block picking up deployables except:
 			
 		private void OnServerInitialized()
         {
+            timer.Every(10f, () => {
+				if(ConVar.Env.time > 23 && envUpdateArmed){
+					WaterSystem.OceanLevel+=30.50f;
+					
+					BaseBoat[] components = GameObject.FindObjectsOfType<BaseBoat>();
+					foreach (BaseBoat boat in components)
+					{
+						boat.WakeUp();
+						if(boat.gameObject.GetComponent<MotorRowboat>()==null){break;}
+						MotorRowboat mrb = boat.gameObject.GetComponent<MotorRowboat>();//
+						if (mrb.IsFlipped())
+						{
+						  //mrb.rigidBody.AddRelativeTorque(Vector3.forward * 200.25f, ForceMode.VelocityChange);
+						  mrb.transform.Rotate(180f,0,0,Space.Self);
+						}
+					}
+					
+					foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
+					{
+						if(basePlayer == null){return;}
+						if(basePlayer.IsConnected == false){return;}
+						basePlayer.Kick("Night Cycle - Reconnect to wake up!");
+					}
+					envUpdateArmed=false;
+					ConVar.Env.time = 5;
+					envUpdateArmed=true;
+				}
+	
+				foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
+				{					
+					if(basePlayer.metabolism.calories.value < 10 && basePlayer.metabolism.calories.max > 20){
+						basePlayer.metabolism.calories.max+= -1.5f;									
+					}else if (basePlayer.metabolism.calories.value<20 && basePlayer.metabolism.calories.max > 30){
+						basePlayer.metabolism.calories.max+= -0.5f;
+					}else if (basePlayer.metabolism.calories.max-basePlayer.metabolism.calories.value<10){
+						basePlayer.metabolism.calories.max+= (basePlayer.metabolism.calories.max < maxCals?0.5f:0);				
+					}				
+					basePlayer.metabolism.hydration.max+= (basePlayer.metabolism.hydration.max < maxWater?0.1f:0);
+					basePlayer._maxHealth+= (basePlayer._maxHealth < maxHealth?((0.005f*(maxHealth-basePlayer._maxHealth))*(0.005f*(maxHealth-basePlayer._maxHealth))):0);
+					Puts(basePlayer._maxHealth.ToString());
+				}
+			});
+			
+			for(int x = 0; x<1024; x++){
+				for(int y = 0; y<1024; y++){
+					try{
+							TerrainMeta.TopologyMap.RemoveTopology(x,y,32); //32
+							TerrainMeta.TopologyMap.AddTopology(x,y,2); //262144
+							TerrainMeta.TopologyMap.AddTopology(x,y,262144); //262144
+							
+						
+					}
+					catch{};
+				}
+			}
+			
+		}
+		private void OnPlayerRespawned(BasePlayer player)
+        {			
+          setDefaults(player);
+        }
+		
+		void setDefaults(BasePlayer player){
+			player._maxHealth = defaultHealth;						
+			player.metabolism.hydration.max = defaultWater;
+			player.metabolism.calories.max = defaultCals;
+			
+		}
+		void OnItemUse(Item item, int amountToUse)
+        {
+			string ItemToEat = item.info.shortname.ToString();
+            if (ItemToEat == null){return;}
+            ItemContainer Container = item.GetRootContainer();
+            if (Container == null){return;}
+			if(ItemToEat.ToLower().Contains("cactus")){
+				envUpdateArmed = true;
+				
+				//ConVar.Env.time = 23;
+				/*
+				List<string> names = new List<string>();
+				foreach(GameObject go in Resources.FindObjectsOfTypeAll<GameObject>()){
+					/*if(go.name.ToLower().Contains("foundation")){
+						//Puts(go.name);
+					go.transform.Translate(0f,100f,0f,Space.World);
+					go.transform.Translate(0f,100f,0f,Space.Self);
+						
+					}*//*/
+					
+				}
+				
+				HashSet<string> unique_items = new HashSet<string>(names);
+				
+				foreach (string s in unique_items){
+					Puts(s);
+				}*/
+				/*
+				BuildingBlock[] components = GameObject.FindObjectsOfType<BuildingBlock>();
+			
+				foreach (BuildingBlock block in components)
+				{
+					block.transform.Translate(0f,100f,0f,Space.World);
+					block.transform.Translate(0f,100f,0f,Space.Self);
+				}*/
+				BasePlayer Eater = Container.GetOwnerPlayer();
+				if (Eater == null){return;}
+			}
+		}
+		
+/*
+				
 			
 			/*
 			timer 5{
@@ -64,19 +179,55 @@ Block picking up deployables except:
 				}
 			}
 			*/
-            timer.Every(10f, () => {
-				Puts(ConVar.Env.time.ToString());
-				if(ConVar.Env.time > 23 && envUpdateArmed){
-					foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
-					{
-						if(basePlayer == null){return;}
-						if(basePlayer.IsConnected == false){return;}
-						WaterSystem.OceanLevel=0f;
-						basePlayer.Kick("Night Cycle");
+/*				//TerrainMeta.SplatMap
+				//TerrainMeta.TopologyMap
+				//this.src
+				/*
+				final = "";
+				for(int x = 0; x<1024; x++){
+					string row = "";
+					for(int y = 0; y<1024; y++){
+						try{
+							//float z1 = TerrainMeta.SplatMap.GetSplatMaxIndex(x,y,-1);
+							//TerrainMeta.TopologyMap.AddTopology(x,y,2); 
+							//TerrainMeta.TopologyMap.RemoveTopology(x,y,32); //32
+							bool z1 = TerrainMeta.TopologyMap.GetTopology(x,y,2);  //2048 = road//
+							int z2 =  Convert.ToInt32(z1);//.ToInt();
+							//TerrainMeta.SplatMap.AddSplat(x,y,2,255,255,0);
+							//if(z1<5){row+=" ";break;}
+							row+=z2.ToString();
+							
+							//Puts(x.ToString()+":"+y.ToString()+"["+z.ToString()+"]");//
+						}
+						catch{};
 					}
-					envUpdateArmed=false;
+					final+=row+"\n";
 				}
-			});
+				//TerrainMeta.SplatMap.Setup();
+				//TerrainMeta.SplatMap.ApplyTextures();
+							
+			    Puts(final);
+				*/
+/*				//TerrainMeta.SplatMap
+				//TerrainMeta.TopologyMap
+			
+			//float z1 = TerrainMeta.SplatMap.GetSplatMaxIndex(x,y,-1);
+						
+						//if((x<50||x>(512+50))||(y<50||y>(512+50))){
+						//}
+						//else{
+						//	TerrainMeta.TopologyMap.RemoveTopology(x,y,2); //32
+						//	TerrainMeta.TopologyMap.AddTopology(x,y,32); //32
+						//}
+						
+						//TerrainMeta.TopologyMap.RemoveTopology(x,y,32); //32
+						//bool z1 = TerrainMeta.TopologyMap.GetTopology(x,y,2);  //2048 = road//
+						//int z2 =  Convert.ToInt32(z1);//.ToInt();
+						//TerrainMeta.SplatMap.AddSplat(x,y,2,255,255,0);
+						//if(z1<5){row+=" ";break;}
+						//row+=z2.ToString();
+						
+						//Puts(x.ToString()+":"+y.ToString()+"["+z.ToString()+"]");//
 			//	origSplat = getSplatMap();
 			//	data.add("OriginalSplat", origSplat);
 			//	data.add("CurrentSplat", origSplat);
@@ -85,21 +236,6 @@ Block picking up deployables except:
 			//	data.add("OriginalTopo",origTopo);
 			//	data.add("CurrentTopo",origTopo);
 			//	data.add("NextTopo",origTopo);
-		}
-			
-		void OnItemUse(Item item, int amountToUse)
-        {
-			string ItemToEat = item.info.shortname.ToString();
-            if (ItemToEat == null){return;}
-            ItemContainer Container = item.GetRootContainer();
-            if (Container == null){return;}
-			if(ItemToEat.ToLower().Contains("cactus")){
-				envUpdateArmed = true;
-				BasePlayer Eater = Container.GetOwnerPlayer();
-				if (Eater == null){return;}
-				
-			}
-		}
 		/*
 
 		onTreeCut{	
@@ -164,7 +300,7 @@ Block picking up deployables except:
 			return null;
 		}
 		*/
-		//
+/*		//
 		
 		
 		
@@ -196,13 +332,13 @@ Block picking up deployables except:
 				    //Puts(entity.gameObject.GetComponent<BaseCombatEntity>().gameObject.name);
 					
 					//Puts(hn.AttackTarget.name);
-		object OnNpcPlayerTarget(NPCPlayerApex npcPlayer, BaseEntity entity)
+/* 		object OnNpcPlayerTarget(NPCPlayerApex npcPlayer, BaseEntity entity)
 		{
 			Puts("OnNpcPlayerTarget works!");
 			return null;
-		}
-		//this.currentTarget = (BaseCombatEntity) component;
-		///this.currentTargetLOS = this.IsPlayerVisibleToUs(component);
+		} */
+/*		//this.currentTarget = (BaseCombatEntity) component;
+		///this.currentTargetLOS = this.IsPlayerVisibleToUs(component);*/
 		
     }
 }
