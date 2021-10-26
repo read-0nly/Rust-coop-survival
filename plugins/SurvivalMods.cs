@@ -96,8 +96,25 @@ Block picking up deployables except:
 					}				
 					basePlayer.metabolism.hydration.max+= (basePlayer.metabolism.hydration.max < maxWater?0.1f:0);
 					basePlayer._maxHealth+= (basePlayer._maxHealth < maxHealth?((0.005f*(maxHealth-basePlayer._maxHealth))*(0.005f*(maxHealth-basePlayer._maxHealth))):0);
-					Puts(basePlayer._maxHealth.ToString());
+					
 				}
+				//Puts(basePlayer._maxHealth.ToString());
+				List<GrowableEntity> list = new List<GrowableEntity>(Resources.FindObjectsOfTypeAll<GrowableEntity>());
+				foreach (GrowableEntity growableEntity in list)
+				{
+				  //if (growableEntity.isServer)////
+					//growableEntity.ChangeState(growableEntity.currentStage.nextState, false);
+					
+						//Puts(growableEntity.transform.name);
+					if(growableEntity.transform.name == "assets/prefabs/plants/hemp/hemp.entity.prefab"){
+						
+						if(growableEntity.State.ToString() == "Dying"){
+							 string tree = "assets/bundled/prefabs/autospawn/resource/v3_temp_field/birch_tiny_temp.prefab";
+							 PlantTree(growableEntity,tree);
+						}
+					}
+				}
+			
 			});
 			
 			for(int x = 0; x<1024; x++){
@@ -114,6 +131,19 @@ Block picking up deployables except:
 			}
 			
 		}
+		void PlantTree(GrowableEntity plant, string prefabName)
+        {
+            BaseEntity entity = GameManager.server.CreateEntity(prefabName, plant.transform.position, Quaternion.identity);
+            if (entity == null)
+            {
+                return;
+            }
+
+            entity.Spawn();
+
+            plant?.Kill();
+
+        }
 		private void OnPlayerRespawned(BasePlayer player)
         {			
           setDefaults(player);
