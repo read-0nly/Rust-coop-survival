@@ -49,6 +49,9 @@ Block picking up deployables except:
 		int maxCals = 400;
 		int defaultWater = 100;
 		int maxWater = 500;
+		float waterIncrease = 0f;
+        [PluginReference]
+        private Plugin ImageLibrary;
 			
 		bool CanPickupEntity(BasePlayer player, BaseEntity entity)
 		{
@@ -59,7 +62,8 @@ Block picking up deployables except:
         {
             timer.Every(10f, () => {
 				if(ConVar.Env.time > 23 && envUpdateArmed){
-					WaterSystem.OceanLevel+=30.50f;
+					WaterSystem.OceanLevel+=waterIncrease;
+					waterIncrease=0;
 					
 					BaseBoat[] components = GameObject.FindObjectsOfType<BaseBoat>();
 					foreach (BaseBoat boat in components)
@@ -163,7 +167,7 @@ Block picking up deployables except:
             if (Container == null){return;}
 			if(ItemToEat.ToLower().Contains("cactus")){
 				envUpdateArmed = true;
-				
+				waterIncrease=-10;
 				//ConVar.Env.time = 23;
 				/*
 				List<string> names = new List<string>();
@@ -369,6 +373,7 @@ Block picking up deployables except:
 		} */
 /*		//this.currentTarget = (BaseCombatEntity) component;
 		///this.currentTargetLOS = this.IsPlayerVisibleToUs(component);*/
+		
 		
     }
 }

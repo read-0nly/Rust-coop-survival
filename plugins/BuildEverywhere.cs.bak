@@ -52,7 +52,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 					 }
 			 }	
 */			 
-		}
+		}/*
 		
 		void removePreventBuilds(GameObject g){
 			 List<GameObject> rootObjects = new List<GameObject>();
@@ -65,11 +65,12 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 					 
 				 }
 			 }				
-		}
+		}/*
 		object CanBuild(Planner planner, Construction prefab, Construction.Target target)
-		{/*
-            Puts("Canbuild called");*/
-		}
+		{
+            Puts("Canbuild called");
+			return null;
+		}*/
         private void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
         {
 			return;
