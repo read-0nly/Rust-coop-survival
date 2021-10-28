@@ -34,37 +34,37 @@ Roadmap:
 
 # Disease plugin plan
 - Transmission vectors
- - Area (cough)
- - Touch (interaction with deployable)
+  - Area (cough)
+  - Touch (interaction with deployable)
 - Effects
- - Hunger max decay
- - Hunger decay
- - Water decay
- - Max health cap
- - Occasional Wounded
+  - Hunger max decay
+  - Hunger decay
+  - Water decay
+  - Max health cap
+  - Occasional Wounded
 - 5 families, defined by primary symptom (secondary symptoms will be weaker and few). Treating a secondary symptom will only stop that symptom for some time. Treating the primary removes disease.
 - Timers to manage when diseased people/items time out
 - Medicines
- - Add to salt system, medical salts (each treats a specific symptom), antibiotic soap (using while looking at deployable will disinfect it).
- - Mixing table required for it. Mix on leave panel.
+  - Add to salt system, medical salts (each treats a specific symptom), antibiotic soap (using while looking at deployable will disinfect it).
+  - Mixing table required for it. Mix on leave panel.
 - Recipe ideas 
- - lgf, sulfur, red berry seed < some synthesized thing
- - water, raw chicken, salt < Chicken soup
- - crude, sulfur, white berry < some synthesized thing
- - apple, apple, apple < 3 apples keep teh doctor away?
- - sulfur, salt, bones < Some synthesized thing
- - sulfur, salt, water < disinfectant
+  - lgf, sulfur, red berry seed < some synthesized thing
+  - water, raw chicken, salt < Chicken soup
+  - crude, sulfur, white berry < some synthesized thing
+  - apple, apple, apple < 3 apples keep teh doctor away?
+  - sulfur, salt, bones < Some synthesized thing
+  - sulfur, salt, water < disinfectant
 - Disease catch method depend on family
- - Wet too long
- - Cold too long
- - Bad food
- - Bleeding
- - Animal attack
+  - Wet too long
+  - Cold too long
+  - Bad food
+  - Bleeding
+  - Animal attack
 - Strategies
- - identification and quarantine of the sick
- - distribution of medicine
- - disinfect everything
- - hazmat suit
+  - identification and quarantine of the sick
+  - distribution of medicine
+  - disinfect everything
+  - hazmat suit 
 
 # Houseboat plugin plan
  - Look at building plan code - how does it spawn a building?
