@@ -164,10 +164,18 @@ Block picking up deployables except:
 			string ItemToEat = item.info.shortname.ToString();
             if (ItemToEat == null){return;}
             ItemContainer Container = item.GetRootContainer();
-            if (Container == null){return;}
+            if (Container == null){return;}/*
 			if(ItemToEat.ToLower().Contains("cactus")){
 				envUpdateArmed = true;
 				waterIncrease=-10;
+				BasePlayer Eater = Container.GetOwnerPlayer();
+				if (Eater == null){return;}
+			}
+			*/
+		}
+		
+/*
+				
 				//ConVar.Env.time = 23;
 				/*
 				List<string> names = new List<string>();
@@ -194,13 +202,6 @@ Block picking up deployables except:
 					block.transform.Translate(0f,100f,0f,Space.World);
 					block.transform.Translate(0f,100f,0f,Space.Self);
 				}*/
-				BasePlayer Eater = Container.GetOwnerPlayer();
-				if (Eater == null){return;}
-			}
-		}
-		
-/*
-				
 			
 			/*
 			timer 5{
