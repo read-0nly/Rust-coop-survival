@@ -65,6 +65,11 @@ Roadmap:
   - distribution of medicine
   - disinfect everything
   - hazmat suit 
+# Witchcraft plugin plan
+- Create some extra items for the task
+- some rituals need mixing table, some need an oven, some need specific conditions (a locked chest? a lootbox?). Basically use the fruit jam logic.
+- Some effects are on the user (loot changes, damage resistance, gather changes) with timeouts
+- some are environmental (attract animals, cause rain, lower the oceans, spawn trees)
 
 # Houseboat plugin plan
  - Look at building plan code - how does it spawn a building?
