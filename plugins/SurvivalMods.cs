@@ -13,6 +13,7 @@ using System;
 using UnityEngine; 
 using Oxide.Core.Libraries.Covalence;
 using Oxide.Plugins;
+using UnityEngine.SceneManagement;
 
 namespace Oxide.Plugins
 {
@@ -50,6 +51,7 @@ Block picking up deployables except:
 		int defaultWater = 100;
 		int maxWater = 500;
 		float waterIncrease = 0f;
+		bool debugOnBoot=false;
         [PluginReference]
         private Plugin ImageLibrary;
 			
@@ -117,6 +119,33 @@ Block picking up deployables except:
 							 PlantTree(growableEntity,tree);
 						}
 					}
+				}
+				
+				if(debugOnBoot){
+					 /*
+			 GameObject[] rootObjects;
+			 Scene scene = SceneManager.GetActiveScene();
+			 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
+			 
+			 Puts("Try Destroy");
+			 // iterate root objects and do something
+			 for (int i = 0; i < rootObjects.Count(); ++i)
+			 {
+					 if(rootObjects[ i ].name.Contains("prevent_building")){
+						 MonoBehaviour.Destroy(rootObjects[ i ]);
+						 Puts("Destroyed");
+					 }
+			 }	
+*/	
+				 GameObject[] rootObjects;
+				 Scene scene = SceneManager.GetActiveScene();
+				 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
+				 for (int i = 0; i < rootObjects.Count(); ++i)
+				 {
+						 if(rootObjects[ i ].name.Contains("prevent_building")){
+							 Puts("[Target:"+rootObjects[ i ].name+"]|[I:"+i+"]");
+						 }
+				 }	
 				}
 			
 			});
