@@ -51,7 +51,7 @@ Block picking up deployables except:
 		int defaultWater = 100;
 		int maxWater = 500;
 		float waterIncrease = 0f;
-		bool debugOnBoot=false;
+		bool debugOnBoot=true;
         [PluginReference]
         private Plugin ImageLibrary;
 			
@@ -120,6 +120,8 @@ Block picking up deployables except:
 						}
 					}
 				}
+			
+			});
 				
 				if(debugOnBoot){
 					 /*
@@ -132,7 +134,7 @@ Block picking up deployables except:
 			 for (int i = 0; i < rootObjects.Count(); ++i)
 			 {
 					 if(rootObjects[ i ].name.Contains("prevent_building")){
-						 MonoBehaviour.Destroy(rootObjects[ i ]);
+						 MonoBehaviour.Destroy(rootObjects[ i ]);j
 						 Puts("Destroyed");
 					 }
 			 }	
@@ -142,13 +144,15 @@ Block picking up deployables except:
 				 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
 				 for (int i = 0; i < rootObjects.Count(); ++i)
 				 {
-						 if(rootObjects[ i ].name.Contains("prevent_building")){
+						 if(rootObjects[ i ].name.Contains("prevent_building")
+							&& rootObjects[i].GetComponent<Collider>()
+							&& rootObjects[i].GetComponent<Collider>().enabled){
 							 Puts("[Target:"+rootObjects[ i ].name+"]|[I:"+i+"]");
+							 rootObjects[i].GetComponent<Collider>().enabled=false;
+							 rootObjects[i].GetComponent<Collider>().isTrigger=false;
 						 }
 				 }	
 				}
-			
-			});
 			
 			for(int x = 0; x<1024; x++){
 				for(int y = 0; y<1024; y++){
