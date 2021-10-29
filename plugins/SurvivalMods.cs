@@ -51,7 +51,7 @@ Block picking up deployables except:
 		int defaultWater = 100;
 		int maxWater = 500;
 		float waterIncrease = 0f;
-		bool debugOnBoot=true;
+		bool debugOnBoot=false;
         [PluginReference]
         private Plugin ImageLibrary;
 			
