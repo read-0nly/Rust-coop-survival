@@ -51,7 +51,7 @@ Block picking up deployables except:
 		int defaultWater = 100;
 		int maxWater = 500;
 		float waterIncrease = 0f;
-		bool debugOnBoot=false;
+		bool debugOnBoot=true;
         [PluginReference]
         private Plugin ImageLibrary;
 			
@@ -136,14 +136,24 @@ Block picking up deployables except:
 					 if(rootObjects[ i ].name.Contains("prevent_building")){
 						 MonoBehaviour.Destroy(rootObjects[ i ]);j
 						 Puts("Destroyed");
-					 }
+					 }//
 			 }	
 */	
+
+				string prefabName = "assets/content/structures/sewers/sewer_tunnel_door.prefab";
+				GameObject entity = GameManager.server.CreatePrefab(prefabName, new Vector3(0,0,0), Quaternion.identity, true);
+				entity.AddComponent<DecayEntity>();
+				entity.AddComponent<DecayEntity>().syncPosition=true;
+				Puts(entity.AddComponent<DecayEntity>().prefabID.ToString());
+				entity.AddComponent<DecayEntity>().prefabID=StringPool.Get(prefabName);
+				Puts(entity.AddComponent<DecayEntity>().prefabID.ToString());
+				entity.GetComponent<DecayEntity>().Spawn();
+				/*
 				 GameObject[] rootObjects;
 				 Scene scene = SceneManager.GetActiveScene();
 				 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
 				 for (int i = 0; i < rootObjects.Count(); ++i)
-				 {
+				 {/*
 						 if(rootObjects[ i ].name.Contains("prevent_building")
 							&& rootObjects[i].GetComponent<Collider>()
 							&& rootObjects[i].GetComponent<Collider>().enabled){
@@ -151,7 +161,13 @@ Block picking up deployables except:
 							 rootObjects[i].GetComponent<Collider>().enabled=false;
 							 rootObjects[i].GetComponent<Collider>().isTrigger=false;
 						 }
-				 }	
+						 *//*
+						 
+						 if(rootObjects[ i ].name.Contains("sewer")){
+							 Puts(rootObjects[ i ].name);
+							 rootObjects[ i ].transform.Translate(new Vector3(100,100,0));
+						 }
+				 }	//*/
 				}
 			
 			for(int x = 0; x<1024; x++){
@@ -197,14 +213,25 @@ Block picking up deployables except:
 			string ItemToEat = item.info.shortname.ToString();
             if (ItemToEat == null){return;}
             ItemContainer Container = item.GetRootContainer();
-            if (Container == null){return;}/*
+            if (Container == null){return;}
 			if(ItemToEat.ToLower().Contains("cactus")){
+				string prefabName = "assets/content/structures/sewers/sewer_tunnel_door.prefab";
+				GameObject entity = GameManager.server.CreatePrefab(prefabName, Container.GetOwnerPlayer().transform.position, Quaternion.identity, true);
+				Puts((entity==null).ToString());
+				entity.AddComponent<BaseEntity>();
+				entity.AddComponent<BaseEntity>().syncPosition=true;
+				entity.AddComponent<BaseEntity>().prefabID=StringPool.Get(prefabName);
+				Puts(StringPool.Get(prefabName));
+				Puts(entity.AddComponent<BaseEntity>().PrefabName);
+				entity.GetComponent<BaseEntity>().Spawn();
+				/*
+				assets/content/structures/sewers/sewer_tunnel_door.prefab
 				envUpdateArmed = true;
 				waterIncrease=-10;
 				BasePlayer Eater = Container.GetOwnerPlayer();
 				if (Eater == null){return;}
-			}
 			*/
+			}
 		}
 		
 /*
