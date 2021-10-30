@@ -50,7 +50,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 			}
             timer.Every(10f, () => {
 				wasteTick++;
-				if(containers.Count>0 && (wasteTick %(containers.Count < wasteTickThreshold? wasteTickThreshold-containers.Count : 0))==0){
+				if(containers.Count>0 && (wasteTick %(containers.Count < wasteTickThreshold? wasteTickThreshold-containers.Count : 1))==0){
 					//*
 					ItemContainer ic = containers[UnityEngine.Random.Range(0,containers.Count)];
 					/*/

@@ -215,15 +215,16 @@ Block picking up deployables except:
             ItemContainer Container = item.GetRootContainer();
             if (Container == null){return;}
 			if(ItemToEat.ToLower().Contains("cactus")){
+				/*
 				string prefabName = "assets/content/structures/sewers/sewer_tunnel_door.prefab";
 				GameObject entity = GameManager.server.CreatePrefab(prefabName, Container.GetOwnerPlayer().transform.position, Quaternion.identity, true);
 				Puts((entity==null).ToString());
 				entity.AddComponent<BaseEntity>();
 				entity.AddComponent<BaseEntity>().syncPosition=true;
 				entity.AddComponent<BaseEntity>().prefabID=StringPool.Get(prefabName);
-				Puts(StringPool.Get(prefabName));
+				Puts(entity.AddComponent<BaseEntity>().prefabID.ToString());
 				Puts(entity.AddComponent<BaseEntity>().PrefabName);
-				entity.GetComponent<BaseEntity>().Spawn();
+				entity.GetComponent<BaseEntity>().Spawn();//*/
 				/*
 				assets/content/structures/sewers/sewer_tunnel_door.prefab
 				envUpdateArmed = true;
