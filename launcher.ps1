@@ -24,8 +24,8 @@ if(test-path "$($global:Settings['dir'])\lastmap"){
 	$global:map = (cat "$($global:Settings['dir'])\lastmap")
 }
 #endregion
-
-
+$ServerPath=""
+$ServerSuffix=""
 
 function updateServer(){
 	C:\steamcmd\steamcmd.exe +login anonymous +force_install_dir D:\rustserver\ +app_update 258550 +quit
@@ -79,10 +79,10 @@ function runServer(){
 			 if($y -ne ""){echo ($y)}
 		 }))
 		 write-host (@"
-	RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "https://github.com/read-0nly/Rust-coop-survival/blob/main/maps/$global:map.map?raw=true" && exit
+	RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map?$ServerSuffix" && exit
 "@) -foregroundcolor yellow
 	cmd /c (@"
-	RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "https://github.com/read-0nly/Rust-coop-survival/blob/main/maps/$global:map.map?raw=true" && exit
+	RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix" && exit
 "@)
 	$global:mapStr=""
 }
