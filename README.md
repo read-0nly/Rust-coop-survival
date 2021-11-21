@@ -30,7 +30,7 @@ Roadmap:
 - ~Variable water level~
 - ~forest management~
 - ~Food rot and preservation~
--
+- Synced interserver backpacks - and with it, dedicated climate islands, to allow easy inter-server transition.
 
 # Disease plugin plan
 - Transmission vectors
