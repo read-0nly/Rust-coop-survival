@@ -51,6 +51,7 @@ Block picking up deployables except:
 		int defaultWater = 100;
 		int maxWater = 500;
 		float waterIncrease = 0f;
+		float waterStep = 0.5f;
 		bool debugOnBoot=false;
         [PluginReference]
         private Plugin ImageLibrary;
@@ -62,11 +63,33 @@ Block picking up deployables except:
 			
 		private void OnServerInitialized()
         {
+			
+			envUpdateArmed = true;
+			
+			for(int x = 0; x<1024; x++){
+				for(int y = 0; y<1024; y++){
+					try{
+							TerrainMeta.TopologyMap.RemoveTopology(x,y,32); //32
+							TerrainMeta.TopologyMap.AddTopology(x,y,2); //262144
+							TerrainMeta.TopologyMap.AddTopology(x,y,262144); //262144
+							
+						
+					}
+					catch{};
+				}
+			}			
+			
             timer.Every(10f, () => {
 				if(ConVar.Env.time > 23 && envUpdateArmed){
+					envUpdateArmed=false;
 					WaterSystem.OceanLevel+=waterIncrease;
-					waterIncrease=0;
-					
+					waterIncrease=waterStep;					
+					foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
+					{
+						if(basePlayer == null){return;}
+						if(basePlayer.IsConnected == false){return;}
+						basePlayer.Kick("Night Cycle - Reconnect to wake up!");
+					}					
 					BaseBoat[] components = GameObject.FindObjectsOfType<BaseBoat>();
 					foreach (BaseBoat boat in components)
 					{
@@ -79,14 +102,6 @@ Block picking up deployables except:
 						  mrb.transform.Rotate(180f,0,0,Space.Self);
 						}
 					}
-					
-					foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
-					{
-						if(basePlayer == null){return;}
-						if(basePlayer.IsConnected == false){return;}
-						basePlayer.Kick("Night Cycle - Reconnect to wake up!");
-					}
-					envUpdateArmed=false;
 					ConVar.Env.time = 5;
 					envUpdateArmed=true;
 				}
@@ -123,66 +138,6 @@ Block picking up deployables except:
 			
 			});
 				
-				if(debugOnBoot){
-					 /*
-			 GameObject[] rootObjects;
-			 Scene scene = SceneManager.GetActiveScene();
-			 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
-			 
-			 Puts("Try Destroy");
-			 // iterate root objects and do something
-			 for (int i = 0; i < rootObjects.Count(); ++i)
-			 {
-					 if(rootObjects[ i ].name.Contains("prevent_building")){
-						 MonoBehaviour.Destroy(rootObjects[ i ]);j
-						 Puts("Destroyed");
-					 }//
-			 }	
-*/	
-
-				string prefabName = "assets/content/structures/sewers/sewer_tunnel_door.prefab";
-				GameObject entity = GameManager.server.CreatePrefab(prefabName, new Vector3(0,0,0), Quaternion.identity, true);
-				entity.AddComponent<DecayEntity>();
-				entity.AddComponent<DecayEntity>().syncPosition=true;
-				Puts(entity.AddComponent<DecayEntity>().prefabID.ToString());
-				entity.AddComponent<DecayEntity>().prefabID=StringPool.Get(prefabName);
-				Puts(entity.AddComponent<DecayEntity>().prefabID.ToString());
-				entity.GetComponent<DecayEntity>().Spawn();
-				/*
-				 GameObject[] rootObjects;
-				 Scene scene = SceneManager.GetActiveScene();
-				 rootObjects=Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
-				 for (int i = 0; i < rootObjects.Count(); ++i)
-				 {/*
-						 if(rootObjects[ i ].name.Contains("prevent_building")
-							&& rootObjects[i].GetComponent<Collider>()
-							&& rootObjects[i].GetComponent<Collider>().enabled){
-							 Puts("[Target:"+rootObjects[ i ].name+"]|[I:"+i+"]");
-							 rootObjects[i].GetComponent<Collider>().enabled=false;
-							 rootObjects[i].GetComponent<Collider>().isTrigger=false;
-						 }
-						 *//*
-						 
-						 if(rootObjects[ i ].name.Contains("sewer")){
-							 Puts(rootObjects[ i ].name);
-							 rootObjects[ i ].transform.Translate(new Vector3(100,100,0));
-						 }
-				 }	//*/
-				}
-			
-			for(int x = 0; x<1024; x++){
-				for(int y = 0; y<1024; y++){
-					try{
-							TerrainMeta.TopologyMap.RemoveTopology(x,y,32); //32
-							TerrainMeta.TopologyMap.AddTopology(x,y,2); //262144
-							TerrainMeta.TopologyMap.AddTopology(x,y,262144); //262144
-							
-						
-					}
-					catch{};
-				}
-			}
-			
 		}
 		void PlantTree(GrowableEntity plant, string prefabName)
         {
@@ -224,14 +179,15 @@ Block picking up deployables except:
 				entity.AddComponent<BaseEntity>().prefabID=StringPool.Get(prefabName);
 				Puts(entity.AddComponent<BaseEntity>().prefabID.ToString());
 				Puts(entity.AddComponent<BaseEntity>().PrefabName);
-				entity.GetComponent<BaseEntity>().Spawn();//*/
+				entity.GetComponent<BaseEntity>().Spawn();
+				//*/
 				/*
 				assets/content/structures/sewers/sewer_tunnel_door.prefab
 				envUpdateArmed = true;
 				waterIncrease=-10;
 				BasePlayer Eater = Container.GetOwnerPlayer();
 				if (Eater == null){return;}
-			*/
+				//*/
 			}
 		}
 		
