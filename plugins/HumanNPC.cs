@@ -2090,6 +2090,7 @@ namespace Oxide.Plugins
             if(humanPlayer != null)
             {
 
+				//Puts("1");
 				if (hitinfo?.Initiator != null && hitinfo.Initiator.ToString().Contains("fireball") && humanPlayer.info.invulnerability)
 				{
                     hitinfo.DoHitEffects = false; 
@@ -2097,6 +2098,7 @@ namespace Oxide.Plugins
 					return;
 				}
 
+				//Puts("2");
 				if ((BaseCombatEntity)(hitinfo?.Initiator) == entity)///
 				{
                     hitinfo.damageTypes = new DamageTypeList();
@@ -2109,11 +2111,13 @@ namespace Oxide.Plugins
                 Interface.Oxide.LogInfo($"OnEntityTakeDamage(by {entity.name})");
 #endif
 				
+				//Puts("3");
                 if(hitinfo.Initiator is BaseCombatEntity && !(hitinfo.Initiator is Barricade) && humanPlayer.info.defend)
                 {	
 						humanPlayer.StartAttackingEntity((BaseCombatEntity)hitinfo.Initiator);
 				}
 
+				//Puts("4");
                 if(humanPlayer.info.message_hurt != null && humanPlayer.info.message_hurt.Count != 0)
                 {
                     if(hitinfo.InitiatorPlayer != null)
@@ -2122,6 +2126,7 @@ namespace Oxide.Plugins
                     }
                 }
 
+				//Puts("5");
 				Interface.Oxide.CallHook("OnHitNPC", entity.GetComponent<BaseCombatEntity>(), hitinfo);
                 if(humanPlayer.info.invulnerability)
                 {
@@ -2135,6 +2140,7 @@ namespace Oxide.Plugins
                     humanPlayer.protection.Scale(hitinfo.damageTypes);
                 }
 
+				//Puts("6");
                 if(humanPlayer.locomotion.sitting)///
                 {
                     humanPlayer.locomotion.Stand();
@@ -2142,9 +2148,10 @@ namespace Oxide.Plugins
                 }
                 humanPlayer.locomotion.Evade();
             }
-            if(entity.name.Contains("player"))
+            if(entity.name.Contains("player") || entity.GetComponent<HumanNPC>()!=null)
             {
 				//Puts("Target was player");
+				//Puts("7");
 				if (hitinfo?.Initiator != null){//
 					foreach(HumanPlayer bp in humannpcPlayers){
 						if(Vector3.Distance(bp.transform.position, hitinfo.Initiator.transform.position) < bp.info.maxDistance &&

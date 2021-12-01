@@ -38,30 +38,35 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 
 	public class Analyzer : CovalencePlugin
 	{
-		public Transform target;
+		public Vector3 target;
+		[Command("hotzone")]
+        private void AnalyzeCommand(IPlayer player, string command, string[] args)
+        {
+			target=((BasePlayer)player.Object).transform.position;
+			Puts("Target Set!");//
+		}
 		private void OnServerInitialized()
         {
 			//
             timer.Every(10f, () => {
-				Puts("-----------------------------------------");
+				//Puts("-----------------------------------------");
 				List<Scientist> list = new List<Scientist>(Resources.FindObjectsOfTypeAll<Scientist>());
 				if(list!=null && target !=null){
 					foreach(Scientist s in list){
 						string logStr=s.transform.name+":"+s.TimeLastMoved.ToString()+":";
-						logStr+=(s.LookAtPoint==null?"[::]":"["+s.LookAtPoint.transform.position.x.ToString()+":"+s.LookAtPoint.transform.position.y.ToString()+":"+s.LookAtPoint.transform.position.z.ToString()+"]");
 						logStr+="["+s.transform.position.x.ToString()+":"+s.transform.position.y.ToString()+":"+s.transform.position.z.ToString()+"]";
-						Puts(logStr);
+						//Puts(logStr);
 						if(s.transform.name=="assets/prefabs/npc/scientist/scientist.prefab"){
 							Component[] components = s.gameObject.GetComponents(typeof(Component));
 							foreach(Component component in components) {
 								//Debug.Log(component.ToString());
 							}
 							NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
-							Puts(target.ToString());
+							//Puts(target.ToString());
 							//s.UpdateDestination(s.spawnPos); <<This gets them to return to their spawn
 							s.UpdateDestination(target); 
 							s.SetTargetPathStatus();
-							Puts(na.isOnNavMesh.ToString());
+							//Puts(na.isOnNavMesh.ToString());
 							if(target!=null){
 								//s.gameObject.GetComponent<HumanNPCNew>().SetAimDirection(target.position);
 							}
@@ -70,15 +75,18 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 				}
 				else{
 					List<MonumentMarker> list2 = new List<MonumentMarker>(Resources.FindObjectsOfTypeAll<MonumentMarker>());
+					//Puts("Count:"+list2.Count().ToString());
 					if(list2!=null){
-						foreach(GameObject s in list2){//
+						foreach(MonumentMarker s in list2){//
 							if(s.text.text.ToLower().Contains("Hotzone")){
-								target = s.transform;
+								target = s.transform.position;
 							}
+							
+							//Puts("Target:"+s.text.text);
 						}
 					}						
 				}//
-				Puts("-----------------------------------------");
+				//Puts("-----------------------------------------");
 			});
 		}
 	}
