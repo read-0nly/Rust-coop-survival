@@ -17,17 +17,6 @@ namespace Oxide.Plugins
 {
 	[Info("Food Waste", "obsol", "0.0.1")]
 	[Description("Food wastes over time, with fridges and salt offering preservation methods.")]
-/*======================================================================================================================= 
-* 
-//One Entity Enter - if nobuild zone, leave
-
-/*
-void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
-{
-    Puts("OnEntityEnter works!");
-}
-*=======================================================================================================================*/
-
 
 	public class FoodWaste : CovalencePlugin
 	{
@@ -112,24 +101,19 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 			foreach(BoxStorage sc in GameObject.FindObjectsOfType<BoxStorage>()){
 				if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
 			}
-            timer.Every(10f, () => {
+			foreach(StorageContainer sc in GameObject.FindObjectsOfType<StorageContainer>()){
+				if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
+			}
+            timer.Every(7f, () => {
 				wasteTick++;
 				if(containers.Count>0 && (wasteTick %(containers.Count < wasteTickThreshold? wasteTickThreshold-containers.Count : 1))==0){
-					//*
 					ItemContainer ic = containers[UnityEngine.Random.Range(0,containers.Count)];
-					/*/
-					foreach(ItemContainer ic in containers){
-						//*/
 						List<Item> foods = new List<Item>();
 						Item saltPile = null;
-							//Puts(ic.entityOwner.ToString());
 							if(ic.entityOwner.ToString().Contains("fridge")){
 								return;
 							}
-						//Item it = ic.itemList[Random.Range(0,ic.itemList.Count)];
 						foreach(Item it in ic.itemList){
-							//Puts(it.info.shortname);
-							//Puts(it.name);
 							if(it.info.shortname.Contains(".raw") || it.info.shortname=="bearmeat" || it.info.shortname=="meat.boar"){
 								foods.Add(it);	
 							}
@@ -141,7 +125,6 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 							}
 						}					
 						Item itemTarget = null;
-						//Puts(foods.Count.ToString());
 						if(foods.Count>0){
 							itemTarget = foods[UnityEngine.Random.Range(0,foods.Count)];
 						}
@@ -154,7 +137,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 							else{
 								saltPile.amount--;
 								if(saltPile.amount<1){									
-									ic.Remove(saltPile);//-1848736516
+									ic.Remove(saltPile);
 								}
 								else{
 									saltPile.MarkDirty();
@@ -174,7 +157,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 							else{
 								saltPile.amount--;
 								if(saltPile.amount<1){									
-									ic.Remove(saltPile);//-1848736516
+									ic.Remove(saltPile);
 								}
 								else{
 									saltPile.MarkDirty();
@@ -183,13 +166,12 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 							
 						}
 						wasteTick = 0;
-					//}/////////////////////////////////////////
 					
 				}
 				
 			});
-            timer.Every(120f, () => {				
-				foreach(StorageContainer sc in GameObject.FindObjectsOfType<StorageContainer>()){
+            timer.Every(599f, () => {				
+				foreach(BoxStorage sc in GameObject.FindObjectsOfType<BoxStorage>()){
 					if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
 				}
 				foreach(StorageContainer sc in GameObject.FindObjectsOfType<StorageContainer>()){
@@ -200,19 +182,8 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 		
 		void OnWaterPurified(WaterPurifier waterPurifier, float timeCooked)
 		{
-			//Puts("OnWaterPurify works!");
 			if(!purifierSaltStorage.ContainsKey(waterPurifier)){purifierSaltStorage[waterPurifier]=0.0f;}
 			purifierSaltStorage[waterPurifier]+=saltStep;
-			//Puts(purifierSaltStorage[waterPurifier].ToString());
-			/*
-			
-            Item item = ItemManager.CreateByItemID(itemData.ItemID, itemData.Amount, itemData.Skin);
-            item.condition = itemData.Condition;
-            item.maxCondition = itemData.MaxCondition;
-			
-			
-			*/
-			//return null;
 		}
 		
 		object OnOvenCook(BaseOven oven, Item item)
@@ -220,7 +191,6 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 			List<Item> salts = oven.inventory.FindItemsByItemID(-265876753);
 			foreach(Item salt in salts){
 				if(salt.name.ToLower() == "salt"){
-					Puts(salt.name);
 					foreach(Item fruit in oven.inventory.itemList){
 						if(fruit.info.shortname.Contains(".berry") && !fruit.info.shortname.Contains("clone")&& !fruit.info.shortname.Contains("seed") && fruit.amount > 9){
 							fruit.amount += -10;
@@ -229,7 +199,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 							}
 							salt.amount+=-5;
 							if(salt.amount<1){									
-								oven.inventory.Remove(salt);////-1848736516
+								oven.inventory.Remove(salt);
 							}
 							string[] parsedName = fruit.info.shortname.Split('.');
 							string color = parsedName[parsedName.Count() - 2];
@@ -245,7 +215,6 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 	
 		bool? OnIngredientsCollect(ItemCrafter itemCrafter, ItemBlueprint blueprint, ItemCraftTask task, int amount, BasePlayer player)
 		{
-			//*
 		    List<Item> collect = new List<Item>();
 			
 			foreach(ItemAmount ingredient in blueprint.ingredients){
@@ -287,9 +256,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 				  }
 				}
 			}
-			return false;/*/
-			return null;
-			//*/
+			return false;
 		}
 		
 		  private void CollectIngredient(ItemCrafter ic, int item, int amount, List<Item> collect,BasePlayer player)
@@ -345,7 +312,6 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 			Facepunch.Pool.FreeList<Item>(ref list);
 			return num1;
 		  }
-		//*/
 		
 		
 		bool CanStackItem(Item item, Item targetItem)
@@ -353,37 +319,7 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 			if(item.name != targetItem.name || item.info.itemid != targetItem.info.itemid){return false;}
 			return true;
 		}
-		
-		
-		/*
-		
-		    List<Item> collect = new List<Item>();
-    foreach (ItemAmount ingredient in bp.ingredients)
-      this.CollectIngredient(ingredient.itemid, (int) ingredient.amount * amount, collect);
-    task.potentialOwners = new List<ulong>();
-    foreach (Item obj in collect)
-    {
-      obj.CollectedForCrafting(player);
-      if (!task.potentialOwners.Contains(player.userID))
-        task.potentialOwners.Add(player.userID);
-    }
-    task.takenItems = collect;
-	
-	
-	  public void CollectIngredient(int item, int amount, List<Item> collect)
-  {
-    foreach (ItemContainer container in this.containers)
-    {
-      amount -= container.Take(collect, item, amount);
-      if (amount <= 0)
-        break;
-    }
-  }
-  
-		*/
-		
-  
-		
+				
 		void OnLootEntity(BasePlayer player, BaseEntity entity)
 		{
 			WaterPurifier wp = entity.GetComponent<WaterPurifier>();
@@ -409,9 +345,8 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 				return byItemId;
 			}
 			else{				
-				/**/return null;//*
+				return null;
 			}
-			/**/
 		}
 	}
 }

@@ -18,7 +18,6 @@ using System;
 using UnityEngine; 
 using Oxide.Core.Libraries.Covalence;
 using Oxide.Plugins;
-using UnityEngine.AI;
 
 namespace Oxide.Plugins
 {
