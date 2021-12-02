@@ -1,0 +1,17 @@
+{
+  "_players": {
+    "76561198004703684": {
+      "_usageData": {
+        "Bandit Shotgunner": {
+          "TotalUses": 2,
+          "NextUseTime": 1628307168.1446488
+        },
+        "Bandit Infantry": {
+          "TotalUses": 2,
+          "NextUseTime": 1628315295.842509
+        }
+      },
+      "ClaimAutoKits": true
+    }
+  }
+}

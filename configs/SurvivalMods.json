@@ -1,0 +1,17 @@
+{
+  "envUpdateArmed": true,
+  "defaultHealth": 50,
+  "maxHealth": 150,
+  "defaultCals": 75,
+  "maxCals": 400,
+  "defaultWater": 100,
+  "maxWater": 500,
+  "waterIncrease": 0.0,
+  "waterStep": 0.5,
+  "debugOnBoot": false,
+  "target": {
+    "x": -495.918335,
+    "y": 15.1513834,
+    "z": 418.606232
+  }
+}

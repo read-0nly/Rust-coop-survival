@@ -1,0 +1,23 @@
+{
+  "definitions": [
+    {
+      "Name": null,
+      "Radius": 2000.0,
+      "Radiation": 0.0,
+      "Comfort": 0.0,
+      "Temperature": 0.0,
+      "SafeZone": false,
+      "Location": "-599.4174 44.938 872.9727",
+      "Size": "0 0 0",
+      "Rotation": "0 0 0",
+      "Id": "63944095",
+      "ParentID": null,
+      "EnterMessage": null,
+      "LeaveMessage": null,
+      "Permission": null,
+      "EjectSpawns": null,
+      "Enabled": true,
+      "Flags": "None"
+    }
+  ]
+}
