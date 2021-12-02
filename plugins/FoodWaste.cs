@@ -1,4 +1,4 @@
-
+using Newtonsoft.Json;
 using Convert = System.Convert;
 using Network;
 using Oxide.Core.Plugins;
@@ -36,12 +36,76 @@ void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
 		private void SendChatMsg(BasePlayer pl, string msg) =>
             _rustPlayer.Message(pl, msg,  "<color=#00ff00>[Food Waste]</color>", 0, Array.Empty<object>());
 		float saltStep = 0.5f;
-		string saltIcon = "https://i.imgur.com/Uuzl712.png";
 		int wasteTickThreshold = 200;
 		int wasteTick = 0;
 		private List<ItemContainer> containers = new List<ItemContainer>();
 		
 		private Dictionary<WaterPurifier,float> purifierSaltStorage = new Dictionary<WaterPurifier,float>();
+		
+		#region Configuration
+        private Configuration config;
+		[Command("fw_saveconfig")]
+        private void surv_saveconfig(IPlayer player, string command, string[] args)
+        {
+			SaveConfig();
+		}
+		[Command("fw_loadconfig")]
+        private void surv_loadconfig(IPlayer player, string command, string[] args)
+        {
+			LoadConfig();
+		}
+
+        class Configuration
+        {
+            // TODO: Add support for regex matching
+
+            [JsonProperty("saltStep", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public float saltStep = 0.5f;
+            [JsonProperty("wasteTickThreshold", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public int wasteTickThreshold = 200;
+
+            public string ToJson() => JsonConvert.SerializeObject(this);
+
+            public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
+        }
+
+        protected override void LoadDefaultConfig() => config = new Configuration();
+
+        protected override void LoadConfig()
+        {
+            base.LoadConfig();
+            try
+            {
+                config = Config.ReadObject<Configuration>();
+                if (config == null)
+                {
+                    throw new JsonException();
+                }
+
+                if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys))
+                {
+                    LogWarning("Configuration appears to be outdated; updating and saving");
+                    SaveConfig();
+                }
+				saltStep=config.saltStep;
+				wasteTickThreshold=config.wasteTickThreshold;
+            }
+            catch
+            {
+                LogWarning($"Configuration file {Name}.json is invalid; using defaults");
+                LoadDefaultConfig();
+            }
+			
+        }
+
+        protected override void SaveConfig()
+        {
+            LogWarning($"Configuration changes saved to {Name}.json");
+			config.saltStep=saltStep;
+			config.wasteTickThreshold=wasteTickThreshold;
+            Config.WriteObject(config, true);
+		}
+        #endregion Configuration
 		
 		private void OnServerInitialized()
         {

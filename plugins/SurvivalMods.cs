@@ -14,6 +14,8 @@ using UnityEngine;
 using Oxide.Core.Libraries.Covalence;
 using Oxide.Plugins;
 using UnityEngine.SceneManagement;
+using Newtonsoft.Json;
+using UnityEngine.AI;
 
 namespace Oxide.Plugins
 {
@@ -55,7 +57,115 @@ Block picking up deployables except:
 		bool debugOnBoot=false;
         [PluginReference]
         private Plugin ImageLibrary;
+		public Vector3 target;
+		[Command("surv_hotzone")]
+        private void surv_hotzone(IPlayer player, string command, string[] args)
+        {
+			target=((BasePlayer)player.Object).transform.position;
+			Puts("Target Set!");//
+		}
+		
+		#region Configuration//
+        private Configuration config;
+		[Command("surv_saveconfig")]
+        private void surv_saveconfig(IPlayer player, string command, string[] args)
+        {
+			SaveConfig();
+		}
+		[Command("surv_loadconfig")]
+        private void surv_loadconfig(IPlayer player, string command, string[] args)
+        {
+			LoadConfig();
+		}
+
+        class Configuration
+        {
+            // TODO: Add support for regex matching
+
+            [JsonProperty("envUpdateArmed", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public bool envUpdateArmed = true;
+            [JsonProperty("defaultHealth", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public int defaultHealth = 50;
+            [JsonProperty("maxHealth", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public int maxHealth = 150;
+            [JsonProperty("defaultCals", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public int defaultCals = 50;
+            [JsonProperty("maxCals", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public int maxCals = 75;
+            [JsonProperty("defaultWater", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public int defaultWater = 50;
+            [JsonProperty("maxWater", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public int maxWater = 50;
+            [JsonProperty("waterIncrease", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public float waterIncrease = 50;
+            [JsonProperty("waterStep", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public float waterStep = 50;
+            [JsonProperty("debugOnBoot", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public bool debugOnBoot = false;
+            [JsonProperty("target", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+            public Vector3 target = new Vector3(0,0,0);
+
+            public string ToJson() => JsonConvert.SerializeObject(this);
+
+            public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
+        }
+
+        protected override void LoadDefaultConfig() => config = new Configuration();
+
+        protected override void LoadConfig()
+        {
+            base.LoadConfig();
+            try
+            {
+                config = Config.ReadObject<Configuration>();
+                if (config == null)
+                {
+                    throw new JsonException();
+                }
+
+                if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys))
+                {
+                    LogWarning("Configuration appears to be outdated; updating and saving");
+                    SaveConfig();
+                }
+            }
+            catch
+            {
+                LogWarning($"Configuration file {Name}.json is invalid; using defaults");
+                LoadDefaultConfig();
+            }
 			
+			envUpdateArmed=config.envUpdateArmed;
+			defaultHealth = config.defaultHealth;
+			maxHealth = config.maxHealth;
+			defaultCals = config.defaultCals;
+			maxCals = config.maxCals;
+			defaultWater = config.defaultWater;
+			maxWater = config.maxWater;
+			waterIncrease = config.waterIncrease;
+			waterStep = config.waterStep;
+			debugOnBoot=config.debugOnBoot;
+			target=config.target;
+        }
+
+        protected override void SaveConfig()
+        {
+            LogWarning($"Configuration changes saved to {Name}.json");
+			config.envUpdateArmed=envUpdateArmed;
+			config.defaultHealth = defaultHealth;
+			config.maxHealth = maxHealth;
+			config.defaultCals = defaultCals;
+			config.maxCals = maxCals;
+			config.defaultWater = defaultWater;
+			config.maxWater = maxWater;
+			config.waterIncrease = waterIncrease;
+			config.waterStep = waterStep;
+			config.debugOnBoot=debugOnBoot;
+			config.target=target;
+            Config.WriteObject(config, true);
+		}
+        #endregion Configuration
+		
 		bool CanPickupEntity(BasePlayer player, BaseEntity entity)
 		{
 			return false;
@@ -79,7 +189,39 @@ Block picking up deployables except:
 				}
 			}			
 			
-            timer.Every(10f, () => {
+			//Prime number timers to try to spread the load and reduce occurrence of less urgent things
+            timer.Every(19f, () => {
+				//Puts("-----------------------------------------");
+				List<Scientist> list = Scientist.AllScientists.ToList<Scientist>();//new List<Scientist>(Resources.FindObjectsOfTypeAll<Scientist>());
+				if(list!=null && target !=null && target != new Vector3(0,0,0)){
+					int i = 0;
+					foreach(Scientist s in list){
+						if(s.transform.name=="assets/prefabs/npc/scientist/scientist.prefab" /*/){ //**/&& !s.IsStopped){
+							/*
+							Component[] components = s.gameObject.GetComponents(typeof(Component));
+							foreach(Component component in components) {
+								//Debug.Log(component.ToString());
+							}*/
+							NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
+							if(na != null){
+								//Puts(target.ToString());
+								//s.UpdateDestination(s.spawnPos); <<This gets them to return to their spawn
+								s.UpdateDestination(target); 
+								s.SetTargetPathStatus();
+								//Puts(na.isOnNavMesh.ToString());
+								if(target!=null){
+									//s.gameObject.GetComponent<HumanNPCNew>().SetAimDirection(target.position);
+								}
+								i++;
+							}
+						}
+					}
+				}
+				else{					
+				}//
+				//Puts("-----------------------------------------");
+			});
+            timer.Every(53f, () => {
 				if(ConVar.Env.time > 23 && envUpdateArmed){
 					envUpdateArmed=false;
 					WaterSystem.OceanLevel+=waterIncrease;
@@ -106,6 +248,8 @@ Block picking up deployables except:
 					envUpdateArmed=true;
 				}
 	
+			});
+            timer.Every(11f, () => {
 				foreach (global::BasePlayer basePlayer in global::BasePlayer.activePlayerList.ToArray())
 				{					
 					if(basePlayer.metabolism.calories.value < 10 && basePlayer.metabolism.calories.max > 20){
@@ -119,6 +263,10 @@ Block picking up deployables except:
 					basePlayer._maxHealth+= (basePlayer._maxHealth < maxHealth?((0.005f*(maxHealth-basePlayer._maxHealth))*(0.005f*(maxHealth-basePlayer._maxHealth))):0);
 					
 				}
+			});
+			
+			
+            timer.Every(73f, () => {
 				//Puts(basePlayer._maxHealth.ToString());
 				List<GrowableEntity> list = new List<GrowableEntity>(Resources.FindObjectsOfTypeAll<GrowableEntity>());
 				foreach (GrowableEntity growableEntity in list)
@@ -135,8 +283,8 @@ Block picking up deployables except:
 						}
 					}
 				}
-			
 			});
+			
 				
 		}
 		void PlantTree(GrowableEntity plant, string prefabName)
