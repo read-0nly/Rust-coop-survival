@@ -23,6 +23,7 @@
 - there's a tunnel. and a custom town thing.
 - the backpack is sacred. can't be looted, persists between respawns and wipes. cabin is temporary, backpack is forever.
 - some places have doors you can stick door controllers to to shut - since housing isn't always an option consider this a "safe" option, though it needs power to keep the door shut and your power source is vulnerable.
+- You lose all blueprints you've learned when you die - think of it as trauma caused by dying, or think of it as a roguelike mechanic
 - i dunno man play it.
 
 ## Roadmap:
@@ -81,6 +82,7 @@
 - planting hemp and letting it grow into the dead phase will instead make a small tree, so you can "manage" the forest by replanting trees, or have to deal with a lumber crisis
 - living long enough will give you a higer-than-normal hp as well, kinda like an overshield for good behavior. 
 - scientists created with npc spawner can be rallied to a "hotzone" - this will make them charge towards it when awake, intercepting players along the way. This allows waves on the compound
+- You lose all blueprints you've learned when you die - think of it as trauma caused by dying, or think of it as a roguelike mechanic
 
 ## HumanNPC customizations
 - This one needs explaining
