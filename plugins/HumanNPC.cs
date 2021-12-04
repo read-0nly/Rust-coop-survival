@@ -2153,7 +2153,7 @@ namespace Oxide.Plugins
 					foreach(HumanPlayer bp in humannpcPlayers){
 						float nowtime = Time.realtimeSinceStartup;
 						if(Vector3.Distance(bp.transform.position, hitinfo.Initiator.transform.position) < bp.info.maxDistance &&
-						bp.locomotion.attackEntity == null &&
+						(bp.locomotion.attackEntity == null || bp.locomotion.attackEntity.lifestate == BaseCombatEntity.LifeState.Dead) &&
 						nowtime - bp.lastTargetTick > 3){
 							bool isFriend = false;
 							foreach(HumanPlayer np in humannpcPlayers){
@@ -2161,6 +2161,7 @@ namespace Oxide.Plugins
 										isFriend=true;
 									}
 							}
+							if(entity.transform.name.ToLower().Contains("scientist")){isFriend=true;}
 							try{
 								if(!isFriend && (hitinfo.Initiator as BaseCombatEntity) != null){
 									bp.StartAttackingEntity((BaseCombatEntity)(hitinfo.Initiator));

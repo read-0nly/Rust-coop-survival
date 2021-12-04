@@ -61,8 +61,6 @@ namespace Oxide.Plugins{
 				public float waterStep = 50;
 				[JsonProperty("debugOnBoot", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 				public bool debugOnBoot = false;
-				[JsonProperty("target", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-				public Vector3 target = new Vector3(0,0,0);				
 				public string ToJson() => JsonConvert.SerializeObject(this);				
 				public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
 			}
@@ -95,7 +93,6 @@ namespace Oxide.Plugins{
 				waterIncrease = config.waterIncrease;
 				waterStep = config.waterStep;
 				debugOnBoot=config.debugOnBoot;
-				target=config.target;
 			}
 			
 			protected override void SaveConfig(){
@@ -110,113 +107,9 @@ namespace Oxide.Plugins{
 				config.waterIncrease = waterIncrease;
 				config.waterStep = waterStep;
 				config.debugOnBoot=debugOnBoot;
-				config.target=target;
 				Config.WriteObject(config, true);
 			}
 		#endregion Configuration
-		#region ScientistBrain			
-			public static Vector3 target;
-			[Command("surv_hotzone")]
-			private void surv_hotzone(IPlayer player, string command, string[] args)
-			{
-				target=((BasePlayer)player.Object).transform.position;
-				Puts("Target Set!");
-			}	
-			public class RoamState : ScientistBrain.RoamState{
-				private StateStatus status = StateStatus.Error;
-				private AIMovePoint roamPoint;
-				public Vector3 target;			
-				public override void StateEnter(){
-					this.Reset();
-					HumanNPC entity = this.GetEntity();
-					this.brain.Navigator.Warp(entity.transform.position);
-					this.status = StateStatus.Error;
-					this.ClearRoamPointUsage();
-					if (this.brain.PathFinder == null) return;
-					this.status = StateStatus.Error;
-					if(this.target == new Vector3(0,0,0)){
-						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(
-							this.GetRoamAnchorPosition(), 
-							entity.transform.position, 
-							entity.eyes.BodyForward(), 
-							this.brain.Navigator.MaxRoamDistanceFromHome, 
-							this.brain.Navigator.BestRoamPointMaxDistance
-						);
-					}
-					else{
-						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(
-							this.target, 
-							entity.transform.position, 
-							entity.eyes.BodyForward(), 
-							-1, 
-							10
-						);					
-					}
-					if ((Vector3.Distance(target, entity.transform.position)>5f && target != new Vector3(0,0,0))){
-						if (Vector3.Distance(target, entity.transform.position)>10f){
-							this.brain.Navigator.SetDestination((target) ,BaseNavigator.NavigationSpeed.Slow);
-							this.status = StateStatus.Running;
-						}
-						else{
-							this.brain.Navigator.SetDestination((target) ,BaseNavigator.NavigationSpeed.Fast);
-								this.status = StateStatus.Running;
-							
-						}
-							//Debug.Log(this.brain.Navigator.CurrentNavigationType.ToString());
-						//Debug.Log(this.brain.Navigator.CurrentNavigationType.ToString());
-						//Debug.Log("Roaming to target !!!" + this.target.ToString() + entity.transform.position.ToString() + this.brain.Navigator.Destination.ToString());
-						//Debug.Log(this.brain.Navigator.Destination.ToString()); 
-					}
-					else if((this.roamPoint !=	null)){
-						if (this.brain.Navigator.SetDestination(this.roamPoint.transform.position, BaseNavigator.NavigationSpeed.Slow)){
-							this.roamPoint.SetUsedBy((BaseEntity) this.GetEntity());//
-							this.status = StateStatus.Running;
-						}
-					}else{
-						this.brain.SwitchToState(AIState.Idle, this.brain.currentStateContainerID);
-					}
-				}			
-				private void ClearRoamPointUsage(){
-					if (!(this.roamPoint != null)) return;
-					this.roamPoint.ClearIfUsedBy((BaseEntity) this.GetEntity());
-					this.roamPoint = (AIMovePoint) null;
-					this.status = StateStatus.Running;
-				}			
-				private void Stop() => this.brain.Navigator.Stop();
-				public override StateStatus StateThink(float delta)
-				{
-					if (this.status == StateStatus.Error)
-						return this.status;
-					if((Vector3.Distance(target, ((BaseEntity) this.GetEntity()).transform.position)<5f)){
-						Debug.Log("finishing");
-						return StateStatus.Finished;
-					}
-					return this.brain.Navigator.Moving ? StateStatus.Running : StateStatus.Finished;
-				}
-			}
-			private void swapSciRoamState(ScientistNPC s){
-				if(!s.IsDormant){
-					NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
-					if(na != null && s.Brain!=null){ 
-						RoamState rs=new RoamState();
-						rs.target=target;
-						rs.brain=s.Brain;
-						if((s.Brain.states[rs.StateType].GetType() != rs.GetType() || (Vector3.Distance(target, s.transform.position)<5f ))&&s.Brain.CurrentState.StateType.ToString()!="Roam"){
-							s.Brain.states.Remove(rs.StateType);
-							s.Brain.AddState((BaseAIBrain<HumanNPC>.BasicAIState) rs);
-							//Puts("Injecting custom Roam State");//
-							s.Brain.SwitchToState(AIState.Idle, s.Brain.currentStateContainerID);
-						}
-						else if(s.Brain.CurrentState.StateType.ToString()=="Idle" && (Vector3.Distance(target, s.transform.position)>5f)){
-							s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
-							//Puts("Switch to Roam State");//
-						}else{
-							//Puts(s.Brain.CurrentState.StateType.ToString());
-						}
-					}	
-				}
-			}
-		#endregion
 		#region PlayerMods
 			int defaultHealth = 50;
 			int maxHealth = 150;
@@ -318,20 +211,7 @@ namespace Oxide.Plugins{
 		#endregion
 		private void OnServerInitialized(){			
 			LoadConfig();			
-			flushForestTopo();	
-			List<ScientistNPC> list2 = Resources.FindObjectsOfTypeAll<ScientistNPC>().ToList();
-			if(list2!=null && target !=null && target != new Vector3(0,0,0)){
-				foreach(ScientistNPC s in list2){swapSciRoamState(s);}
-			}
-			//Prime number timers to try to spread the load and reduce occurrence of less urgent things
-            timer.Every(7f, () => {
-				List<ScientistNPC> list = Resources.FindObjectsOfTypeAll<ScientistNPC>().ToList();
-				if(list!=null && target != new Vector3(0,0,0)){
-					foreach(ScientistNPC s in list){
-						swapSciRoamState(s);
-					}
-				}
-			});			
+			flushForestTopo();			
             timer.Every(53f, () => {updateOcean();});			
             timer.Every(11f, () => {PlayerMetabolismTick();});			
             timer.Every(73f, () => {growTrees();});
