@@ -19,7 +19,7 @@ namespace Oxide.Plugins
 {
     [Info("Backpacks", "LaserHydra", "3.6.3")]
     [Description("Allows players to have a Backpack which provides them extra inventory space.")]
-    internal class Backpacks : RustPlugin
+    public class Backpacks : RustPlugin
     {
         #region Fields
 
@@ -39,13 +39,16 @@ namespace Oxide.Plugins
         private const string BackpackPrefab = "assets/prefabs/misc/item drop/item_drop_backpack.prefab";
         private const string ResizableLootPanelName = "generic_resizable";
 
-        private readonly Dictionary<ulong, Backpack> _backpacks = new Dictionary<ulong, Backpack>();
+        public readonly Dictionary<ulong, Backpack> _backpacks = new Dictionary<ulong, Backpack>();
         private readonly Dictionary<BasePlayer, Backpack> _openBackpacks = new Dictionary<BasePlayer, Backpack>();
         private readonly Dictionary<ulong, DroppedItemContainer> _lastDroppedBackpacks = new Dictionary<ulong, DroppedItemContainer>();
         private Dictionary<string, ushort> _backpackSizePermissions = new Dictionary<string, ushort>();
 
-        private static Backpacks _instance;
+        public static Backpacks _instance;
 
+		public static Backpacks GetBackpacks(){
+			return _instance;
+		}
         private Configuration _config;
         private StoredData _storedData;
 
@@ -997,7 +1000,7 @@ namespace Oxide.Plugins
 
         #endregion
 
-        private class Backpack
+        public class Backpack
         {
             private ItemContainer _itemContainer = new ItemContainer();
             private List<BasePlayer> _looters = new List<BasePlayer>();

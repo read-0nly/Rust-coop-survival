@@ -11,7 +11,7 @@ using Rust.Ai;
 using System;
 using UnityEngine; 
 using Oxide.Core.Libraries.Covalence;
-using Oxide.Plugins;
+using Oxide.Plugins;//
 
 namespace Oxide.Plugins
 {
@@ -21,11 +21,13 @@ namespace Oxide.Plugins
 	public class FoodWaste : CovalencePlugin
 	{
 
+        [PluginReference]
+        private Plugin Backpacks;
 		private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 		private void SendChatMsg(BasePlayer pl, string msg) =>
             _rustPlayer.Message(pl, msg,  "<color=#00ff00>[Food Waste]</color>", 0, Array.Empty<object>());
 		float saltStep = 0.5f;
-		int wasteTickThreshold = 200;
+		int wasteTickThreshold = 1;
 		int wasteTick = 0;
 		private List<ItemContainer> containers = new List<ItemContainer>();
 		
@@ -51,7 +53,7 @@ namespace Oxide.Plugins
             [JsonProperty("saltStep", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 			public float saltStep = 0.5f;
             [JsonProperty("wasteTickThreshold", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public int wasteTickThreshold = 200;
+			public int wasteTickThreshold = 1;
 
             public string ToJson() => JsonConvert.SerializeObject(this);
 
@@ -98,21 +100,23 @@ namespace Oxide.Plugins
 		
 		private void OnServerInitialized()
         {
-			foreach(BoxStorage sc in GameObject.FindObjectsOfType<BoxStorage>()){
-				if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
-			}
-			foreach(StorageContainer sc in GameObject.FindObjectsOfType<StorageContainer>()){
-				if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
-			}
+			LoadConfig();
+			updateContainers();
+			
             timer.Every(7f, () => {
-				wasteTick++;
-				if(containers.Count>0 && (wasteTick %(containers.Count < wasteTickThreshold? wasteTickThreshold-containers.Count : 1))==0){
-					ItemContainer ic = containers[UnityEngine.Random.Range(0,containers.Count)];
+				if(containers.Count>0){
+					int containerCount = 0;
+					int containerThreshold = (int)(containers.Count()/12);
+					foreach(ItemContainer ic in containers.OrderBy(a => Oxide.Core.Random.Range(0,5000)).ToList()){
+						containerCount++;
+						if(containerCount>containerThreshold){return;}
 						List<Item> foods = new List<Item>();
 						Item saltPile = null;
+						if(ic.entityOwner!=null){
 							if(ic.entityOwner.ToString().Contains("fridge")){
-								return;
+								break;
 							}
+						}
 						foreach(Item it in ic.itemList){
 							if(it.info.shortname.Contains(".raw") || it.info.shortname=="bearmeat" || it.info.shortname=="meat.boar"){
 								foods.Add(it);	
@@ -123,63 +127,82 @@ namespace Oxide.Plugins
 							else if (it.name != null && it.name.ToLower()=="salt"){
 								saltPile = it;
 							}
-						}					
+						}			
 						Item itemTarget = null;
 						if(foods.Count>0){
 							itemTarget = foods[UnityEngine.Random.Range(0,foods.Count)];
 						}
-						if(itemTarget==null){return;}
-						if(itemTarget.info.shortname.Contains(".raw") || itemTarget.info.shortname=="bearmeat" || itemTarget.info.shortname=="meat.boar"){
-							if(saltPile==null){
-								ic.Remove(itemTarget);
-								ic.Insert(ItemManager.CreateByItemID(-751151717, itemTarget.amount, 0));
-							}
-							else{
-								saltPile.amount--;
-								if(saltPile.amount<1){									
-									ic.Remove(saltPile);
+						if(itemTarget!=null){
+							Puts("Targeted");
+							if(itemTarget.info.shortname.Contains(".raw") || itemTarget.info.shortname=="bearmeat" || itemTarget.info.shortname=="meat.boar"){
+								if(saltPile==null){
+									ic.Remove(itemTarget);
+									ic.Insert(ItemManager.CreateByItemID(-751151717, itemTarget.amount, 0));
 								}
 								else{
-									saltPile.MarkDirty();
+									saltPile.amount+=-itemTarget.amount;
+									if(saltPile.amount<1){									
+										ic.Remove(saltPile);
+									}
+									else{
+										saltPile.MarkDirty();
+									}
+									
+									ic.Remove(itemTarget);
+									Item jerky = ItemManager.CreateByItemID(-1848736516, itemTarget.amount, 0);
+									jerky.name="Jerky";
+									ic.Insert(jerky);
+								}
+							}
+							else if(itemTarget.info.shortname.Contains(".berry")){
+								if(saltPile==null){
+									ic.Remove(itemTarget);
+									ic.Insert(ItemManager.CreateByItemID(352130972, itemTarget.amount, 0));
+								}
+								else{
+									saltPile.amount+=-itemTarget.amount;
+									if(saltPile.amount<1){									
+										ic.Remove(saltPile);
+									}
+									else{
+										saltPile.MarkDirty();
+									}
 								}
 								
-								ic.Remove(itemTarget);
-								Item jerky = ItemManager.CreateByItemID(-1848736516, itemTarget.amount, 0);
-								jerky.name="Jerky";
-								ic.Insert(jerky);
 							}
 						}
-						else if(itemTarget.info.shortname.Contains(".berry")){
-							if(saltPile==null){
-								ic.Remove(itemTarget);
-								ic.Insert(ItemManager.CreateByItemID(352130972, itemTarget.amount, 0));
-							}
-							else{
-								saltPile.amount--;
-								if(saltPile.amount<1){									
-									ic.Remove(saltPile);
-								}
-								else{
-									saltPile.MarkDirty();
-								}
-							}
-							
-						}
-						wasteTick = 0;
+					}
 					
 				}
 				
 			});
-            timer.Every(599f, () => {				
-				foreach(BoxStorage sc in GameObject.FindObjectsOfType<BoxStorage>()){
-					if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
-				}
-				foreach(StorageContainer sc in GameObject.FindObjectsOfType<StorageContainer>()){
-					if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
-				}
+            timer.Every(599f, () => {	
+				updateContainers();
 			});
 		}
 		
+		private void OnPlayerRespawned(BasePlayer player)
+        {		
+			PlayerInventory pi = player.inventory;
+			if(pi!=null && pi.containerMain != null && pi.containerWear != null && pi.containerBelt != null){
+				if(!containers.Contains(pi.containerMain)){containers.Add(pi.containerMain);}
+				if(!containers.Contains(pi.containerWear)){containers.Add(pi.containerWear);}
+				if(!containers.Contains(pi.containerBelt)){containers.Add(pi.containerBelt);}
+			}
+		}
+		private void updateContainers(){
+			foreach(StorageContainer sc in GameObject.FindObjectsOfType<StorageContainer>()){
+				if(!containers.Contains(sc.inventory)){containers.Add(sc.inventory);}
+			}
+			foreach(BasePlayer sc in GameObject.FindObjectsOfType<BasePlayer>()){
+				PlayerInventory pi = sc.inventory;
+				if(pi!=null && pi.containerMain != null && pi.containerWear != null && pi.containerBelt != null){
+					if(!containers.Contains(pi.containerMain)){containers.Add(pi.containerMain);}
+					if(!containers.Contains(pi.containerWear)){containers.Add(pi.containerWear);}
+					if(!containers.Contains(pi.containerBelt)){containers.Add(pi.containerBelt);}
+				}
+			}	
+		}
 		void OnWaterPurified(WaterPurifier waterPurifier, float timeCooked)
 		{
 			if(!purifierSaltStorage.ContainsKey(waterPurifier)){purifierSaltStorage[waterPurifier]=0.0f;}

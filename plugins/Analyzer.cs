@@ -23,18 +23,6 @@ namespace Oxide.Plugins
 {
 	[Info("Analyzer", "obsol", "0.0.1")]
 	[Description("Server debugging tool for modders")]
-/*======================================================================================================================= 
-* 
-//One Entity Enter - if nobuild zone, leave
-
-/*
-void OnEntityEnter(TriggerBase trigger, BaseEntity entity)
-{ 
-    Puts("OnEntityEnter works!");
-}
-*=======================================================================================================================*/
-
-
 	public class Analyzer : CovalencePlugin
 	{
 		private void OnServerInitialized()

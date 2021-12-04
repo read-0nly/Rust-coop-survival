@@ -83,20 +83,16 @@ namespace Oxide.Plugins
 
 		object OnNpcTarget(BaseEntity npc, BaseEntity entity)
 		{
-			//if((""+entity.name).Contains("player.prefab")){
-					//Puts(npc.name+"_:_" + entity.name);
-					HumanLocomotion hn = entity.GetComponent<HumanLocomotion>();
-					if(hn==null){return null;}
-					if(hn.attackEntity != null){if(hn.attackEntity.name == npc.name){return null;}}
-					
-					hn.npc.StartAttackingEntity((BaseCombatEntity)npc);
-					//foreach(Component c in entity.GetComponents(typeof(Component))){
-					//	Puts(c.ToString());
-					///}
-					return null;
-				
-			//}
-			//return null;
+			HumanLocomotion hn = entity.GetComponent<HumanLocomotion>();
+			HumanPlayer hp = entity.GetComponent<HumanPlayer>();
+			if(hn==null || hp==null || npc.transform.name.Contains("deer")){return null;}
+			if(hn.attackEntity != null){if(hn.attackEntity.name == npc.name){return null;}}
+			float nowtime = Time.realtimeSinceStartup;
+			if(nowtime - hp.lastTargetTick > 3){
+				hn.npc.StartAttackingEntity((BaseCombatEntity)npc);
+				hp.lastTargetTick=nowtime;
+			}
+			return null;
 		}
         public static bool IsLayerBlocked(Vector3 position, float radius, int mask)
         {
@@ -1213,6 +1209,7 @@ namespace Oxide.Plugins
 			private HeldEntity heldEntity;
 			private readonly List<NpcSound> _queuedSounds = new List<NpcSound>();
 			private Coroutine QueuedRoutine { get; set; }
+			public float lastTargetTick = 0f;
             //public InstrumentKeyController instrument;
 
             public BasePlayer player;
@@ -2154,18 +2151,21 @@ namespace Oxide.Plugins
 				//Puts("7");
 				if (hitinfo?.Initiator != null){//
 					foreach(HumanPlayer bp in humannpcPlayers){
+						float nowtime = Time.realtimeSinceStartup;
 						if(Vector3.Distance(bp.transform.position, hitinfo.Initiator.transform.position) < bp.info.maxDistance &&
-						bp.locomotion.attackEntity == null){
+						bp.locomotion.attackEntity == null &&
+						nowtime - bp.lastTargetTick > 3){
 							bool isFriend = false;
 							foreach(HumanPlayer np in humannpcPlayers){
-								if(!(hitinfo.Initiator==null)){
 									if(np.player == hitinfo.Initiator){
 										isFriend=true;
 									}
-								}
 							}
 							try{
-								if(!isFriend && (hitinfo.Initiator as BaseCombatEntity) != null){bp.StartAttackingEntity((BaseCombatEntity)(hitinfo.Initiator));}
+								if(!isFriend && (hitinfo.Initiator as BaseCombatEntity) != null){
+									bp.StartAttackingEntity((BaseCombatEntity)(hitinfo.Initiator));
+									bp.lastTargetTick=nowtime;
+								}
 							}
 							catch(Exception e){}
 						}

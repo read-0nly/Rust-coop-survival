@@ -1,4 +1,4 @@
 {
   "saltStep": 0.5,
-  "wasteTickThreshold": 200
+  "wasteTickThreshold": 1
 }
