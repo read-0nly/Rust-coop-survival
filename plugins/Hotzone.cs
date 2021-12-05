@@ -173,7 +173,7 @@ namespace Oxide.Plugins{
 			LoadConfig();		
 			List<ScientistNPC> list2 = Resources.FindObjectsOfTypeAll<ScientistNPC>().ToList();
 			if(list2!=null && target !=null && target != new Vector3(0,0,0)){
-				foreach(ScientistNPC s in list2){swapSciRoamState(s);}
+				foreach(ScientistNPC s in list2){swapSciRoamState(s);Puts(s.transform.name);}
 			}
             timer.Every(47f, () => {
 				List<ScientistNPC> list = Resources.FindObjectsOfTypeAll<ScientistNPC>().ToList();
