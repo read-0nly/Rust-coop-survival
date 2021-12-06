@@ -23,7 +23,7 @@ namespace Oxide.Plugins{
 		#region Generic Vars
 			private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 			private void SendChatMsg(BasePlayer pl, string msg) =>
-			_rustPlayer.Message(pl, msg,  "<color=#00ff00>[CustomBrainz]</color>", 0, Array.Empty<object>());
+			_rustPlayer.Message(pl, msg,	"<color=#00ff00>[CustomBrainz]</color>", 0, Array.Empty<object>());
 			bool debugOnBoot=false;
 			
 		#endregion
@@ -32,7 +32,9 @@ namespace Oxide.Plugins{
 			
 			private void Init()
 			{
-				permission.RegisterPermission("custombrainz.spawn", this);
+				permission.RegisterPermission("custombrainz.spawn", this);				
+				Subscribe("IsThreatForHumanNPC");			
+				Subscribe("IsTargetForHumanNPC");
 			}
 			class Configuration{
 				//[JsonProperty("debugOnBoot", ObjectCreationHandling = ObjectCreationHandling.Replace)]
@@ -89,10 +91,63 @@ namespace Oxide.Plugins{
 					SaveConfig();
 				}
 				else SendChatMsg(bp,"Missing permission!");
-					
+				
 			}	
+			[Command("cb_swap")]
+			private void cb_swap(IPlayer player, string command, string[] args){
+				BasePlayer bp = (BasePlayer)player.Object;
+				if(player.HasPermission("custombrainz.spawn")){
+					RaycastHit hit;
+					if (Physics.Raycast(bp.eyes.HeadRay(), out hit))
+					{
+						var entity = hit.GetEntity();
+						
+						if (entity != null)
+						{
+							SendChatMsg(bp,"doi permission!");	
+						}
+					}
+				}
+				else SendChatMsg(bp,"Missing permission!");
+			}
+			public bool IsThreat(HumanNPC item, BaseEntity amountToUse){
+				Puts("TargetAttempt!");
+				return 0;//
+			}
+			public bool IsTarget(HumanNPC item, BaseEntity amountToUse){
+				Puts("TargetAttempt!");
+				return 0;//
+			}
+			
 			public class CustomNPC : ScientistNPC{
 				public BaseNpc.AiStatistics Stats;
+				/*
+					public void Load(ProtoBuf.AIDesign design, BaseEntity owner)
+					{
+					this.Scope = (AIDesignScope) design.scope;
+					this.DefaultStateContainerID = design.defaultStateContainer;
+					this.Description = design.description;
+					this.InitStateContainers(design, owner);
+					}
+					
+					
+					public ProtoBuf.AIDesign ToProto(int currentStateID)
+					{
+					ProtoBuf.AIDesign aiDesign = new ProtoBuf.AIDesign();
+					aiDesign.description = this.Description;
+					aiDesign.scope = (int) this.Scope;
+					aiDesign.defaultStateContainer = this.DefaultStateContainerID;
+					aiDesign.availableStates = new List<int>();
+					foreach (AIState availableState in this.AvailableStates)
+					aiDesign.availableStates.Add((int) availableState);
+					aiDesign.stateContainers = new List<ProtoBuf.AIStateContainer>();
+					foreach (AIStateContainer aiStateContainer in this.stateContainers.Values)
+					aiDesign.stateContainers.Add(aiStateContainer.ToProto());
+					aiDesign.intialViewStateID = currentStateID;
+					return aiDesign;
+					}
+				*/
+				
 				//Spawn scientist/bandit, then set family, capture state container id, swap brain and body interface then attach state container and wake
 				public static HumanNPC SpawnInitial(Vector3 pos, Quaternion rot, string prefabPath, BaseNpc.AiStatistics.FamilyEnum fam){
 					
@@ -102,13 +157,55 @@ namespace Oxide.Plugins{
 						Debug.Log("- Creating from prefab path");
 						BaseEntity entity = GameManager.server.CreateEntity(prefabPath, pos, rot, false);
 						Debug.Log("- Lobotomizing");
-						//int i = Lobotomize(entity);
+						int i = Lobotomize(entity);
 						Debug.Log("- Inserting new brain");
 						return InsertCustom(entity, fam,i);				
 					}
 					Debug.Log("Spawn failed - Provide a prefab path");
 					return null;
 					
+				}
+				public static CustomNPC SwapBrain(BaseEntity entity, BaseNpc.AiStatistics.FamilyEnum fam){
+					try{
+						
+						Debug.Log("-- Fetching old brain");
+						HumanNPC hn = entity.gameObject.GetComponent<HumanNPC>() as HumanNPC;
+						Debug.Log(hn==null);
+						Debug.Log("-- UpgradeNPC");
+						UpgradeNPC(ref hn);
+						Debug.Log(hn==null);
+						Debug.Log("-- UpgradeNPC Done");
+						Debug.Log("-- UpgradeBraine ");
+						BaseAIBrain<HumanNPC> hb = entity.gameObject.GetComponent<BaseAIBrain<HumanNPC>>() as BaseAIBrain<HumanNPC>;
+						Debug.Log(hb==null);
+						UpgradeBrain(ref hb);
+						Debug.Log("-- UpgradeBraine Done");
+						/*hn  = (HumanNPC)((entity.gameObject.GetComponent<HumanNPC>() ) as CustomNPC);
+							Debug.Log("-- Fetching old brain");
+							BaseAIBrain<HumanNPC> hb = entity.gameObject.GetComponent<BaseAIBrain<HumanNPC>>();
+							Debug.Log("-- Fetching old brain");
+							hb  = (BaseAIBrain<HumanNPC>)((entity.gameObject.GetComponent<BaseAIBrain<HumanNPC>>()) as CustomBrain);
+							Debug.Log("-- Fetching old brain");
+						CustomBrain cb = (CustomBrain)hb;*/
+						Debug.Log(hb==null);
+						hb.SwitchToState(AIState.Roam, hb.currentStateContainerID);
+						Debug.Log("-- Fetching");
+						
+					}catch(Exception e){Debug.Log(e.ToString());}
+					return null;
+				}
+				public static void UpgradeNPC(ref HumanNPC hn){
+					Debug.Log("-- Fetching old 1");
+					hn.gameObject.AddComponent<CustomNPC>();
+					Destroy(hn);
+					CustomNPC cn = (hn as CustomNPC);
+					
+					Debug.Log("-- Fetching old 2");
+				}
+				public static void UpgradeBrain(ref BaseAIBrain<HumanNPC> hn){
+					Debug.Log("-- Fetching old 1");					
+					hn=(BaseAIBrain<HumanNPC>)(hn as CustomBrain);
+					Debug.Log("-- Fetching old 2");
 				}
 				public static int Lobotomize(BaseEntity entity){ //returns stateContainerId
 					Debug.Log("-- Fetching old brain");
@@ -125,17 +222,20 @@ namespace Oxide.Plugins{
 				public static HumanNPC InsertCustom(BaseEntity entity, BaseNpc.AiStatistics.FamilyEnum fam, int statecontainer){
 					try{
 						Debug.Log("-- Inserting new brain");
-						ScientistBrain cb = entity.gameObject.AddComponent<ScientistBrain>() as ScientistBrain;
+						CustomBrain cb = entity.gameObject.AddComponent<CustomBrain>() as CustomBrain;
 						cb.currentStateContainerID = statecontainer;
-						ScientistNPC cn = entity.gameObject.AddComponent<ScientistNPC>() as ScientistNPC;
+						CustomNPC cn = entity.gameObject.AddComponent<CustomNPC>() as CustomNPC;
 						//cn.Stats.Family = fam;
 						if ((bool) (UnityEngine.Object) entity)
 						{
-							entity.gameObject.AwakeFromInstantiate();
-							entity.Spawn();
+							Debug.Log(cn==null);
+							Debug.Log("State Switch");
+							cb.SwitchToState(AIState.Combat, statecontainer);
+							Debug.Log("Wake");
+							cb.AddStates();
 							((IAISleepable)cb).WakeAI();
 							Debug.Log("Insert succeeded. Is AI working?");
-							return null;
+							return cn;
 						}
 						Debug.Log("Insert failed, entity null");
 						return null;
@@ -155,13 +255,14 @@ namespace Oxide.Plugins{
 					BasePlayer basePlayer = entity as BasePlayer;
 					return (UnityEngine.Object) basePlayer != (UnityEngine.Object) null && this.IsAfraidOf(basePlayer.Family);
 				}
-
+				
 				public bool IsAfraidOf(BaseNpc.AiStatistics.FamilyEnum family)
 				{
+					Debug.Log("-- roam old brain");
 					foreach (BaseNpc.AiStatistics.FamilyEnum familyEnum in this.Stats.IsAfraidOf)
 					{
 						if (family == familyEnum)
-							return true;
+						return true;
 					}
 					return false;
 				}
@@ -172,10 +273,8 @@ namespace Oxide.Plugins{
 					BaseNpc baseNpc = entity as BaseNpc;
 					return (!((UnityEngine.Object) baseNpc != (UnityEngine.Object) null) || baseNpc.Stats.Family != this.Stats.Family) && !this.IsThreat(entity);
 				}
-
+				
 				public bool IsFriendly(BaseEntity entity) => (entity as BaseNpc).Stats.Family == this.Stats.Family ;
-				
-				
 			}
 			public class CustomBrain : ScientistBrain{
 				/*
@@ -187,7 +286,6 @@ namespace Oxide.Plugins{
 					
 				*/
 				public static int Count;
-
 				public override void AddStates()
 				{
 					this.AddState((BaseAIBrain<HumanNPC>.BasicAIState) new ScientistBrain.ChaseState());
@@ -205,55 +303,105 @@ namespace Oxide.Plugins{
 				}
 				public class IdleState : ScientistBrain.IdleState
 				{
-				}
-				
-				public class RoamState : ScientistBrain.RoamState
-				{
 					private StateStatus status = StateStatus.Error;
 					private AIMovePoint roamPoint;
-
+					
 					public override void StateLeave()
 					{
 						base.StateLeave();
 						this.Stop();
 						this.ClearRoamPointUsage();
 					}
-
+					
 					public override void StateEnter()
 					{
 						base.StateEnter();
+						Debug.Log("-- roam old brain");
 						this.status = StateStatus.Error;
 						this.ClearRoamPointUsage();
 						HumanNPC entity = this.GetEntity();
 						if (this.brain.PathFinder == null)
-							return;
+						return;
 						this.status = StateStatus.Error;
-						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(this.GetRoamAnchorPosition(), entity.transform.position, entity.eyes.BodyForward(), this.brain.Navigator.MaxRoamDistanceFromHome, this.brain.Navigator.BestRoamPointMaxDistance);
+						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(entity.transform.position, entity.transform.position, entity.eyes.BodyForward(), this.brain.Navigator.MaxRoamDistanceFromHome, this.brain.Navigator.BestRoamPointMaxDistance);
 						if (!(this.roamPoint != null))
-							return;
+						return;
 						if (this.brain.Navigator.SetDestination(this.roamPoint.transform.position, BaseNavigator.NavigationSpeed.Slow))
 						{
 							this.roamPoint.SetUsedBy((BaseEntity) this.GetEntity());
 							this.status = StateStatus.Running;
 						}
 						else
-							this.roamPoint.SetUsedBy((BaseEntity) entity, 600f);
+						this.roamPoint.SetUsedBy((BaseEntity) entity, 600f);
 					}
-
+					
 					private void ClearRoamPointUsage()
 					{
 						if (!(this.roamPoint != null))
-							return;
+						return;
 						this.roamPoint.ClearIfUsedBy((BaseEntity) this.GetEntity());
 						this.roamPoint = (AIMovePoint) null;
 					}
-
+					
 					private void Stop() => this.brain.Navigator.Stop();
-
+					
 					public override StateStatus StateThink(float delta)
 					{
 						if (this.status == StateStatus.Error)
-							return this.status;
+						return this.status;
+						return this.brain.Navigator.Moving ? StateStatus.Running : StateStatus.Finished;
+					}
+				}
+				
+				
+				public class RoamState : ScientistBrain.RoamState
+				{
+					private StateStatus status = StateStatus.Error;
+					private AIMovePoint roamPoint;
+					
+					public override void StateLeave()
+					{
+						base.StateLeave();
+						this.Stop();
+						this.ClearRoamPointUsage();
+					}
+					
+					public override void StateEnter()
+					{
+						base.StateEnter();
+						Debug.Log("-- roam old brain");
+						this.status = StateStatus.Error;
+						this.ClearRoamPointUsage();
+						HumanNPC entity = this.GetEntity();
+						if (this.brain.PathFinder == null)
+						return;
+						this.status = StateStatus.Error;
+						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(this.GetRoamAnchorPosition(), entity.transform.position, entity.eyes.BodyForward(), this.brain.Navigator.MaxRoamDistanceFromHome, this.brain.Navigator.BestRoamPointMaxDistance);
+						if (!(this.roamPoint != null))
+						return;
+						if (this.brain.Navigator.SetDestination(this.roamPoint.transform.position, BaseNavigator.NavigationSpeed.Slow))
+						{
+							this.roamPoint.SetUsedBy((BaseEntity) this.GetEntity());
+							this.status = StateStatus.Running;
+						}
+						else
+						this.roamPoint.SetUsedBy((BaseEntity) entity, 600f);
+					}
+					
+					private void ClearRoamPointUsage()
+					{
+						if (!(this.roamPoint != null))
+						return;
+						this.roamPoint.ClearIfUsedBy((BaseEntity) this.GetEntity());
+						this.roamPoint = (AIMovePoint) null;
+					}
+					
+					private void Stop() => this.brain.Navigator.Stop();
+					
+					public override StateStatus StateThink(float delta)
+					{
+						if (this.status == StateStatus.Error)
+						return this.status;
 						return this.brain.Navigator.Moving ? StateStatus.Running : StateStatus.Finished;
 					}
 				}
@@ -263,10 +411,9 @@ namespace Oxide.Plugins{
 }
 
 
-		
-//NPC Spawner notes 
-	/*	
 
+//NPC Spawner notes 
+/*	
 	
-	*/
 	
+*/
