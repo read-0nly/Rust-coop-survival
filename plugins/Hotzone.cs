@@ -25,26 +25,20 @@ namespace Oxide.Plugins{
 			private void SendChatMsg(BasePlayer pl, string msg) =>
 			_rustPlayer.Message(pl, msg,  "<color=#00ff00>[Hotzone]</color>", 0, Array.Empty<object>());
 			bool debugOnBoot=false;
-			
 		#endregion
 		#region Configuration
 			private Configuration config;
-			
 			private void Init()
 			{
 				permission.RegisterPermission("hotzone.set", this);
 			}
 			class Configuration{
-				//[JsonProperty("debugOnBoot", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-				//public bool debugOnBoot = false;
 				[JsonProperty("target", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 				public Vector3 target = new Vector3(0,0,0);				
 				public string ToJson() => JsonConvert.SerializeObject(this);				
 				public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
 			}
-			
 			protected override void LoadDefaultConfig() => config = new Configuration();
-			
 			protected override void LoadConfig(){
 				base.LoadConfig();
 				try{
@@ -61,17 +55,14 @@ namespace Oxide.Plugins{
 					LogWarning($"Configuration file {Name}.json is invalid; using defaults");
 					LoadDefaultConfig();
 				}
-				//debugOnBoot=config.debugOnBoot;
 				target=config.target;
 			}
-			
 			protected override void SaveConfig(){
 				LogWarning($"Configuration changes saved to {Name}.json");
-				//config.debugOnBoot=debugOnBoot;
 				config.target=target;
 				Config.WriteObject(config, true);
 			}
-		#endregion Configuration//
+		#endregion Configuration
 		#region ScientistBrain			
 			public static Vector3 target;
 			[Command("hz_set")]
@@ -85,69 +76,6 @@ namespace Oxide.Plugins{
 				}
 				else SendChatMsg(bp,"Missing permission!");
 					
-			}	
-			private class RoamState : ScientistBrain.RoamState{
-				private StateStatus status = StateStatus.Error;
-				private AIMovePoint roamPoint;
-				public Vector3 target;			
-				public override void StateEnter(){
-					this.Reset();
-					ScientistNPC entity = (ScientistNPC)this.GetEntity();
-					this.brain.Navigator.Warp(entity.transform.position);
-					this.status = StateStatus.Error;
-					if(roamPoint!=null){
-						this.roamPoint.ClearIfUsedBy((BaseEntity) this.GetEntity());
-						this.roamPoint = (AIMovePoint) null;
-					}
-					if (this.brain.PathFinder == null) return;
-					if(this.target == new Vector3(0,0,0)){
-						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(
-							this.GetRoamAnchorPosition(), 
-							entity.transform.position, 
-							entity.eyes.BodyForward(), 
-							-1, 
-							this.brain.Navigator.BestRoamPointMaxDistance
-						);
-					}
-					else{
-						this.roamPoint = this.brain.PathFinder.GetBestRoamPoint(
-							this.target, 
-							entity.transform.position, 
-							entity.eyes.BodyForward(), 
-							-1, 
-							10
-						);					
-					}
-					if ((Vector3.Distance(target, entity.transform.position)>5f && target != new Vector3(0,0,0))){
-						if (Vector3.Distance(target, entity.transform.position)>10f){
-							this.brain.Navigator.SetDestination((target) ,BaseNavigator.NavigationSpeed.Fast);
-							this.status = StateStatus.Running;
-						}
-						else{
-							this.brain.Navigator.SetDestination((target) ,BaseNavigator.NavigationSpeed.Slowest);
-							this.status = StateStatus.Running;
-							
-						}
-					}
-					else if((this.roamPoint !=	null)){
-						if (this.brain.Navigator.SetDestination(this.roamPoint.transform.position, BaseNavigator.NavigationSpeed.Slow)){
-							this.roamPoint.SetUsedBy((BaseEntity) this.GetEntity());//
-							this.status = StateStatus.Running;
-						}
-					}//
-				}			
-				private void ClearRoamPointUsage(){
-					if (!(this.roamPoint != null)) return;
-					this.roamPoint.ClearIfUsedBy((BaseEntity) this.GetEntity());
-					this.roamPoint = (AIMovePoint) null;
-					}			
-				private void Stop() => this.brain.Navigator.Stop();
-				public override StateStatus StateThink(float delta)
-				{
-					if (this.status == StateStatus.Error)
-						return this.status;
-					return this.brain.Navigator.Moving ? StateStatus.Running : StateStatus.Finished;
-				}
 			}
 			private void swapSciRoamState(HumanNPC s){
 			
@@ -166,76 +94,35 @@ namespace Oxide.Plugins{
 					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 					((IAISleepable)s.Brain).WakeAI();
 				}
-			}	
+			}	/*
 			bool? OnIsThreat(HumanNPC hn, BaseEntity be){
-				//if(be.transform.name.Contains("scientist") && be.GetComponent<HumanNPC>()!=null) return true;
-				//Puts(hn.Brain.Senses.owner.transform.name+" : "+be.transform.name);//				string[] sl1 = hn.owner.transform.name.Split('/');
 				string[] sl1 = hn.transform.name.Split('/');
 				string[] sl2 = (be?.transform.name).Split('/');
 				string s1 = sl1[sl1.Length-1];
 				string s2 = sl2[sl2.Length-1];				
 				if(s1.Contains("scientist") && !s2.Contains("scientist")){
-					//Puts(s1 + " isthreated " +s2 + " | " +hn.Brain.Senses.Memory.Targets.Count().ToString());
-				}//*/
+				}
 
 				return false;
 			}
 			bool? OnIsTarget(HumanNPC hn, BaseEntity be){
-				//if(be.transform.name.Contains("scientist") && be.GetComponent<HumanNPC>()!=null) return true;		
-				//Puts("OnIsTarget!");
 				string[] sl1 = hn.transform.name.Split('/');
 				string[] sl2 = (be?.transform.name).Split('/');
 				string s1 = sl1[sl1.Length-1];
 				string s2 = sl2[sl2.Length-1];				
 				if(s1.Contains("scientist") && !s2.Contains("scientist")){
-					//Puts(s1 + " targets " +s2 + " | " +hn.Brain.Senses.Memory.Targets.Count().ToString());
-				}//*/
+				}
 				return false;
 			}
-			
-			/*
-			
-			Hook into AI Information zone function, return details about move point structure
-			
-			*/
-			Vector3? OnSetDestination(Vector3 pos, BaseNavigator bs){
-					
-				if(bs!=null){
-					//Puts("Hasnav");
-					BaseAIBrain<HumanNPC> brain = bs.GetComponent<BaseAIBrain<HumanNPC>>();
-					if(brain!=null){
-						//Puts("hasbrain");
-						BaseAIBrain<HumanNPC>.BasicAIState cs = brain.CurrentState;
-						if(cs!=null){
-							//Puts("hasstate:"+cs.ToString());
-							if(cs.ToString().ToLower().Contains("roam")){
-								if(target!= new Vector3(0,0,0)){
-									return target;			
-									
-								}//
-							}
-						}
-					}
-				}
-				return null;
-			}		/*
-			Vector3? OnGetRoamAnchorPosition(BaseAIBrain<HumanNPC>.BaseRoamState brs){
-				//Puts(target.ToString());
-				if(target!= new Vector3(0,0,0)){
-					return target;			
-				}
-				return null;
-			}		*/	//this.brain.CurrentState.ToString=="Roam"
 			bool? OnIsFriendly(HumanNPC hn, BaseEntity be){
 				if(hn.Brain.Senses.owner.transform.name==be.transform.name) return true;
 				return false;
-			}
+			}*/
 			bool? OnCaresAbout(AIBrainSenses hn, BaseEntity be){
 				if(
 					(!(be.GetComponent<BasePlayer>()==null))
 					&& (!(be.GetComponent<BaseNpc>()==null))
 					) return false;
-					
 				if(be.GetComponent<BasePlayer>()!=null) if (be.GetComponent<BasePlayer>().IsConnected) return true;
 				if(
 					((hn.owner.GetComponent<BasePlayer>()==null)
@@ -243,20 +130,31 @@ namespace Oxide.Plugins{
 					)) return false;
 				if(hn.owner.transform.name==be.transform.name) return false;				
 				if(hn.owner.transform.name.Contains("scientist") && be.transform.name.Contains("scientist")) return false;
-				//Puts("OnAiCaresAbout!");
-				return true;//
+				return true;
 			}
-			object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
-			{
-				swapSciRoamState(player.GetComponent<HumanNPC>());
-				//Puts("NPC INIT'd");
+			Vector3? OnSetDestination(Vector3 pos, BaseNavigator bs){
+					
+				if(bs!=null){
+					BaseAIBrain<HumanNPC> brain = bs.GetComponent<BaseAIBrain<HumanNPC>>();
+					if(brain!=null){
+						BaseAIBrain<HumanNPC>.BasicAIState cs = brain.CurrentState;
+						if(cs!=null){
+							if(cs.ToString().ToLower().Contains("roam")){
+								if(target!= new Vector3(0,0,0)){
+									return target;			
+									
+								}
+							}
+						}
+					}
+				}
 				return null;
 			}
 		#endregion
+			object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
+			{
+				swapSciRoamState(player.GetComponent<HumanNPC>());
+				return null;
+			}
 	}
 }	
-	
-	
-	/*public class Hotzone : MonoBehavior{	
-	
-	}*/
