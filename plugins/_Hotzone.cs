@@ -71,7 +71,7 @@ namespace Oxide.Plugins{
 				config.target=target;
 				Config.WriteObject(config, true);
 			}
-		#endregion Configuration//
+		#endregion Configuration
 		#region ScientistBrain			
 			public static Vector3 target;
 			[Command("hz_set")]
@@ -149,114 +149,40 @@ namespace Oxide.Plugins{
 					return this.brain.Navigator.Moving ? StateStatus.Running : StateStatus.Finished;
 				}
 			}
-			private void swapSciRoamState(HumanNPC s){
-			
-				if(s.Brain==null) return;
+			private void swapSciRoamState(ScientistNPC s){
+				if(s.IsDormant||s.Brain==null) return;
 				NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
 				if(na == null) return; 
-				((IAISleepable)s.Brain).SleepAI();
-				s.Brain.Senses.senseTypes = (EntityType)67;
-				s.Brain.Senses.senseFriendlies = true;
-				s.Brain.Senses.hostileTargetsOnly = false;
+				RoamState rs=new RoamState();
+				rs.brain=s.Brain;
+				rs.target=target;
+				if(s.Brain.states[rs.StateType].GetType() != rs.GetType() || ((RoamState)s.Brain.states[rs.StateType])?.target != target){
+					s.Brain.states.Remove(rs.StateType);
+					s.Brain.AddState(rs);
+				}		
 				if((Vector3.Distance(target, s.transform.position)<5f )){
 					s.Brain.Events.RemoveAll();
-					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
+					s.Brain.SwitchToState(AIState.Combat, s.Brain.currentStateContainerID);
 					((IAISleepable)s.Brain).WakeAI();
 				}else{
-					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 					((IAISleepable)s.Brain).WakeAI();
 				}
-			}	
-			bool? OnIsThreat(HumanNPC hn, BaseEntity be){
-				//if(be.transform.name.Contains("scientist") && be.GetComponent<HumanNPC>()!=null) return true;
-				//Puts(hn.Brain.Senses.owner.transform.name+" : "+be.transform.name);//				string[] sl1 = hn.owner.transform.name.Split('/');
-				string[] sl1 = hn.transform.name.Split('/');
-				string[] sl2 = (be?.transform.name).Split('/');
-				string s1 = sl1[sl1.Length-1];
-				string s2 = sl2[sl2.Length-1];				
-				if(s1.Contains("scientist") && !s2.Contains("scientist")){
-					//Puts(s1 + " isthreated " +s2 + " | " +hn.Brain.Senses.Memory.Targets.Count().ToString());
-				}//*/
-
-				return false;
-			}
-			bool? OnIsTarget(HumanNPC hn, BaseEntity be){
-				//if(be.transform.name.Contains("scientist") && be.GetComponent<HumanNPC>()!=null) return true;		
-				//Puts("OnIsTarget!");
-				string[] sl1 = hn.transform.name.Split('/');
-				string[] sl2 = (be?.transform.name).Split('/');
-				string s1 = sl1[sl1.Length-1];
-				string s2 = sl2[sl2.Length-1];				
-				if(s1.Contains("scientist") && !s2.Contains("scientist")){
-					//Puts(s1 + " targets " +s2 + " | " +hn.Brain.Senses.Memory.Targets.Count().ToString());
-				}//*/
-				return false;
-			}
-			
-			/*
-			
-			Hook into AI Information zone function, return details about move point structure
-			
-			*/
-			Vector3? OnSetDestination(Vector3 pos, BaseNavigator bs){
-					
-				if(bs!=null){
-					//Puts("Hasnav");
-					BaseAIBrain<HumanNPC> brain = bs.GetComponent<BaseAIBrain<HumanNPC>>();
-					if(brain!=null){
-						//Puts("hasbrain");
-						BaseAIBrain<HumanNPC>.BasicAIState cs = brain.CurrentState;
-						if(cs!=null){
-							//Puts("hasstate:"+cs.ToString());
-							if(cs.ToString().ToLower().Contains("roam")){
-								if(target!= new Vector3(0,0,0)){
-									return target;			
-									
-								}//
-							}
-						}
-					}
-				}
-				return null;
-			}		/*
-			Vector3? OnGetRoamAnchorPosition(BaseAIBrain<HumanNPC>.BaseRoamState brs){
-				//Puts(target.ToString());
-				if(target!= new Vector3(0,0,0)){
-					return target;			
-				}
-				return null;
-			}		*/	//this.brain.CurrentState.ToString=="Roam"
-			bool? OnIsFriendly(HumanNPC hn, BaseEntity be){
-				if(hn.Brain.Senses.owner.transform.name==be.transform.name) return true;
-				return false;
-			}
-			bool? OnCaresAbout(AIBrainSenses hn, BaseEntity be){
-				if(
-					(!(be.GetComponent<BasePlayer>()==null))
-					&& (!(be.GetComponent<BaseNpc>()==null))
-					) return false;
-					
-				if(be.GetComponent<BasePlayer>()!=null) if (be.GetComponent<BasePlayer>().IsConnected) return true;
-				if(
-					((hn.owner.GetComponent<BasePlayer>()==null)
-					!= (be.GetComponent<BasePlayer>()==null)
-					)) return false;
-				if(hn.owner.transform.name==be.transform.name) return false;				
-				if(hn.owner.transform.name.Contains("scientist") && be.transform.name.Contains("scientist")) return false;
-				//Puts("OnAiCaresAbout!");
-				return true;//
-			}
-			object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
-			{
-				swapSciRoamState(player.GetComponent<HumanNPC>());
-				//Puts("NPC INIT'd");
-				return null;
 			}
 		#endregion
+		private void OnServerInitialized(){			
+			LoadConfig();		
+			List<ScientistNPC> list2 = Resources.FindObjectsOfTypeAll<ScientistNPC>().ToList();
+			if(list2!=null && target !=null && target != new Vector3(0,0,0)){
+				foreach(ScientistNPC s in list2){swapSciRoamState(s);Puts(s.transform.name);}
+			}
+            timer.Every(47f, () => {
+				List<ScientistNPC> list = Resources.FindObjectsOfTypeAll<ScientistNPC>().ToList();
+				if(list!=null && target != new Vector3(0,0,0)){
+					foreach(ScientistNPC s in list){
+						swapSciRoamState(s);
+					}
+				}
+			});
+		}
 	}
-}	
-	
-	
-	/*public class Hotzone : MonoBehavior{	
-	
-	}*/
+}
