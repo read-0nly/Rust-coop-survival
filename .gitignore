@@ -12,3 +12,5 @@ cfg
 MonoBleedingEdge
 RustDedicated_Data
 steamapps
+/Oxide/data/
+/Oxide/logs/
