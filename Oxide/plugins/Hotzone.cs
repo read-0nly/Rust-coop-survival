@@ -100,6 +100,7 @@ namespace Oxide.Plugins{
 				if(s.Brain==null) return;
 				NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
 				if(na == null) return; 
+				((IAISleepable)s.Brain).SleepAI();
 				s.Brain.Senses.senseTypes = (EntityType)67;
 				s.Brain.Senses.senseFriendlies = true;
 				s.Brain.Senses.hostileTargetsOnly = false;
@@ -107,33 +108,70 @@ namespace Oxide.Plugins{
 				fc.changeFactionScore(FactionController.FactionType.Bandit,0.5f);
 				if(s.transform.name.ToLower().Contains("scientist")) fc.changeFactionScore(FactionController.FactionType.Scientist,0.7f);
 				if((Vector3.Distance(target, s.transform.position)<5f )){
-					s.Brain.Events.RemoveAll();
-					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 					((IAISleepable)s.Brain).WakeAI();
+					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 				}else{
-					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 					((IAISleepable)s.Brain).WakeAI();
+					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 				}
 			}
 			void OnPlayerRespawned(BasePlayer player)
 			{
-				Puts("OnPlayerRespawned works!");
 				FactionController fc = player.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.None,0.1f);		
+				fc.changeFactionScore(FactionController.FactionType.Pacifist,0.1f);		
 				Puts(fc.faction.ToString());
 			}
 			void OnPlayerSleepEnded(BasePlayer player)
 			{
-				Puts("OnPlayerSleepEnded works!");
 				FactionController fc = player.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.None,0.1f);		
+				fc.changeFactionScore(FactionController.FactionType.Pacifist,0.1f);		
 				Puts(fc.faction.ToString());
+			}
+			object OnAttackedAIEvent(AttackedAIEvent aievent, BasePlayer bp){				
+				FactionController shooter = bp.GetComponent<FactionController>();
+				FactionController victim = aievent.combatEntity.GetComponent<FactionController>();
+				if(shooter!=null&&victim!=null){//
+					if(shooter.faction==victim.faction){
+						if(victim.GetComponent<BasePlayer>()){
+							if(shooter.GetComponent<BasePlayer>().IsConnected){
+								return null;
+							}
+							else{
+								Puts("Same team NPCs, ignoring!");
+								return new object();
+							}
+						}
+					}
+				}
+				return null;
+			}
+			object OnEntityTakeDamage(BaseCombatEntity entity, HitInfo info)
+			{
+				if(info.HitEntity==null||info.Initiator==null) return null;
+				if(info.HitEntity.gameObject==null||info.Initiator.gameObject==null) return null;
+				FactionController shooter = info.Initiator.GetComponent<FactionController>();
+				FactionController victim = info.HitEntity.gameObject.GetComponent<FactionController>();
+				if(shooter!=null&&victim!=null){//
+					if(shooter.faction==victim.faction){
+						if(victim.GetComponent<BasePlayer>()){
+							if(victim.GetComponent<BasePlayer>().IsConnected){
+								Puts("Same team player, halving!");	
+								info.damageTypes.ScaleAll(0.5f);
+								return new object();
+							}
+							else{
+								Puts("Same team NPCs, ignoring!");
+								return new object();
+							}
+						}
+					}
+				}
+				return null;
 			}
 			void OnPlayerConnected(BasePlayer player)
 			{
-				Puts("Spawn and set");
 				FactionController fc = player.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.None,0.1f);		
+				fc.changeFactionScore(FactionController.FactionType.Pacifist,0.1f);		
 				Puts(fc.faction.ToString());
 			}
 			bool? OnIsThreat(HumanNPC hn, BaseEntity be){
@@ -160,6 +198,26 @@ namespace Oxide.Plugins{
 				//*/
 				return FactionController.validTarget(hn.owner, be);
 			}
+			Vector3? OnGetRoamAnchorPosition(BaseAIBrain<HumanNPC> bn){
+				BaseAIBrain<HumanNPC>.BasicAIState cs = bn.CurrentState;
+				if(cs!=null){
+					if(!cs.ToString().ToLower().Contains("combat") && 
+						!cs.ToString().ToLower().Contains("attack") &&
+						!cs.ToString().ToLower().Contains("flee") && 
+						!cs.ToString().ToLower().Contains("chase") && 
+						!cs.ToString().ToLower().Contains("sleep")
+					){
+						if(target!= new Vector3(0,0,0)){
+							if(Vector3.Distance(target,bn.transform.position)<5f){
+								//Puts("Destination set " +pos.ToString()+":"+ target.ToString());
+								return bn.transform.position;
+							}
+							return target;							
+						}
+					}
+				}
+				return null;
+			}
 			Vector3? OnSetDestination(Vector3 pos, BaseNavigator bs){
 					
 				if(bs!=null){
@@ -167,13 +225,17 @@ namespace Oxide.Plugins{
 					if(brain!=null){
 						BaseAIBrain<HumanNPC>.BasicAIState cs = brain.CurrentState;
 						if(cs!=null){
-							if(cs.ToString().ToLower().Contains("roam")){
+							if(!cs.ToString().ToLower().Contains("combat") && 
+								!cs.ToString().ToLower().Contains("attack") &&
+								!cs.ToString().ToLower().Contains("flee") && 
+								!cs.ToString().ToLower().Contains("chase")
+							){
 								if(target!= new Vector3(0,0,0)){
-									if(Vector3.Distance(target,brain.transform.position)<5f){
+									if(Vector3.Distance(target,brain.transform.position)<10f){
 										//Puts("Destination set " +pos.ToString()+":"+ target.ToString());
-										return null;
+										return target + new Vector3(UnityEngine.Random.Range(-5.0f,5.0f),0,UnityEngine.Random.Range(-5.0f,5.0f));
 									}
-									return target + new Vector3(UnityEngine.Random.Range(-5.0f,5.0f),0,UnityEngine.Random.Range(-5.0f,5.0f));
+									return target;
 									
 								}
 								else{return null;}
@@ -187,7 +249,6 @@ namespace Oxide.Plugins{
 		object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
 		{
 			swapSciRoamState(player.GetComponent<HumanNPC>());
-			Puts("IsInit");
 			return null;
 		}
 		public class FactionController : MonoBehaviour{
@@ -210,14 +271,12 @@ namespace Oxide.Plugins{
 				}
 				float max = 0;
 				faction = fc;
-				Debug.Log("first:" +fc.ToString());
 				foreach(KeyValuePair<FactionType, float> pair in factionScores){
 					if(factionScores[pair.Key]>max){
 						max = factionScores[pair.Key];
 						faction=pair.Key;
 					}
 				}
-				Debug.Log("finally:" +faction.ToString());
 			}
 			public static bool validTarget(BaseEntity self, BaseEntity target){
 			
