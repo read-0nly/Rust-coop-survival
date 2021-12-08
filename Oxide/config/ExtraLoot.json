@@ -1,0 +1,235 @@
+{
+  "Shortname -> Items": {
+    "crate_normal": [
+      {
+        "1. Shortname": "lock.code",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.shotgun",
+        "2. Chance": 20.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 5,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.shotgun.slug",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 5,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.pistol",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 3,
+        "4. Maximal amount": 7,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "wood",
+        "2. Chance": 25.0,
+        "3. Minimal amount": 40,
+        "4. Maximal amount": 70,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "stones",
+        "2. Chance": 15.0,
+        "3. Minimal amount": 40,
+        "4. Maximal amount": 70,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "fun.flute",
+        "2. Chance": 17.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "fun.bass",
+        "2. Chance": 14.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "piano",
+        "2. Chance": 12.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "fun.tuba",
+        "2. Chance": 13.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "fun.jerrycanguitar",
+        "2. Chance": 17.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      }
+    ],
+    "foodbox": [
+      {
+        "1. Shortname": "humanmeat.raw",
+        "2. Chance": 5.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "jar.pickle",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 2,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "chicken.spoiled",
+        "2. Chance": 20.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "seed.corn",
+        "2. Chance": 5.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 5,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "mushroom",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 5,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "cloth",
+        "2. Chance": 40.0,
+        "3. Minimal amount": 5,
+        "4. Maximal amount": 13,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "fat.animal",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 7,
+        "4. Maximal amount": 13,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "leather",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 2,
+        "4. Maximal amount": 7,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "paper",
+        "2. Chance": 20.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      }
+    ],
+    "crate_tools": [
+      {
+        "1. Shortname": "pistol.m92",
+        "2. Chance": 5.0,
+        "3. Minimal amount": 1,
+        "4. Maximal amount": 1,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.pistol.fire",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 3,
+        "4. Maximal amount": 7,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.rifle",
+        "2. Chance": 10.0,
+        "3. Minimal amount": 7,
+        "4. Maximal amount": 13,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.pistol.hv",
+        "2. Chance": 15.0,
+        "3. Minimal amount": 3,
+        "4. Maximal amount": 7,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      },
+      {
+        "1. Shortname": "ammo.shotgun.fire",
+        "2. Chance": 5.0,
+        "3. Minimal amount": 3,
+        "4. Maximal amount": 7,
+        "5. Skin ID": 0,
+        "6. Display name": null,
+        "7. Blueprint": false
+      }
+    ]
+  }
+}
