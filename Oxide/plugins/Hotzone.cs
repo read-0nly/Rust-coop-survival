@@ -69,6 +69,7 @@ namespace Oxide.Plugins{
 			private void surv_hotzone(IPlayer player, string command, string[] args)
 			{
 				BasePlayer bp = (BasePlayer)player.Object;
+				Puts(bp.GetComponent<FactionController>().faction.ToString());
 				if(player.HasPermission("hotzone.set")){
 					target=bp.transform.position;				
 					SendChatMsg(bp,"Target set!" + target.ToString());
@@ -77,15 +78,34 @@ namespace Oxide.Plugins{
 				else SendChatMsg(bp,"Missing permission!");
 					
 			}
+			[Command("hz_get")]
+			private void surv_info(IPlayer player, string command, string[] args)
+			{
+				BasePlayer bp = (BasePlayer)player.Object;
+				Puts(bp.GetComponent<FactionController>().faction.ToString());
+				SendChatMsg(bp,bp.GetComponent<FactionController>().faction.ToString());
+					
+			}
+			[Command("hz_reset")]
+			private void surv_reset(IPlayer player, string command, string[] args)
+			{	foreach(HumanNPC hn in GameObject.FindObjectsOfType<HumanNPC>()){
+					if(hn.GetComponent<FactionController>()!=null){
+						GameObject.Destroy(hn.GetComponent<FactionController>());
+					}
+					swapSciRoamState(hn);		
+				}					
+			}
 			private void swapSciRoamState(HumanNPC s){
 			
 				if(s.Brain==null) return;
 				NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
 				if(na == null) return; 
-				((IAISleepable)s.Brain).SleepAI();
 				s.Brain.Senses.senseTypes = (EntityType)67;
 				s.Brain.Senses.senseFriendlies = true;
 				s.Brain.Senses.hostileTargetsOnly = false;
+				FactionController fc = s.gameObject.AddComponent<FactionController>();
+				fc.changeFactionScore(FactionController.FactionType.Bandit,0.5f);
+				if(s.transform.name.ToLower().Contains("scientist")) fc.changeFactionScore(FactionController.FactionType.Scientist,0.7f);
 				if((Vector3.Distance(target, s.transform.position)<5f )){
 					s.Brain.Events.RemoveAll();
 					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
@@ -94,43 +114,51 @@ namespace Oxide.Plugins{
 					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 					((IAISleepable)s.Brain).WakeAI();
 				}
-			}	/*
+			}
+			void OnPlayerRespawned(BasePlayer player)
+			{
+				Puts("OnPlayerRespawned works!");
+				FactionController fc = player.gameObject.AddComponent<FactionController>();
+				fc.changeFactionScore(FactionController.FactionType.None,0.1f);		
+				Puts(fc.faction.ToString());
+			}
+			void OnPlayerSleepEnded(BasePlayer player)
+			{
+				Puts("OnPlayerSleepEnded works!");
+				FactionController fc = player.gameObject.AddComponent<FactionController>();
+				fc.changeFactionScore(FactionController.FactionType.None,0.1f);		
+				Puts(fc.faction.ToString());
+			}
+			void OnPlayerConnected(BasePlayer player)
+			{
+				Puts("Spawn and set");
+				FactionController fc = player.gameObject.AddComponent<FactionController>();
+				fc.changeFactionScore(FactionController.FactionType.None,0.1f);		
+				Puts(fc.faction.ToString());
+			}
 			bool? OnIsThreat(HumanNPC hn, BaseEntity be){
-				string[] sl1 = hn.transform.name.Split('/');
-				string[] sl2 = (be?.transform.name).Split('/');
-				string s1 = sl1[sl1.Length-1];
-				string s2 = sl2[sl2.Length-1];				
-				if(s1.Contains("scientist") && !s2.Contains("scientist")){
-				}
-
 				return false;
+
 			}
 			bool? OnIsTarget(HumanNPC hn, BaseEntity be){
-				string[] sl1 = hn.transform.name.Split('/');
-				string[] sl2 = (be?.transform.name).Split('/');
-				string s1 = sl1[sl1.Length-1];
-				string s2 = sl2[sl2.Length-1];				
-				if(s1.Contains("scientist") && !s2.Contains("scientist")){
-				}
 				return false;
 			}
-			bool? OnIsFriendly(HumanNPC hn, BaseEntity be){
-				if(hn.Brain.Senses.owner.transform.name==be.transform.name) return true;
-				return false;
-			}*/
-			bool? OnCaresAbout(AIBrainSenses hn, BaseEntity be){
-				if(
-					(!(be.GetComponent<BasePlayer>()==null))
-					&& (!(be.GetComponent<BaseNpc>()==null))
-					) return false;
-				if(be.GetComponent<BasePlayer>()!=null) if (be.GetComponent<BasePlayer>().IsConnected) return true;
-				if(
-					((hn.owner.GetComponent<BasePlayer>()==null)
-					!= (be.GetComponent<BasePlayer>()==null)
-					)) return false;
-				if(hn.owner.transform.name==be.transform.name) return false;				
-				if(hn.owner.transform.name.Contains("scientist") && be.transform.name.Contains("scientist")) return false;
+			bool? OnIsFriendly(HumanNPC hn, BaseEntity be){/*
+			if(hn.Brain.Senses.owner.transform.name==be.transform.name) return true;*/
 				return true;
+			}
+			bool? OnCaresAbout(AIBrainSenses hn, BaseEntity be){
+				//*
+				if(
+					((be.GetComponent<BasePlayer>()==null))
+					&& ((be.GetComponent<BaseNpc>()==null))
+					) return false;
+				if(be.GetComponent<BasePlayer>()!=null && hn.owner.GetComponent<BaseNpc>()!=null){
+					if (be.GetComponent<BasePlayer>().IsConnected) return true;
+					else return false;
+				}
+				//*/
+				return FactionController.validTarget(hn.owner, be);
 			}
 			Vector3? OnSetDestination(Vector3 pos, BaseNavigator bs){
 					
@@ -141,9 +169,14 @@ namespace Oxide.Plugins{
 						if(cs!=null){
 							if(cs.ToString().ToLower().Contains("roam")){
 								if(target!= new Vector3(0,0,0)){
-									return target;			
+									if(Vector3.Distance(target,brain.transform.position)<5f){
+										//Puts("Destination set " +pos.ToString()+":"+ target.ToString());
+										return null;
+									}
+									return target + new Vector3(UnityEngine.Random.Range(-5.0f,5.0f),0,UnityEngine.Random.Range(-5.0f,5.0f));
 									
 								}
+								else{return null;}
 							}
 						}
 					}
@@ -151,10 +184,52 @@ namespace Oxide.Plugins{
 				return null;
 			}
 		#endregion
-			object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
-			{
-				swapSciRoamState(player.GetComponent<HumanNPC>());
-				return null;
+		object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
+		{
+			swapSciRoamState(player.GetComponent<HumanNPC>());
+			Puts("IsInit");
+			return null;
+		}
+		public class FactionController : MonoBehaviour{
+			public enum FactionType{
+				None,
+				Scientist,
+				Bandit,
+				Pacifist
 			}
+			public FactionType faction;
+			public Dictionary<FactionType,float> factionScores = new Dictionary<FactionType,float>();
+			public void changeFactionScore(FactionType fc, float score){
+				if(!factionScores.ContainsKey(fc)) factionScores.Add(fc,0);
+				factionScores[fc]+=score;
+				if(factionScores[fc]>1){
+					factionScores[fc]=1;//
+				}
+				if(factionScores[fc]<-1){
+					factionScores[fc]=-1;
+				}
+				float max = 0;
+				faction = fc;
+				Debug.Log("first:" +fc.ToString());
+				foreach(KeyValuePair<FactionType, float> pair in factionScores){
+					if(factionScores[pair.Key]>max){
+						max = factionScores[pair.Key];
+						faction=pair.Key;
+					}
+				}
+				Debug.Log("finally:" +faction.ToString());
+			}
+			public static bool validTarget(BaseEntity self, BaseEntity target){
+			
+				FactionController selfFC = self.GetComponent<FactionController>();
+				FactionController targetFC = target.GetComponent<FactionController>();
+				if(selfFC!=null&&targetFC!=null){
+					return (!(targetFC.faction==FactionType.Pacifist) && (
+						targetFC.faction==FactionType.None ||
+					selfFC.faction != targetFC.faction));
+					}
+				return false;
+			}
+		}
 	}
 }	

@@ -20,9 +20,9 @@
 		"steamcmd"="C:\steamcmd\steamcmd.exe"
 		"verbose"=$false
 	}
-	$ServerPath="https://github.com/read-0nly/Rust-coop-survival/blob/main/maps"
-	$ServerSuffix="?raw=true"
-#endregion
+	$ServerPath="https://github.com/read-0nly/Rust-coop-survival/raw/main/MapStorage/"
+	$ServerSuffix=""#?raw=true"
+#endregion #https://github.com/read-0nly/Rust-coop-survival/raw/main/MapStorage/NPCpen.map
 
 
 
