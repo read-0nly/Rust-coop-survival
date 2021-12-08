@@ -1,0 +1,15 @@
+/Oxide/data/*
+/Oxide/logs/*
+RustDedicated.exe
+UnityCrashHandler64.exe
+steam_api64.dll
+steamclient64.dll
+tier0_s64.dll
+UnityPlayer.dll
+vstdlib_s64.dll
+.git
+Bundles
+cfg
+MonoBleedingEdge
+RustDedicated_Data
+steamapps
