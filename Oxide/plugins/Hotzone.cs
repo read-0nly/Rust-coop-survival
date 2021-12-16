@@ -15,6 +15,7 @@
 	using UnityEngine.SceneManagement;
 	using UnityEngine.AI;
 	using Rust.Ai;
+	using Oxide.Ext.RustEdit;
 #endregion
 namespace Oxide.Plugins{
 	[Info("Hotzone", "obsol", "0.0.1")]
@@ -24,166 +25,305 @@ namespace Oxide.Plugins{
 			private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 			private void SendChatMsg(BasePlayer pl, string msg) =>
 			_rustPlayer.Message(pl, msg,  "<color=#00ff00>[Hotzone]</color>", 0, Array.Empty<object>());
-			bool debugOnBoot=false;
+			bool debugOnBoot=false;//
+			List<Oxide.Ext.RustEdit.NPC.NPCSpawner> Spawners;
 		#endregion
 		#region Configuration
-			private Configuration config;
-			private void Init()
-			{
-				permission.RegisterPermission("hotzone.set", this);
+		private Configuration config;
+		private void Init(){
+			permission.RegisterPermission("hotzone.set", this);
+			Spawners = new List<Oxide.Ext.RustEdit.NPC.NPCSpawner>(Resources.FindObjectsOfTypeAll<Oxide.Ext.RustEdit.NPC.NPCSpawner>());
+		}		
+		class Configuration{
+			[JsonProperty("target", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public Vector3 target = new Vector3(0,0,0);	
+			[JsonProperty("factionLib", ObjectCreationHandling = ObjectCreationHandling.Replace)]			
+			public Dictionary<ulong, Dictionary<FactionController.FactionType,float>> factionLib=new Dictionary<ulong, Dictionary<FactionController.FactionType,float>>();			
+			[JsonProperty("pointGroups", ObjectCreationHandling = ObjectCreationHandling.Replace)]		
+			public Dictionary<string,List<Vector3>> pointGroups = new Dictionary<string,List<Vector3>>();
+			public string ToJson() => JsonConvert.SerializeObject(this);				
+			public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
+		}
+		protected override void LoadDefaultConfig() => config = new Configuration();
+		protected override void LoadConfig(){
+			base.LoadConfig();
+			try{
+				config = Config.ReadObject<Configuration>();
+				if (config == null) throw new JsonException();
+				if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys)){
+					LogWarning("Configuration appears to be outdated; updating and saving");SaveConfig();}
 			}
-			class Configuration{
-				[JsonProperty("target", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-				public Vector3 target = new Vector3(0,0,0);				
-				public string ToJson() => JsonConvert.SerializeObject(this);				
-				public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
-			}
-			protected override void LoadDefaultConfig() => config = new Configuration();
-			protected override void LoadConfig(){
-				base.LoadConfig();
-				try{
-					config = Config.ReadObject<Configuration>();
-					if (config == null){
-						throw new JsonException();
-					}	
-					if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys)){
-						LogWarning("Configuration appears to be outdated; updating and saving");
-						SaveConfig();
-					}
-				}
-				catch{
-					LogWarning($"Configuration file {Name}.json is invalid; using defaults");
-					LoadDefaultConfig();
-				}
-				target=config.target;
-			}
-			protected override void SaveConfig(){
-				LogWarning($"Configuration changes saved to {Name}.json");
-				config.target=target;
-				Config.WriteObject(config, true);
-			}
+			catch{LogWarning($"Configuration file {Name}.json is invalid; using defaults");LoadDefaultConfig();}
+			target=config.target;
+			FactionController.factionScores = config.factionLib;
+		}
+		protected override void SaveConfig(){
+			LogWarning($"Configuration changes saved to {Name}.json");
+			config.target=target;
+			config.factionLib=FactionController.factionScores;
+			Config.WriteObject(config, true);
+		}
 		#endregion Configuration
-		#region ScientistBrain			
+		#region Faction logic		
+			#region Utility
 			public static Vector3 target;
-			[Command("hz_set")]
-			private void surv_hotzone(IPlayer player, string command, string[] args)
-			{
+			public BaseEntity getLookingAt(BasePlayer player){			
+				RaycastHit hit;
+				if (Physics.Raycast(player.eyes.HeadRay(), out hit)){
+					var entity = hit.GetEntity();
+					if (entity != null){if(entity.GetComponent<BaseEntity>()!=null) return entity.GetComponent<BaseEntity>();}
+				}
+				return null;
+			}
+			#endregion
+			#region Chat commands
+			[Command("hz_set")] private void surv_hotzone(IPlayer player, string command, string[] args){
 				BasePlayer bp = (BasePlayer)player.Object;
-				Puts(bp.GetComponent<FactionController>().faction.ToString());
 				if(player.HasPermission("hotzone.set")){
 					target=bp.transform.position;				
 					SendChatMsg(bp,"Target set!" + target.ToString());
 					SaveConfig();
 				}
 				else SendChatMsg(bp,"Missing permission!");
-					
+			
 			}
-			[Command("hz_get")]
-			private void surv_info(IPlayer player, string command, string[] args)
-			{
+			[Command("hz_get")] private void surv_info(IPlayer player, string command, string[] args){				
 				BasePlayer bp = (BasePlayer)player.Object;
-				Puts(bp.GetComponent<FactionController>().faction.ToString());
-				SendChatMsg(bp,bp.GetComponent<FactionController>().faction.ToString());
-					
+				FactionController fc = bp.GetComponent<FactionController>();
+				SendChatMsg(bp,"Current Position:" + bp.transform.position.ToString());
+				SendChatMsg(bp,"Current Target:" + target.ToString());
+				SendChatMsg(bp,"Current Distance:" + Vector3.Distance(target,bp.transform.position).ToString());
+				if(fc==null) return;
+				SendChatMsg(bp,"Current Faction:"+bp.GetComponent<FactionController>().faction.ToString());
+				foreach(KeyValuePair<FactionController.FactionType,float> ff in FactionController.factionScores[bp.userID]){
+					SendChatMsg(bp,ff.Key.ToString() + ":" + ff.Value.ToString());
+				}	
+				
 			}
-			[Command("hz_reset")]
-			private void surv_reset(IPlayer player, string command, string[] args)
-			{	foreach(HumanNPC hn in GameObject.FindObjectsOfType<HumanNPC>()){
+			[Command("hz_save")] private void surv_save(IPlayer player, string command, string[] args){		
+				BasePlayer bp = (BasePlayer)player.Object;
+				SaveConfig();
+				SendChatMsg(bp,"Saving!");
+								
+			}
+			[Command("hz_reset")] private void surv_reset(IPlayer player, string command, string[] args){	
+				foreach(HumanNPC hn in GameObject.FindObjectsOfType<HumanNPC>()){
 					if(hn.GetComponent<FactionController>()!=null){
 						GameObject.Destroy(hn.GetComponent<FactionController>());
 					}
 					swapSciRoamState(hn);		
 				}					
 			}
+			[Command("hz_create")] private void surv_create(IPlayer player, string command, string[] args){	
+				BasePlayer bp = (BasePlayer)player.Object;
+				if(args[0]==null){
+					SendChatMsg(bp,"Create what? [store]");
+					return;
+				}
+				switch(args[0]){
+					case "path":
+						if(args[1]==null){
+							SendChatMsg(bp,"Create what path?");
+							return;
+						}
+						if(!config.pointGroups.ContainsKey(args[1]))config.pointGroups.Add(args[1],new List<Vector3>());
+						config.pointGroups[args[1]].Add(bp.transform.position);
+						break;
+					case "point":
+						if(args[1]==null){
+							SendChatMsg(bp,"Create point for what group?");
+							return;
+						}
+						if(!config.pointGroups.ContainsKey(args[1]))config.pointGroups.Add(args[1],new List<Vector3>());
+						config.pointGroups[args[1]].Add(bp.transform.position);
+						break;
+				}
+			}
+			[Command("hz_assign")] private void surv_assign(IPlayer player, string command, string[] args){	
+				BasePlayer bp = (BasePlayer)player.Object;
+				if(args[0]==null){
+					SendChatMsg(bp,"Assign what? [store]");
+					return;
+				}
+				switch(args[0]){
+					case "store":
+						if(args[1]==null){
+							SendChatMsg(bp,"Assign store to what faction?");
+							return;
+						}
+						BaseEntity storeent = getLookingAt(bp);
+						VendingMachine store = storeent.GetComponent<VendingMachine>();
+						if(store==null){
+							SendChatMsg(bp,"Not a vending machine");
+							return;
+						}
+						string basicName = store.shopName.Replace("[Bandit]","").Replace("[Scientist]","").Replace("[Pacifist]","");
+						switch(args[1].ToLower()){
+							case "bandit":
+								store.shopName = "[Bandit]"+basicName;
+								break;
+							case "scientist":
+								store.shopName = "[Scientist]"+basicName;
+								break;
+							case "pacifist":
+								store.shopName = "[Pacifist]"+basicName;
+								break;
+							default:
+								SendChatMsg(bp,"Please enter a valid faction [bandit/scientist/pacifist].");								
+								return;
+						}
+						store.UpdateMapMarker();
+						return;
+					case "npc":
+						if(args[1]==null){
+							SendChatMsg(bp,"Assign npc to what path?");
+							return;
+						}
+						BaseEntity ent = getLookingAt(bp);
+						if(ent.GetComponent<FactionController>()==null){
+							SendChatMsg(bp,"Not a faction npc");
+							return;
+						}
+						if(!config.pointGroups.ContainsKey(args[1])){config.pointGroups.Add(args[1],new List<Vector3>());}
+						ent.GetComponent<FactionController>().ActivePointGroup = config.pointGroups[args[1]];
+						return;
+					case "path":
+						if(args[1]==null){
+							SendChatMsg(bp,"Assign path to what?");
+							return;
+						}
+						if(args[2]==null){
+							SendChatMsg(bp,"Assign what path?");
+							return;
+						}
+						switch(args[1].ToLower()){
+							case "point":
+								if(!config.pointGroups.ContainsKey(args[2])) config.pointGroups.Add(args[2],new List<Vector3>());
+								config.pointGroups[args[2]].Add(bp.transform.position);	
+								return;
+							case "npc":
+								BaseEntity ent2 = getLookingAt(bp);
+								if(ent2.GetComponent<FactionController>()==null){
+									SendChatMsg(bp,"Not a faction npc");
+									return;
+								}
+								if(!config.pointGroups.ContainsKey(args[2]))config.pointGroups.Add(args[2],new List<Vector3>());
+								ent2.GetComponent<FactionController>().ActivePointGroup = config.pointGroups[args[2]];								
+								return;
+							default:
+								SendChatMsg(bp,"Invalid parameter. Valid path arguments: NPC/Point");
+								return;
+						}
+						return;
+					case "point":
+						if(args[1]==null){
+							SendChatMsg(bp,"Assign "+bp.transform.position.ToString()+" to what group?");
+							return;
+						}
+						if(!config.pointGroups.ContainsKey(args[1]))config.pointGroups.Add(args[1],new List<Vector3>());
+						config.pointGroups[args[1]].Add(bp.transform.position);
+						return;
+				}				
+				return;
+			}		
+			public void addPointToGroup(){}
+			#endregion chatcmds
+			//Oxide.Ext.RustEdit.NPC.NPCSpawner
+			#region Faction Initializers
+			void OnPlayerRespawned(BasePlayer player)=>initPlayer(player);
+			void OnPlayerSleepEnded(BasePlayer player)=>initPlayer(player);
+			void OnPlayerDisconnected(BasePlayer player, string reason)=>SaveConfig();
+			object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player){swapSciRoamState(player.GetComponent<HumanNPC>()); return null;}
+			object OnPlayerDeath(BasePlayer player, HitInfo info){SaveConfig(); return null;}
 			private void swapSciRoamState(HumanNPC s){
-			
+				if(s.IsNpc)Puts(((char)27)+"[96m"+"IsNpc! Did you fix NPCPlayer with dnSpy?");
+				Puts(s.spawnPos.ToString());
 				if(s.Brain==null) return;
-				NavMeshAgent na = s.gameObject.GetComponent<NavMeshAgent>();
-				if(na == null) return; 
 				((IAISleepable)s.Brain).SleepAI();
 				s.Brain.Senses.senseTypes = (EntityType)67;
 				s.Brain.Senses.senseFriendlies = true;
 				s.Brain.Senses.hostileTargetsOnly = false;
 				FactionController fc = s.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.Bandit,0.5f);
-				if(s.transform.name.ToLower().Contains("scientist")) fc.changeFactionScore(FactionController.FactionType.Scientist,0.7f);
-				if((Vector3.Distance(target, s.transform.position)<5f )){
-					((IAISleepable)s.Brain).WakeAI();
-					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
-				}else{
-					((IAISleepable)s.Brain).WakeAI();
-					s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
-				}
+				fc.faction=FactionController.FactionType.Bandit;
+				fc.self=s;
+				if(s.transform.name.ToLower().Contains("scientist")) 
+					fc.faction=FactionController.FactionType.Scientist;
+				s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
+				((IAISleepable)s.Brain).WakeAI();
+				s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 			}
-			void OnPlayerRespawned(BasePlayer player)
-			{
+			void initPlayer(BasePlayer player){
 				FactionController fc = player.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.Pacifist,0.1f);		
-				Puts(fc.faction.ToString());
+				FactionController.changeScore(player, FactionController.FactionType.Both, 0.5f);
+				FactionController.changeScore(player, FactionController.FactionType.Scientist, 0f);
+				FactionController.changeScore(player, FactionController.FactionType.Bandit, 0f);
+				SaveConfig();
 			}
-			void OnPlayerSleepEnded(BasePlayer player)
-			{
-				FactionController fc = player.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.Pacifist,0.1f);		
-				Puts(fc.faction.ToString());
-			}
-			object OnAttackedAIEvent(AttackedAIEvent aievent, BasePlayer bp){				
+			#endregion initializers
+			#region Faction NPC Handlers
+			object OnAttackedAIEvent(AttackedAIEvent aievent, BasePlayer bp){	
+				if(bp==null)return null;
 				FactionController shooter = bp.GetComponent<FactionController>();
 				FactionController victim = aievent.combatEntity.GetComponent<FactionController>();
 				if(shooter!=null&&victim!=null){//
-					if(shooter.faction==victim.faction){
-						if(victim.GetComponent<BasePlayer>()){
-							if(shooter.GetComponent<BasePlayer>().IsConnected){
-								return null;
-							}
-							else{
-								Puts("Same team NPCs, ignoring!");
-								return new object();
-							}
+					if(shooter.faction==victim.faction || bp.transform.name==aievent.combatEntity.transform.name){
+						if(shooter.self==null){
+							return null;
 						}
-					}
+						else{
+							//Puts("Same team NPCs, ignoring!");
+							return new object();
+						}
+					}else return null;
 				}
-				return null;
+				return new object();
 			}
-			object OnEntityTakeDamage(BaseCombatEntity entity, HitInfo info)
-			{
+			object OnEntityTakeDamage(BaseCombatEntity entity, HitInfo info){
 				if(info.HitEntity==null||info.Initiator==null) return null;
 				if(info.HitEntity.gameObject==null||info.Initiator.gameObject==null) return null;
 				FactionController shooter = info.Initiator.GetComponent<FactionController>();
 				FactionController victim = info.HitEntity.gameObject.GetComponent<FactionController>();
 				if(shooter!=null&&victim!=null){//
+					if(shooter.self==null){
+						BasePlayer bp = shooter.GetComponent<BasePlayer>();
+						FactionController.changeScore(bp, victim.faction, -0.01f);
+						FactionController.changeScore(bp, FactionController.FactionType.Both, -1);
+						if(victim.faction==FactionController.FactionType.Scientist)
+							FactionController.changeScore(bp, FactionController.FactionType.Bandit, +0.005f);
+						if(victim.faction==FactionController.FactionType.Bandit)
+							FactionController.changeScore(bp, FactionController.FactionType.Scientist, +0.005f);
+					}						
+										
 					if(shooter.faction==victim.faction){
-						if(victim.GetComponent<BasePlayer>()){
-							if(victim.GetComponent<BasePlayer>().IsConnected){
-								Puts("Same team player, halving!");	
-								info.damageTypes.ScaleAll(0.5f);
-								return new object();
-							}
-							else{
-								Puts("Same team NPCs, ignoring!");
-								return new object();
-							}
+						if(shooter.self==null){
+							//Puts("Same team player, halving!");	
+							info.damageTypes.ScaleAll(0.5f);
+							return new object();
 						}
+						else{
+							//Puts("Same team NPCs, ignoring!");
+							return new object();
+						}
+						
 					}
 				}
 				return null;
 			}
-			void OnPlayerConnected(BasePlayer player)
-			{
-				FactionController fc = player.gameObject.AddComponent<FactionController>();
-				fc.changeFactionScore(FactionController.FactionType.Pacifist,0.1f);		
-				Puts(fc.faction.ToString());
-			}
 			bool? OnIsThreat(HumanNPC hn, BaseEntity be){
-				return false;
-
+				BasePlayer bp = be.GetComponent<BasePlayer>();
+				if(bp == null){return false;}
+				return (FactionController.validTarget((BasePlayer)hn,bp));
 			}
 			bool? OnIsTarget(HumanNPC hn, BaseEntity be){
-				return false;
+				BasePlayer bp = be.GetComponent<BasePlayer>();
+				if(bp == null){return false;}
+				return (FactionController.validTarget((BasePlayer)hn,bp));
 			}
 			bool? OnIsFriendly(HumanNPC hn, BaseEntity be){/*
 			if(hn.Brain.Senses.owner.transform.name==be.transform.name) return true;*/
-				return true;
+				BasePlayer bp = be.GetComponent<BasePlayer>();
+				if(bp == null){return true;}
+				return !(FactionController.validTarget((BasePlayer)hn,bp));
 			}
 			bool? OnCaresAbout(AIBrainSenses hn, BaseEntity be){
 				//*
@@ -193,20 +333,28 @@ namespace Oxide.Plugins{
 					) return false;
 				if(be.GetComponent<BasePlayer>()!=null && hn.owner.GetComponent<BaseNpc>()!=null){
 					if (be.GetComponent<BasePlayer>().IsConnected) return true;
-					else return false;
+					//else return false;
 				}
 				//*/
 				return FactionController.validTarget(hn.owner, be);
 			}
+			#endregion
+			#region vending machine handlers
+			object OnShopCompleteTrade(ShopFront entity){Puts("OnShopCompleteTrade works!"); return null;}
+			object OnBuyVendingItem(VendingMachine machine, BasePlayer player, int sellOrderId, int numberOfTransactions){
+				FactionController fc = player.GetComponent<FactionController>();
+				if(fc==null)return fc;
+				if(machine.shopName.Contains("Scientist")) FactionController.changeScore(player, FactionController.FactionType.Scientist, 0.001f*numberOfTransactions);
+				else if(machine.shopName.Contains("Bandit")) FactionController.changeScore(player, FactionController.FactionType.Bandit, 0.001f*numberOfTransactions);
+				else if(machine.shopName.Contains("Pacifist")) FactionController.changeScore(player, FactionController.FactionType.Both, 0.001f*numberOfTransactions);
+				
+				return null;
+			}
+			#endregion
+			#region NPC destination handlers
 			Vector3? OnGetRoamAnchorPosition(BaseAIBrain<HumanNPC> bn){
 				BaseAIBrain<HumanNPC>.BasicAIState cs = bn.CurrentState;
 				if(cs!=null){
-					if(!cs.ToString().ToLower().Contains("combat") && 
-						!cs.ToString().ToLower().Contains("attack") &&
-						!cs.ToString().ToLower().Contains("flee") && 
-						!cs.ToString().ToLower().Contains("chase") && 
-						!cs.ToString().ToLower().Contains("sleep")
-					){
 						if(target!= new Vector3(0,0,0)){
 							if(Vector3.Distance(target,bn.transform.position)<5f){
 								//Puts("Destination set " +pos.ToString()+":"+ target.ToString());
@@ -214,10 +362,9 @@ namespace Oxide.Plugins{
 							}
 							return target;							
 						}
-					}
 				}
 				return null;
-			}
+			}	
 			Vector3? OnSetDestination(Vector3 pos, BaseNavigator bs){
 					
 				if(bs!=null){
@@ -229,66 +376,102 @@ namespace Oxide.Plugins{
 								!cs.ToString().ToLower().Contains("attack") &&
 								!cs.ToString().ToLower().Contains("flee") && 
 								!cs.ToString().ToLower().Contains("chase")
-							){
+							)
+							{
 								if(target!= new Vector3(0,0,0)){
-									if(Vector3.Distance(target,brain.transform.position)<10f){
-										//Puts("Destination set " +pos.ToString()+":"+ target.ToString());
-										return target + new Vector3(UnityEngine.Random.Range(-5.0f,5.0f),0,UnityEngine.Random.Range(-5.0f,5.0f));
-									}
-									return target;
-									
+									Vector3 result;
+									float dist = Vector3.Distance(target,brain.transform.position);
+									if(dist>70)
+										result=(target+brain.transform.position)/2;//
+									else if(dist<50)
+										result=brain.transform.position+brain.transform.forward + new Vector3(UnityEngine.Random.Range(-0.1f,0.1f),0,UnityEngine.Random.Range(-0.1f,0.1f));
+									else if(dist<30	)
+										result=brain.transform.forward+((target+brain.transform.position)/2);
+									else
+								result=(brain.transform.forward*5) + repulsePoint(brain.transform.position,target)+ new Vector3(UnityEngine.Random.Range(-0.1f,0.1f),0,UnityEngine.Random.Range(-0.1f,0.1f));
+									return result;
 								}
-								else{return null;}
 							}
 						}
 					}
 				}
 				return null;
 			}
+			#endregion
 		#endregion
-		object OnNPCAIInitialized(BaseAIBrain<HumanNPC> player)
-		{
-			swapSciRoamState(player.GetComponent<HumanNPC>());
-			return null;
+		private Vector3 repulsePoint(Vector3 t1, Vector3 t2){
+			float factor=750f;//This is a guess, viva desmos
+			float Distance = Vector3.Distance(t1,t2);
+			return t1-((t2-t1)/(Distance/factor));
 		}
 		public class FactionController : MonoBehaviour{
 			public enum FactionType{
 				None,
 				Scientist,
 				Bandit,
-				Pacifist
+				Both
 			}
 			public FactionType faction;
-			public Dictionary<FactionType,float> factionScores = new Dictionary<FactionType,float>();
-			public void changeFactionScore(FactionType fc, float score){
-				if(!factionScores.ContainsKey(fc)) factionScores.Add(fc,0);
-				factionScores[fc]+=score;
-				if(factionScores[fc]>1){
-					factionScores[fc]=1;//
-				}
-				if(factionScores[fc]<-1){
-					factionScores[fc]=-1;
-				}
-				float max = 0;
-				faction = fc;
-				foreach(KeyValuePair<FactionType, float> pair in factionScores){
-					if(factionScores[pair.Key]>max){
-						max = factionScores[pair.Key];
-						faction=pair.Key;
+			public static Dictionary<ulong, Dictionary<FactionType,float>> factionScores = 
+				new Dictionary<ulong, Dictionary<FactionType,float>>();//
+			public List<Vector3> ActivePointGroup = new List<Vector3>();
+			public int PointIndex;
+			public HumanNPC self;
+			
+			public static bool changeScore(BasePlayer bp, FactionType ft, float score){
+				try{
+					if(bp==null)return false;
+					if(ft==null)return false;
+					FactionController fc = bp.GetComponent<FactionController>();
+					if(fc==null)fc=bp.gameObject.AddComponent<FactionController>();
+					ulong id= bp.userID;
+					if(factionScores==null) return false;
+					Dictionary<FactionType,float> selfFactions;
+						factionScores.TryGetValue(id,out selfFactions);
+					if(selfFactions==null) factionScores.Add(id, new Dictionary<FactionType,float>());
+					float oldScore;//
+					if(!(selfFactions.TryGetValue(ft,out oldScore))){
+						oldScore=0.0f;
+						selfFactions.Add(ft,oldScore);
 					}
-				}
+					oldScore+=score;
+					factionScores[id][ft]=oldScore;
+					if(factionScores[id][ft]>1)factionScores[id][ft]=1;
+					if(factionScores[id][ft]<-1)factionScores[id][ft]=-1;
+					float maxScore =-2f;
+					List<FactionType> activeFactions = new List<FactionType>();
+					foreach(KeyValuePair<FactionType,float> f in factionScores[id]){
+						if(f.Value>0 && f.Key!=FactionType.None){
+							maxScore=f.Value;
+							activeFactions.Add(f.Key);
+						}
+					}
+					switch(activeFactions.Count()){
+						case 0 :
+							fc.faction=FactionType.None;
+							break;
+						case 1 :
+							fc.faction=activeFactions[0];
+							break;
+						default :
+							fc.faction=FactionType.Both;
+							break;
+					}
+					return true;
+				}catch(Exception e){return false;}
 			}
 			public static bool validTarget(BaseEntity self, BaseEntity target){
 			
 				FactionController selfFC = self.GetComponent<FactionController>();
 				FactionController targetFC = target.GetComponent<FactionController>();
 				if(selfFC!=null&&targetFC!=null){
-					return (!(targetFC.faction==FactionType.Pacifist) && (
+					bool result =  (!(targetFC.faction==FactionType.Both) && (
 						targetFC.faction==FactionType.None ||
-					selfFC.faction != targetFC.faction));
-					}
+						selfFC.faction != targetFC.faction));
+					return result;
+				}else{}
 				return false;
 			}
 		}
 	}
-}	
+}	//*/
