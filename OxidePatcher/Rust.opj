@@ -620,7 +620,7 @@
             "HookName": "IOnUserApprove",
             "AssemblyName": "Assembly-CSharp.dll",
             "TypeName": "ConnectionAuth",
-            "Flagged": false,
+            "Flagged": true,
             "Signature": {
               "Exposure": 2,
               "Name": "OnNewConnection",
@@ -629,7 +629,7 @@
                 "Network.Connection"
               ]
             },
-            "MSILHash": "Yn9hM+MVUofzFMTcoHKfuTzonbtmezibbGRr1Hf/hl8=",
+            "MSILHash": "7FkxQAy7lCNy5adp9z0iUjgewaX5KlJsPWOnuV17mz8=",
             "BaseHookName": null,
             "HookCategory": "Player"
           }
@@ -2353,7 +2353,7 @@
             "HookName": "OnClientAuth",
             "AssemblyName": "Assembly-CSharp.dll",
             "TypeName": "ServerMgr",
-            "Flagged": false,
+            "Flagged": true,
             "Signature": {
               "Exposure": 0,
               "Name": "OnGiveUserInformation",
@@ -2362,7 +2362,7 @@
                 "Network.Message"
               ]
             },
-            "MSILHash": "N+y0PuqCA68JZmvyZgMRvYuPZjAMa3BJaP0yS26I+/8=",
+            "MSILHash": "vzNfceJADaV8YwXTUfXch9CXa2noaCzQFMwOs8MYSN0=",
             "BaseHookName": null,
             "HookCategory": "Player"
           }
@@ -7909,14 +7909,14 @@
             "HookName": "IOnUpdateServerInformation",
             "AssemblyName": "Assembly-CSharp.dll",
             "TypeName": "ServerMgr",
-            "Flagged": false,
+            "Flagged": true,
             "Signature": {
               "Exposure": 0,
               "Name": "UpdateServerInformation",
               "ReturnType": "System.Void",
               "Parameters": []
             },
-            "MSILHash": "UxzHqjnchyOVm0wLa38HWKESbFADKZVL9rx3owvViIA=",
+            "MSILHash": "wNQE9h4W8i8GDj5xm9oQfKCPVWFGLj2aj/XCFREJ5QA=",
             "BaseHookName": null,
             "HookCategory": "Server"
           }
@@ -7933,14 +7933,14 @@
             "HookName": "IOnUpdateServerDescription",
             "AssemblyName": "Assembly-CSharp.dll",
             "TypeName": "ServerMgr",
-            "Flagged": false,
+            "Flagged": true,
             "Signature": {
               "Exposure": 0,
               "Name": "UpdateServerInformation",
               "ReturnType": "System.Void",
               "Parameters": []
             },
-            "MSILHash": "UxzHqjnchyOVm0wLa38HWKESbFADKZVL9rx3owvViIA=",
+            "MSILHash": "wNQE9h4W8i8GDj5xm9oQfKCPVWFGLj2aj/XCFREJ5QA=",
             "BaseHookName": "IOnUpdateServerInformation",
             "HookCategory": "Server"
           }

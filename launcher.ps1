@@ -142,6 +142,7 @@ function runServer(){
 		}
 		if($y -ne ""){echo ($y)}
 	}))
+	cd $global:Settings['dir']
 write-host (@"
 RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix" && exit
 "@) -foregroundcolor yellow
@@ -149,6 +150,7 @@ cmd /c (@"
 RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix" && exit
 "@)
 $global:mapStr=""
+read-host "Enter to continue"
 }
 
 

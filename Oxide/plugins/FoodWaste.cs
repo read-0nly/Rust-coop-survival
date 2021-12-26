@@ -349,7 +349,7 @@ namespace Oxide.Plugins
 			if(wp==null){return;}
 			if(!purifierSaltStorage.ContainsKey(wp)){return;}
 			int saltAmount = (int)purifierSaltStorage[wp];
-            Item item = ItemManager.CreateByItemID(-265876753, saltAmount, 2572257907);
+            Item item = ItemManager.CreateByItemID(-265876753, saltAmount, 2689553090);//
 			item.name = "Salt";
 			item.MarkDirty();
 			purifierSaltStorage[wp]-=saltAmount;	
