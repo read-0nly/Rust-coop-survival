@@ -1,15 +1,10 @@
 # Repo for development of my modded Rust server
 
 ## The gist
-- Trying to make a coop survival twist on a rust server
-- the idea is that coop isn't enforced, only encouraged
-- however, the intent is to balance the pressures to the point that cooperating to meet survival needs becomes most viable
-- coop in this case could mean
-  - mostly peaceful solitary coexistence with a focus on trade
-  - straight up solarpunk compound commune
-  - stealing eachother's fish but it not being worth losing the ammo or worst dying over some stolen fish
-  - full on mf clan warfare over the last remaining trufulla tree
-  - camper van trailer park campfire party with a guitar
+- Faction system between bandit and scientist. you spawn marked pacifist, if you kill scientists bandits like you more and vice versa. killing lowers your score with that faction more than it raises it with the other.
+- scientists run towards compound sometimes
+- compound isn't a safezone but is owned by bandit faction. attacking bandit-aligned players also affects your faction score.
+- build anywhere, no TC, no build privileges, no decay protection. Most deployables have no or little decay. twig no decay, wood normal decay, metal and up high decay, requires regular upkeep. also, no hammer pickup privileges, to prevent the easy grief. so think before you deploy.
 - Food rots, get salt from purifier and stick it in the chest to preserve it. or use a fridge
 - make jam by putting fruits and salt in "oven" (campfire/bbq/etc)
 - gunpowder and most ammo crafting blocked, gunpowder can be made at mixing table though
@@ -17,10 +12,6 @@
 - trees don't respawn, but hemp that moves to "dying" phase become small tree. plant your hemp seeds if you like wood.
 - max hunger changes depending on how full/hungry you are, slowly, over time. Stay well-fed. think of it like fat.
 - max thirst and health scale up over time to reward you for staying alive. think of it like babu become adult.
-- scientists run towards compound sometimes
-- compound is not a safezone, but is guarded by humannpcs that will shoot anyone attacking them or a player. they hate scientists.
-- build anywhere, no TC, no build privileges, no decay protection. Most deployables have no or little decay. twig no decay, wood normal decay, metal and up high decay, requires regular upkeep. also, no hammer pickup privileges, to prevent the easy grief. so think before you deply.
-- there's a tunnel. and a custom town thing.
 - the backpack is sacred. can't be looted, persists between respawns and wipes. cabin is temporary, backpack is forever.
 - some places have doors you can stick door controllers to to shut - since housing isn't always an option consider this a "safe" option, though it needs power to keep the door shut and your power source is vulnerable.
 - You lose all blueprints you've learned when you die - think of it as trauma caused by dying, or think of it as a roguelike mechanic
