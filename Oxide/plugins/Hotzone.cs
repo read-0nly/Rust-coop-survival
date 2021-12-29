@@ -271,11 +271,11 @@ namespace Oxide.Plugins{
 				//Puts(shooter.faction.ToString() + " : " + victim.faction.ToString());
 				if(shooter.self==null) return null;
 				//Puts("Shooter is NPC");
+				BaseNavigator bn = aievent.combatEntity.gameObject.GetComponent<BaseNavigator>();
+				if(bn!=null)bn.SetDestination(aievent.combatEntity.gameObject.transform.position,1,0,1);
 				if(FactionController.validTarget(victim.GetComponent<BasePlayer>(),bp)) return null;
 				aievent.combatEntity.lastAttacker=null;
 				//Puts("Same Team");
-				BaseNavigator bn = aievent.combatEntity.gameObject.GetComponent<BaseNavigator>();
-				if(bn!=null)bn.SetDestination(aievent.combatEntity.gameObject.transform.position,1,0,1);
 				return victim;
 			}
 			object OnBasePlayerAttacked(BasePlayer victimbp, HitInfo info){

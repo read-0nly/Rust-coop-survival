@@ -1,5 +1,5 @@
 {
-  "envUpdateArmed": false,
+  "envUpdateArmed": true,
   "defaultHealth": 50,
   "maxHealth": 150,
   "defaultCals": 75,
@@ -7,6 +7,6 @@
   "defaultWater": 100,
   "maxWater": 500,
   "waterIncrease": 0.0,
-  "waterStep": 0.5,
+  "waterStep": 1,
   "debugOnBoot": false
 }
