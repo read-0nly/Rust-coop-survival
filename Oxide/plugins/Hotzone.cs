@@ -237,7 +237,7 @@ namespace Oxide.Plugins{
 			object OnPlayerDeath(BasePlayer player, HitInfo info){SaveConfig(); return null;}
 			private void swapSciRoamState(HumanNPC s){
 				if(s.IsNpc)Puts(((char)27)+"[96m"+"IsNpc! Did you fix NPCPlayer with dnSpy?");
-				Puts(s.spawnPos.ToString());
+				//Puts(s.spawnPos.ToString());
 				if(s.Brain==null) return;
 				((IAISleepable)s.Brain).SleepAI();
 				s.Brain.Senses.senseTypes = (EntityType)67;
@@ -262,21 +262,35 @@ namespace Oxide.Plugins{
 			#endregion initializers
 			#region Faction NPC Handlers
 			object OnAttackedAIEvent(AttackedAIEvent aievent, BasePlayer bp){	
+				//Puts("OnAttackedAIEvent");
 				if(bp==null)return null;
-				FactionController shooter = bp.GetComponent<FactionController>();
-				FactionController victim = aievent.combatEntity.GetComponent<FactionController>();
-				if(shooter!=null&&victim!=null){//
-					if(shooter.faction==victim.faction || bp.transform.name==aievent.combatEntity.transform.name){
-						if(shooter.self==null){
-							return null;
-						}
-						else{
-							//Puts("Same team NPCs, ignoring!");
-							return new object();
-						}
-					}else return null;
-				}
-				return new object();
+				FactionController shooter = bp.gameObject.GetComponent<FactionController>();
+				FactionController victim = aievent.combatEntity.gameObject.GetComponent<FactionController>();
+				//Puts("OnAttackedAIEvent2");
+				if(shooter==null || victim==null) return null;
+				//Puts(shooter.faction.ToString() + " : " + victim.faction.ToString());
+				if(shooter.self==null) return null;
+				//Puts("Shooter is NPC");
+				if(FactionController.validTarget(victim.GetComponent<BasePlayer>(),bp)) return null;
+				aievent.combatEntity.lastAttacker=null;
+				//Puts("Same Team");
+				BaseNavigator bn = aievent.combatEntity.gameObject.GetComponent<BaseNavigator>();
+				if(bn!=null)bn.SetDestination(aievent.combatEntity.gameObject.transform.position,1,0,1);
+				return victim;
+			}
+			object OnBasePlayerAttacked(BasePlayer victimbp, HitInfo info){
+				//Puts("OnBasePlayerAttacked");
+				if(victimbp==null)return null;
+				FactionController victim = victimbp.gameObject.GetComponent<FactionController>();
+				FactionController shooter = info.Initiator.gameObject.GetComponent<FactionController>();
+				//Puts("OnBasePlayerAttacked");
+				if(shooter==null || victim==null) return null;
+				//Puts(shooter.faction.ToString() + " : " + victim.faction.ToString());
+				if(shooter.self==null) return null;
+				//Puts("Shooter is NPC");
+				if(FactionController.validTarget(shooter.GetComponent<BasePlayer>(),victimbp)) return null;
+				//Puts("Same Team");
+				return victim;
 			}
 			object OnEntityTakeDamage(BaseCombatEntity entity, HitInfo info){
 				if(info.HitEntity==null||info.Initiator==null) return null;
@@ -287,7 +301,7 @@ namespace Oxide.Plugins{
 					if(shooter.self==null){
 						BasePlayer bp = shooter.GetComponent<BasePlayer>();
 						FactionController.changeScore(bp, victim.faction, -0.01f);
-						FactionController.changeScore(bp, FactionController.FactionType.Both, -1);
+						FactionController.changeScore(bp, FactionController.FactionType.Both, -0.1f);
 						if(victim.faction==FactionController.FactionType.Scientist)
 							FactionController.changeScore(bp, FactionController.FactionType.Bandit, +0.005f);
 						if(victim.faction==FactionController.FactionType.Bandit)
@@ -338,6 +352,13 @@ namespace Oxide.Plugins{
 				//*/
 				return FactionController.validTarget(hn.owner, be);
 			}
+			/*
+			Assign points by faction
+			Walk towards closest point
+			if in range of point, next point. If stuck, next list
+			Follow point chain indefinitely
+			if all lists exhausted, fall into random roam
+			*/
 			#endregion
 			#region vending machine handlers
 			object OnShopCompleteTrade(ShopFront entity){Puts("OnShopCompleteTrade works!"); return null;}
@@ -356,7 +377,7 @@ namespace Oxide.Plugins{
 				BaseAIBrain<HumanNPC>.BasicAIState cs = bn.CurrentState;
 				if(cs!=null){
 						if(target!= new Vector3(0,0,0)){
-							if(Vector3.Distance(target,bn.transform.position)<5f){
+							if(Vector3.Distance(target,bn.transform.position)<70f){
 								//Puts("Destination set " +pos.ToString()+":"+ target.ToString());
 								return bn.transform.position;
 							}
@@ -382,13 +403,14 @@ namespace Oxide.Plugins{
 									Vector3 result;
 									float dist = Vector3.Distance(target,brain.transform.position);
 									if(dist>70)
-										result=(target+brain.transform.position)/2;//
-									else if(dist<50)
+										result=target;//
+									else if(dist<70)
 										result=brain.transform.position+brain.transform.forward + new Vector3(UnityEngine.Random.Range(-0.1f,0.1f),0,UnityEngine.Random.Range(-0.1f,0.1f));
 									else if(dist<30	)
 										result=brain.transform.forward+((target+brain.transform.position)/2);
 									else
-								result=(brain.transform.forward*5) + repulsePoint(brain.transform.position,target)+ new Vector3(UnityEngine.Random.Range(-0.1f,0.1f),0,UnityEngine.Random.Range(-0.1f,0.1f));
+										result=(brain.transform.forward*5) + repulsePoint(brain.transform.position,target)+ new Vector3(UnityEngine.Random.Range(-0.1f,0.1f),0,UnityEngine.Random.Range(-0.1f,0.1f));								
+									brain.transform.LookAt(result);
 									return result;
 								}
 							}
