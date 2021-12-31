@@ -248,9 +248,14 @@ namespace Oxide.Plugins{
 				fc.self=s;
 				if(s.transform.name.ToLower().Contains("scientist")) 
 					fc.faction=FactionController.FactionType.Scientist;
+				s.Brain.states[AIState.Idle]=s.Brain.states[AIState.Roam];
 				s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
 				((IAISleepable)s.Brain).WakeAI();
-				s.Brain.SwitchToState(AIState.Roam, s.Brain.currentStateContainerID);
+				BaseNavigator bn = s.gameObject.GetComponent<BaseNavigator>();
+				if(bn!=null){
+					bn.Resume();
+				}
+				s.Brain.SwitchToState(AIState.Idle, s.Brain.currentStateContainerID);
 			}
 			void initPlayer(BasePlayer player){
 				FactionController fc = player.gameObject.AddComponent<FactionController>();
@@ -272,7 +277,10 @@ namespace Oxide.Plugins{
 				if(shooter.self==null) return null;
 				//Puts("Shooter is NPC");
 				BaseNavigator bn = aievent.combatEntity.gameObject.GetComponent<BaseNavigator>();
-				if(bn!=null)bn.SetDestination(aievent.combatEntity.gameObject.transform.position,1,0,1);
+				if(bn!=null){
+					bn.Stop();
+					bn.SetDestination(bn.transform.position);
+				}
 				if(FactionController.validTarget(victim.GetComponent<BasePlayer>(),bp)) return null;
 				aievent.combatEntity.lastAttacker=null;
 				//Puts("Same Team");
@@ -286,6 +294,10 @@ namespace Oxide.Plugins{
 				//Puts("OnBasePlayerAttacked");
 				if(shooter==null || victim==null) return null;
 				//Puts(shooter.faction.ToString() + " : " + victim.faction.ToString());
+				BaseNavigator bn = victimbp.GetComponent<BaseNavigator>();
+				if(bn!=null){
+					bn.Stop();
+				}
 				if(shooter.self==null) return null;
 				//Puts("Shooter is NPC");
 				if(FactionController.validTarget(shooter.GetComponent<BasePlayer>(),victimbp)) return null;
@@ -413,6 +425,11 @@ namespace Oxide.Plugins{
 									brain.transform.LookAt(result);
 									return result;
 								}
+							}else if (cs.ToString().ToLower().Contains("cover")){
+									Vector3 result;
+								result=brain.transform.position+new Vector3(UnityEngine.Random.Range(-5f,5f),0,UnityEngine.Random.Range(-5f,5f));					
+								brain.transform.LookAt(result);
+								return result;
 							}
 						}
 					}
