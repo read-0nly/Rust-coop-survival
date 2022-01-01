@@ -8,7 +8,7 @@
     "76561198004703684": {
       "Scientist": -1.0,
       "Bandit": 1.0,
-      "Both": -0.5,
+      "Both": 1.0,
       "None": -0.03
     },
     "76561198030249543": {
@@ -20,6 +20,26 @@
       "Scientist": 0.0,
       "Bandit": 0.0,
       "Both": 0.5
+    },
+    "246092": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "5460049": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "9630286": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "5838315": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "7267292": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
     }
   },
   "pointGroups": {
