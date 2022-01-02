@@ -8,7 +8,7 @@
     "76561198004703684": {
       "Scientist": -1.0,
       "Bandit": 1.0,
-      "Both": 0.0,
+      "Both": 0.5,
       "None": -0.03
     },
     "76561198030249543": {
@@ -65,6 +65,54 @@
       "Scientist": 0.0,
       "Bandit": 0.0,
       "Both": 1.0
+    },
+    "1455787": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "2953927": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "3634515": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "1867704": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "5504534": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "3688592": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "4273955": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "4018656": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "5617460": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "8155869": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "2943237": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
+    },
+    "6219551": {
+      "Scientist": 0.0,
+      "Bandit": 0.0
     }
   },
   "pointGroups": {
