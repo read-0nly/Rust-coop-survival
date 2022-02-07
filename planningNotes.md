@@ -1,4 +1,3 @@
-
 ## The gist
 - Faction system between bandit and scientist. you spawn marked pacifist, if you kill scientists bandits like you more and vice versa. killing lowers your score with that faction more than it raises it with the other.
 - scientists run towards compound sometimes
@@ -14,7 +13,21 @@
 - the backpack is sacred. can't be looted, persists between respawns and wipes. cabin is temporary, backpack is forever.
 - some places have doors you can stick door controllers to to shut - since housing isn't always an option consider this a "safe" option, though it needs power to keep the door shut and your power source is vulnerable.
 - You lose all blueprints you've learned when you die - think of it as trauma caused by dying, or think of it as a roguelike mechanic
-- i dunno man play it.
+
+## Project relaunch 2/7
+- Look into free maps video, replace all monuments with build-free clones
+- remove building and crafting of anything past tier 1
+- Allow hammer again. Finders keepers.
+- find a way to weld a camper to a raft with barrels - houseboats
+- sprinkle pre-determined "shelters", fridges
+- transformers around the map can be powered by fuses in the power plant
+- no text chat
+- no safe zones, scietists spawn at tunnels and bandits spawn at bandit camp
+- the goal for both is holding compound, some remain and patrol. Will mostly roam until event is triggered
+- if compound is held for more than x seconds by faction, some faction members spawn inside
+- when event starts, other side gets a tank
+- bandit tank, 3/4 health
+- camper submarine
 
 ## Roadmap:
 - On death, some sort of log function tugs max health towards hunger/max point. So if you die hungry, you respawn with lower max health. Drive more scavenging
