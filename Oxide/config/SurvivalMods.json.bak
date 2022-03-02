@@ -7,7 +7,7 @@
   "defaultWater": 100,
   "maxWater": 500,
   "waterIncrease": 0.0,
-  "waterStep": 0.1,
-  "lastWater": 2.9,
+  "waterStep": 0.5,
+  "lastWater": 0.0,
   "debugOnBoot": false
 }

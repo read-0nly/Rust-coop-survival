@@ -5,7 +5,7 @@
   "Allow crafting when inventory is full": false,
   "Complete crafting on server shut down": false,
   "Craft items with random skins if not already skinned": false,
-  "Show Crafting Notes": false,
+  "Show Crafting Notes": true,
   "Crafting rate bonus mulitplier (apply oxide perms for additional mulitpliers": {
     "vip1": 90.0,
     "vip2": 80.0
@@ -2012,7 +2012,7 @@
       "defaultskinid": 0
     },
     "workbench1": {
-      "canCraft": true,
+      "canCraft": false,
       "canResearch": true,
       "useCrafteRateMultiplier": true,
       "craftTime": 30.0,
@@ -2020,7 +2020,7 @@
       "defaultskinid": 0
     },
     "workbench2": {
-      "canCraft": true,
+      "canCraft": false,
       "canResearch": true,
       "useCrafteRateMultiplier": true,
       "craftTime": 45.0,
@@ -2028,7 +2028,7 @@
       "defaultskinid": 0
     },
     "workbench3": {
-      "canCraft": true,
+      "canCraft": false,
       "canResearch": true,
       "useCrafteRateMultiplier": true,
       "craftTime": 60.0,
@@ -2037,7 +2037,7 @@
     },
     "cupboard.tool": {
       "canCraft": false,
-      "canResearch": true,
+      "canResearch": false,
       "useCrafteRateMultiplier": true,
       "craftTime": 30.0,
       "workbenchLevel": 0,
@@ -2812,7 +2812,7 @@
       "defaultskinid": 0
     },
     "gunpowder": {
-      "canCraft": false,
+      "canCraft": true,
       "canResearch": true,
       "useCrafteRateMultiplier": true,
       "craftTime": 2.0,
@@ -3649,6 +3649,38 @@
       "useCrafteRateMultiplier": true,
       "craftTime": 30.0,
       "workbenchLevel": 1,
+      "defaultskinid": 0
+    },
+    "skylantern": {
+      "canCraft": true,
+      "canResearch": true,
+      "useCrafteRateMultiplier": true,
+      "craftTime": 2.0,
+      "workbenchLevel": 0,
+      "defaultskinid": 0
+    },
+    "hat.tigermask": {
+      "canCraft": true,
+      "canResearch": true,
+      "useCrafteRateMultiplier": true,
+      "craftTime": 5.0,
+      "workbenchLevel": 0,
+      "defaultskinid": 0
+    },
+    "spraycan": {
+      "canCraft": true,
+      "canResearch": true,
+      "useCrafteRateMultiplier": true,
+      "craftTime": 15.0,
+      "workbenchLevel": 0,
+      "defaultskinid": 0
+    },
+    "rifle.ak.ice": {
+      "canCraft": true,
+      "canResearch": true,
+      "useCrafteRateMultiplier": true,
+      "craftTime": 45.0,
+      "workbenchLevel": 3,
       "defaultskinid": 0
     }
   }
