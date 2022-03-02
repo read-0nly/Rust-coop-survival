@@ -87,30 +87,6 @@
           "Type": "Simple",
           "Hook": {
             "InjectionIndex": 0,
-            "ReturnBehavior": 1,
-            "ArgumentBehavior": 3,
-            "ArgumentString": null,
-            "HookTypeName": "Simple",
-            "Name": "OnGetBestTarget",
-            "HookName": "OnGetBestTarget",
-            "AssemblyName": "Assembly-CSharp.dll",
-            "TypeName": "HumanNPC",
-            "Flagged": false,
-            "Signature": {
-              "Exposure": 2,
-              "Name": "GetBestTarget",
-              "ReturnType": "BaseEntity",
-              "Parameters": []
-            },
-            "MSILHash": "Ftq/nWx9egpmTP1BgJAjJNNWe7k0n5jLA750f1XeABc=",
-            "BaseHookName": null,
-            "HookCategory": "NPC"
-          }
-        },
-        {
-          "Type": "Simple",
-          "Hook": {
-            "InjectionIndex": 0,
             "ReturnBehavior": 4,
             "ArgumentBehavior": 3,
             "ArgumentString": null,
@@ -129,59 +105,6 @@
               ]
             },
             "MSILHash": "RoYNjxrmt+5dvkuyP0Nz3Pzt1gqyMaKPAIG2GkbS0ds=",
-            "BaseHookName": null,
-            "HookCategory": "NPC"
-          }
-        },
-        {
-          "Type": "Simple",
-          "Hook": {
-            "InjectionIndex": 0,
-            "ReturnBehavior": 4,
-            "ArgumentBehavior": 3,
-            "ArgumentString": null,
-            "HookTypeName": "Simple",
-            "Name": "OnGetRoamAnchorPosition",
-            "HookName": "OnGetRoamAnchorPosition",
-            "AssemblyName": "Assembly-CSharp.dll",
-            "TypeName": "BaseAIBrain`1/BaseRoamState",
-            "Flagged": false,
-            "Signature": {
-              "Exposure": 2,
-              "Name": "GetRoamAnchorPosition",
-              "ReturnType": "UnityEngine.Vector3",
-              "Parameters": []
-            },
-            "MSILHash": "Z1rBEiNKAUrMvW9VxDV3Cd9T36eorrTFbLwYYd16GyM=",
-            "BaseHookName": null,
-            "HookCategory": "NPC"
-          }
-        },
-        {
-          "Type": "Simple",
-          "Hook": {
-            "InjectionIndex": 0,
-            "ReturnBehavior": 3,
-            "ArgumentBehavior": 4,
-            "ArgumentString": "a0,this=>a0",
-            "HookTypeName": "Simple",
-            "Name": "OnSetDestination",
-            "HookName": "OnSetDestination",
-            "AssemblyName": "Assembly-CSharp.dll",
-            "TypeName": "BaseNavigator",
-            "Flagged": false,
-            "Signature": {
-              "Exposure": 2,
-              "Name": "SetDestination",
-              "ReturnType": "System.Boolean",
-              "Parameters": [
-                "UnityEngine.Vector3",
-                "BaseNavigator/NavigationSpeed",
-                "System.Single",
-                "System.Single"
-              ]
-            },
-            "MSILHash": "9Yesw1W04i7WHGFi13/WkiflVkCYSB2hyiXwa4MSN9k=",
             "BaseHookName": null,
             "HookCategory": "NPC"
           }
@@ -209,9 +132,1422 @@
             "BaseHookName": null,
             "HookCategory": "NPC"
           }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 12,
+            "ReturnBehavior": 0,
+            "ArgumentBehavior": 4,
+            "ArgumentString": "this, l1,a0",
+            "HookTypeName": "Simple",
+            "Name": "AttackedAIEvent",
+            "HookName": "AttackedAIEvent",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "AttackedAIEvent",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "Execute",
+              "ReturnType": "System.Void",
+              "Parameters": [
+                "AIMemory",
+                "AIBrainSenses",
+                "StateStatus"
+              ]
+            },
+            "MSILHash": "68O6GusVKo6IxcQLFqQBXGCYq9fWFLXnuONBl9rp6Lg=",
+            "BaseHookName": null,
+            "HookCategory": "NPC"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 14,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 4,
+            "ArgumentString": "this, l1",
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Roam State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseRoamState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "zJxkiJW4G7RDymG6XvlznUDbSXKNQV22aHkIjdOQo8M=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 10,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 4,
+            "ArgumentString": "l0,this",
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Scientist Roam State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/RoamState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "seOAqKwUVFoE3z71FlfgZ0uluO97FOD+u1TfTPU0LO0=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 1,
+            "ArgumentString": "this",
+            "HookTypeName": "Simple",
+            "Name": "OnGetBestRoamPoint",
+            "HookName": "OnGetBestRoamPoint",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "HumanPathFinder",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "GetBestRoamPoint",
+              "ReturnType": "AIMovePoint",
+              "Parameters": [
+                "UnityEngine.Vector3",
+                "UnityEngine.Vector3",
+                "UnityEngine.Vector3",
+                "System.Single",
+                "System.Single"
+              ]
+            },
+            "MSILHash": "xjbYOth87+ownq6+c4KRF5ZahmbFblIowhM2Kh9c86A=",
+            "BaseHookName": null,
+            "HookCategory": "NPC"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 2,
+            "ReturnBehavior": 4,
+            "ArgumentBehavior": 1,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Follow Path]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "Ay4LRveeSCSHCHDaHHqmIZBLfCoSzF98Ynrb9dQRcZc=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 16,
+            "ReturnBehavior": 4,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Follow Path]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "sW5yx/sqR0/p6DqxP2V9CgfuJxmiKLsKo1RkYpDD+gc=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 11,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 1,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Follow Path]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "5ZvkfveSLkI3GsfrjCGNxD+dGcS2lEX6dXGY7mV77wM=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 2,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnAreaCheck",
+            "HookName": "OnAreaCheck",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "SocketMod_AreaCheck",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "DoCheck",
+              "ReturnType": "System.Boolean",
+              "Parameters": [
+                "Construction/Placement"
+              ]
+            },
+            "MSILHash": "uy1BKGGugHZXPHjcDA4OYhQQNgW8v0O0I5OF2KNVpHo=",
+            "BaseHookName": null,
+            "HookCategory": null
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Attack State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseAttackState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "HkztH5D5b9i1+RUPVre7B4S3L1wMNCan/H4vkJFDn9Q=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Attack State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseAttackState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "u1ZP/+LhqRUd8/t/zeG374aXLK/MxjIobrGYllJin2Y=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Attack State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseAttackState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "ReaUExFocs6B26+IRBZlL2hUBkK9ZAtJS2s3EFZjxoI=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Chase State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseChaseState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "Bp8NN+MfYOkaYfNrBCNmzeBKympvoj7CYilK6TTsiyw=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Chase State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseChaseState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "jKR3H0KNN1LwFx+9Hg3kI9DqU4wgjGs3QPm9LsaHx48=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Chase State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseChaseState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "op+HLpsSbWJ+OAYvVOGhqaXajc5ADtknlo0lngm5G3Q=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Flee State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseFleeState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "DbuA6v4qapnW4UezT5Gk7w6wmL7ZhfZgj2KXAFfhiLI=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Flee State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseFleeState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "u+3s7LwUA0LmrfMGEt8hSTgN4gFsWHYhYkyFfggW0ic=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Flee State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseFleeState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "OE1aNozNn87d0/OaEjE8qTAujvgc+eCrJ3NbTtzjGEE=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Mounted State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseMountedState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "BCSOuaBX3J7gQ0ADDz48YWQuGADJclTzSH3IYNISBRE=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Move Towards State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseMoveTorwardsState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "vAlTOd7cZVRmFhfuPNv1aBObEOyCR1v6HI/tQLLc5+w=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Move Towards State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseMoveTorwardsState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "kv8cQLG23IQL3TeLZYnkVOfZhcHc7lyCkQy4h41LilA=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Navigate Home State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseNavigateHomeState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "TeoIkjj0eH88PWGQNVwPI4oQrLFvO4A/gESzv2dRGi4=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 0,
+            "ArgumentBehavior": 0,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Navigate Home State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseNavigateHomeState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "Cjw8ic0mfffETjOH9RtmMHvQ6aEsko1dWipLrKBaAsI=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Navigate Home State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseNavigateHomeState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "8aB3P67x7kcUt9iLak42GdjIhI0RkZxNCZLIFqaTUfA=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Roam State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseRoamState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "DjZt8QYJ/EyyDe0nFwowM6i1gnzqKPU/Xj1ZIZOjdcM=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Base Sleep State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseSleepState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "e/qc/CFqYOAmiaPrnnerQTPtrAFVo3BoNrruLSCkcJ4=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Base Sleep State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseSleepState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "OeZt51LmOeBwfT+dfdcy76FuoWcKoQTPOa0sd46VDh0=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Base Sleep State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "BaseAIBrain`1/BaseSleepState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "xU2GAZd9yAwgHnrOzRGU/Vn4QwZxKLmlfIW4n0QAyKY=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Scientist Roam State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/RoamState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "pwDMVeFkbZ5hKYIo0E5zUnxsLc8ZAXBgZR9ecWzgbGQ=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist Roam State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/RoamState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "z9YTiDxOLnbE9UUZdhk5ZbCLCMpiQqmYCevoHd2UsJM=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Scientist TakeCover State",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/TakeCoverState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "jPhE675YrtJxEvrOjVFOymt41BkXEtEsugoUFAfUoOM=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Scientist TakeCover State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/TakeCoverState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "Ygs/Y3nSPOFgpveicppy5WiWK+ZVUCkF16KnML6qOok=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist TakeCover State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/TakeCoverState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "iCKcbDD4db0884qdjPcoShVghKItDDgtb7o9Rw4V+qs=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Scientist Chase State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/ChaseState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "Cvw+KXTu+kq0MZIVp1KqDF0CBrILkEX3u87lJf9UDC4=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Scientist Chase State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/ChaseState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "4MzRDPl0yn6iXWbCdNKCzZ78Ep4xi6w7ht3Y3HHvYrc=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist Chase State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/ChaseState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "YwKPfjXOpTeYgeALP4YgQF4SBNRLPeBzauB3ega3X58=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Scientist Combat State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CombatState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "QuLCw1rMQbshVw7m1omgrDlpCaDGS9wRTTRq5WHmR/I=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Scientist Combat State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CombatState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "7m4k8vkPKOh0d5DY/zRYwOt51bMKwSuvNXtbeE210+c=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist Combat State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CombatState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "p2eizXWydWa1fL7k9PWuMqgMSGkeFkMZiJknqTke4AA=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Scientist CombatStationary",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CombatStationaryState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "kseu+1yYPPrl0haPr+gdqCvnvHPlIJllQTd0PGVhGVc=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist CombatStationary",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CombatStationaryState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "pzNNwVFfG6Po+Lm9kGkdZeLPLfMbTHgTNDc78yS9IeY=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Scientist Cover State]",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CoverState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "8Ug6eemPUBuUZezKOhcjZRMyee2vUsrltzciW8aqOuE=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateLeave [Scientist Cover State]",
+            "HookName": "OnStateLeave",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CoverState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateLeave",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "eU+vu3k7wz72Sj9LsPniDjFqedM0DIzq119s9jpRUTc=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist Cover State]",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/CoverState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "4dZkDRrYqv78JbdSkDNVNb0Ruc7E6ggNN05Fx2vd5qo=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateEnter [Scientist Dismounted State",
+            "HookName": "OnStateEnter",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/DismountedState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateEnter",
+              "ReturnType": "System.Void",
+              "Parameters": []
+            },
+            "MSILHash": "31+laoWzwvwBvxJpY8JD45xcmWKt5kEgUXoPU79n/yw=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "OnStateThink [Scientist Dismounted State",
+            "HookName": "OnStateThink",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "ScientistBrain/DismountedState",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "StateThink",
+              "ReturnType": "StateStatus",
+              "Parameters": [
+                "System.Single"
+              ]
+            },
+            "MSILHash": "O4QZzYI6jfLWBm/4FMPKWM339k7wW+mshPzoGllnjiE=",
+            "BaseHookName": null,
+            "HookCategory": "States"
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "ArgumentString": null,
+            "HookTypeName": "Simple",
+            "Name": "GetBestTarget",
+            "HookName": "OnGetBestTarget",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "HumanNPC",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "GetBestTarget",
+              "ReturnType": "BaseEntity",
+              "Parameters": []
+            },
+            "MSILHash": "NGb2J+JIo9kPhxKx5zFQ4cdUal2I9U36v4CCuIaCpFs=",
+            "BaseHookName": null,
+            "HookCategory": null
+          }
         }
       ],
-      "Modifiers": [],
+      "Modifiers": [
+        {
+          "Name": "AttackedAIEvent::combatEntity",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "AttackedAIEvent",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "combatEntity",
+            "FullTypeName": "BaseCombatEntity AttackedAIEvent::combatEntity",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "ScientistBrain/RoamState::status",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "ScientistBrain/RoamState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "status",
+            "FullTypeName": "StateStatus ScientistBrain/RoamState::status",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "HumanPathFinder::npc",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "HumanPathFinder",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "npc",
+            "FullTypeName": "BaseEntity HumanPathFinder::npc",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "BaseAIBrain`1/BaseFollowPathState::path",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "path",
+            "FullTypeName": "AIMovePointPath BaseAIBrain`1/BaseFollowPathState::path",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "BaseAIBrain`1/BaseFollowPathState::currentNodeIndex",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "currentNodeIndex",
+            "FullTypeName": "System.Int32 BaseAIBrain`1/BaseFollowPathState::currentNodeIndex",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "BaseAIBrain`1/BaseFollowPathState::currentTargetPoint",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "currentTargetPoint",
+            "FullTypeName": "AIMovePoint BaseAIBrain`1/BaseFollowPathState::currentTargetPoint",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "BaseAIBrain`1/BaseFollowPathState::status",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "status",
+            "FullTypeName": "StateStatus BaseAIBrain`1/BaseFollowPathState::status",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "BaseAIBrain`1/BaseFollowPathState::currentWaitTime",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "currentWaitTime",
+            "FullTypeName": "System.Single BaseAIBrain`1/BaseFollowPathState::currentWaitTime",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "BaseAIBrain`1/BaseFollowPathState::pathDirection",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "BaseAIBrain`1/BaseFollowPathState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "pathDirection",
+            "FullTypeName": "AIMovePointPath/PathDirection BaseAIBrain`1/BaseFollowPathState::pathDirection",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        },
+        {
+          "Name": "AttackedAIEvent::.ctor",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "AttackedAIEvent",
+          "Type": 1,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              2
+            ],
+            "Name": ".ctor",
+            "FullTypeName": "System.Void",
+            "Parameters": []
+          },
+          "MSILHash": "LmJj552NKJp94UXGTiR89u6FbqR43LSTYxmyOS4wGUY="
+        },
+        {
+          "Name": "ScientistBrain/TakeCoverState::ClearCoverPointUsage",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "ScientistBrain/TakeCoverState",
+          "Type": 1,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "ClearCoverPointUsage",
+            "FullTypeName": "System.Void",
+            "Parameters": []
+          },
+          "MSILHash": "Pc5QFWOCilumW/K4GWfpDydK/8p5jaF9zZXNrYodvj4="
+        },
+        {
+          "Name": "ScientistBrain/TakeCoverState::FaceCoverFromEntity",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "ScientistBrain/TakeCoverState",
+          "Type": 1,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "FaceCoverFromEntity",
+            "FullTypeName": "System.Void",
+            "Parameters": []
+          },
+          "MSILHash": "rWVUQkvKoIHTgIFoPgD8pqkkTa1CnvkzMSEc0uSOe74="
+        },
+        {
+          "Name": "ScientistBrain/TakeCoverState::StartMovingToCover",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "ScientistBrain/TakeCoverState",
+          "Type": 1,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "StartMovingToCover",
+            "FullTypeName": "System.Boolean",
+            "Parameters": []
+          },
+          "MSILHash": "AKNgtLeAD8kGbt6wfFJFvnJAcWHHFuTdTZB5wg3Ghpw="
+        },
+        {
+          "Name": "ScientistBrain/TakeCoverState::status",
+          "AssemblyName": "Assembly-CSharp.dll",
+          "TypeName": "ScientistBrain/TakeCoverState",
+          "Type": 0,
+          "TargetExposure": [
+            2
+          ],
+          "Flagged": false,
+          "Signature": {
+            "Exposure": [
+              0
+            ],
+            "Name": "status",
+            "FullTypeName": "StateStatus ScientistBrain/TakeCoverState::status",
+            "Parameters": []
+          },
+          "MSILHash": ""
+        }
+      ],
       "Fields": []
     }
   ]
