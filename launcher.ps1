@@ -33,6 +33,14 @@ $global:map = ""
 if(test-path "$($global:Settings['dir'])\lastmap"){
 	$global:map = (cat "$($global:Settings['dir'])\lastmap")
 }
+function loadConfig(){
+		if(test-path "$($global:Settings['dir'])\serverconf.json"){
+			$global:Settings=import-clixml "$($global:Settings['dir'])\serverconf.json"			
+		}
+}
+function saveConfig(){
+	 $global:Settings |export-clixml "$($global:Settings['dir'])\serverconf.json"
+}
 function updateServer(){
 	cls
     write-host
@@ -43,11 +51,11 @@ function updateServer(){
     write-host "#################################################################" -foregroundcolor yellow
     write-host
     write-host	
-	$newfile = "Rust"+((get-date).ticks)+".opj"
-	if(test-path "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj"){
-		if((get-filehash "$($global:Settings['dir'])\OxidePatcher\Rust.opj") -ne (get-filehash "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj")){
-			copy-item "$($global:Settings['dir'])\OxidePatcher\Rust.opj" ("$($global:Settings['dir'])\OxidePatcher\$newfile") -force
-			copy-item "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj" ("$($global:Settings['dir'])\OxidePatcher\Rust.opj") -force
+	$newfile = "RustPersonal"+((get-date).ticks)+".opj"
+	if(test-path "$($global:Settings['dir'])\RustDedicated_Data\Managed\RustPersonal.opj"){
+		if((get-filehash "$($global:Settings['dir'])\OxidePatcher\RustPersonal.opj") -ne (get-filehash "$($global:Settings['dir'])\RustDedicated_Data\Managed\RustPersonal.opj")){
+			copy-item "$($global:Settings['dir'])\OxidePatcher\RustPersonal.opj" ("$($global:Settings['dir'])\OxidePatcher\$newfile") -force
+			copy-item "$($global:Settings['dir'])\RustDedicated_Data\Managed\RustPersonal.opj" ("$($global:Settings['dir'])\OxidePatcher\RustPersonal.opj") -force
 		}
 	}
 	write-host "-- Removing folders" -foregroundcolor Green
@@ -61,6 +69,12 @@ function updateServer(){
 	iwr $downloadurl -UseBasicParsing -OutFile "$($global:Settings['dir'])\oxide.zip"
 	Expand-Archive .\oxide.zip -DestinationPath "$($global:Settings['dir'])\oxideexport" -force
 	write-host "-- Copying patcher (overwrite)" -foregroundcolor Green
+	
+	$downloadurl = "https://raw.githubusercontent.com/OxideMod/Oxide.Rust/develop/resources/Rust.opj"
+	iwr $downloadurl -UseBasicParsing -OutFile "$($global:Settings['dir'])\OxidePatcher\rust.opj"
+	$downloadurl = "https://github.com/OxideMod/Oxide.Patcher/releases/download/latest/OxidePatcher.exe"
+	iwr $downloadurl -UseBasicParsing -OutFile "$($global:Settings['dir'])\OxidePatcher\OxidePatcher.exe"
+	
 	copy-item "$($global:Settings['dir'])\OxidePatcher\*" "$($global:Settings['dir'])\RustDedicated_Data\Managed\" -force
 	write-host "-- Safe-copying oxide files (no overwrite)" -foregroundcolor Green
 	safecopy -p1 ("$($global:Settings['dir'])\oxideexport\") -p2 ("$($global:Settings['dir'])\")
@@ -70,7 +84,7 @@ function updateServer(){
 	$downloadurl = "https://github.com/k1lly0u/Oxide.Ext.RustEdit/blob/master/Oxide.Ext.RustEdit.dll?raw=true"
 	iwr $downloadurl -UseBasicParsing -OutFile "$($global:Settings['dir'])\RustDedicated_Data\Managed\Oxide.Ext.RustEdit.dll"
 	write-host "-- Launching Patcher - please apply all hooks, fields, methods" -foregroundcolor Green
-	(cat "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj" -raw).replace('"Flagged": true','"Flagged": false') | out-file "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj"
+	(cat "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj" -raw).replace('"Flagged": true','"Flagged": false').replace("D:\\Servers\\Rust\\RustDedicated_Data\\Managed",$global:Settings['dir'].replace("\","\\")+"\\RustDedicated_Data\\Managed") | out-file "$($global:Settings['dir'])\RustDedicated_Data\Managed\Rust.opj"
 	cd "$($global:Settings['dir'])\RustDedicated_Data\Managed\" 
 	cmd /C "start OxidePatcher.exe"
 	cd "$($global:Settings['dir'])" 
@@ -113,7 +127,7 @@ function pickID(){
 function runServer(){
 	$identity = $global:Settings["+server.identity"]
 	$dir = $global:Settings["dir"]
-	$global:mapStr = (read-host "Enter map name [$global:map]").replace(".map","")
+	$global:mapStr = (read-host "Enter map name [$global:map], /new to wipe local cache").replace(".map","")
 	if($global:mapStr -eq "/new"){
 		$global:mapStr = ""
 		if(test-path "$($global:Settings['dir'])\server\$identity\$global:map.map"){
@@ -144,10 +158,10 @@ function runServer(){
 	}))
 	cd $global:Settings['dir']
 write-host (@"
-RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix" && exit
+start RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix"
 "@) -foregroundcolor yellow
 cmd /c (@"
-RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix" && exit
+start RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix"
 "@)
 $global:mapStr=""
 read-host "Enter to continue"
@@ -202,6 +216,18 @@ $global:menu = [pscustomobject]@{
 				paintMenu
 			}
 		};
+		"Selected" = 0
+		"Selectable" = 0
+	},    
+	[pscustomobject]@{
+		"Name" = "Save Config";
+		"Command" = [scriptBlock]{saveConfig};
+		"Selected" = 0
+		"Selectable" = 0
+	},    
+	[pscustomobject]@{
+		"Name" = "Load Config";
+		"Command" = [scriptBlock]{loadConfig};
 		"Selected" = 0
 		"Selectable" = 0
 	},    
