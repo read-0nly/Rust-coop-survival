@@ -43,8 +43,8 @@ Updates like this are probably not gonna be regular, but i wanted to share the m
   - both can be attached, for up to 3 seats
   - while sitting, all animals in your squad go into a sort of "follow eyesight" mode - they'll move forward at a speed dependent on whether you're holding shift or ctrl or neither, in the direction you're facing. If they go too far they come back towards you. Including the animal you're riding, which is how you control it
   - you can control your own squad from a sled on a wolf driven by another player, to act as a scouting force.
+  - As long as the animals are in passive, they follow orders, but being wild animals, i they go into attack/chase/flee(A/C/F), they will follow their instincts and you are just along for the ride. This includes the animal you're driving - but only affects the animals in that state, so you keep some control of the pack
   - While zoomed, animals go into "run forward" mode, allowing drive-by tactics and crashing the sides of your pack into their line (where they go A/C/F and split off from the pack)
-  - As long as the animals are in passive, they follow orders, but being wild animals, i they go into attack/chase/flee, they will follow their instincts and you are just along for the ride. This includes the animal you're driving - but only affects the animals in that state, so you keep some control of the pack
   - that said, if your ride falls into A/C/F, since you can't turn 180 the rest of the pack usually follows
 
 
