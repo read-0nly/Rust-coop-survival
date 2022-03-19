@@ -47,7 +47,7 @@ Updates like this are probably not gonna be regular, but i wanted to share the m
   - that said, if your ride falls into A/C/F, since you can't turn 180 the rest of the pack usually follows
 
 
-Superdense map is coming along nicely. Right now using the red brick building as a placeholder while I figure out how to fill out some other rowhouses, then I'll swap them out. Lots of floaters still, not shown are the water treatment plant, harbor, radtown, miltunnels, dome, or subway network.
+Superdense map is coming along nicely. Right now using the red brick building as a placeholder while I figure out how to fill out some other rowhouses, then I'll swap them out. Lots of floaters still, not shown are the water treatment plant, harbor, radtown, miltunnels, dome, or subway network. MLRS are around too, to help with attempts to flip zones.
 
 ![image](https://user-images.githubusercontent.com/33932119/159136547-4d6fae05-c631-49a5-a1cb-dd554a71fb43.png)
 ![image](https://user-images.githubusercontent.com/33932119/159136554-dd0533cd-ec34-414a-9e4f-65fc116ee9a0.png)
