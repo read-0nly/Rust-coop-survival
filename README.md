@@ -12,7 +12,7 @@ Proper instructions incoming.
 ## Updates
 
 ### 3/19 Map and Faction Update
-Updates like this are probably not gonna be regular, but i wanted to share the map mostly. That said, I should recap the whole faction/ai revamp
+Updates like this are probably not gonna be regular, but i wanted to share the map mostly (pictures at the bottom). That said, I should recap the whole faction/ai revamp
 
 - There are 4 factions - Unalgined, Scientist, Bandit, Wild
 - Boars, bears, wolves, and stags (once i replace the "deer" references) are wild, sharks too, chickens and shopkeepers are unaligned
