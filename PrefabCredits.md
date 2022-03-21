@@ -1,3 +1,18 @@
+Here's the current active plugins (mine italicized, links dead right now but will be fixed soon)
+- *[AIPlus]()*
+- *[Analyzer]()*
+- [Backpacks]()
+- [BetterRootCombiners]()
+- [CarSpawnSettings]()
+- [CraftChassis]()
+- [CraftUI]()
+- [CraftingController]()
+- [CustomDecay]()
+- [ExtraSeating]()
+- [FuelGauge]()
+- [ImageLibrary]()
+- [StashMarker]()
+
 Here's a list of links to all the prefabs I plan on downloading - It's likely not all of these will be used but they're all cool af
 
 - https://codefling.com/monuments/double-oilrig
