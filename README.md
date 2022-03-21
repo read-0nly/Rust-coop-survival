@@ -10,7 +10,7 @@ My main planning document / documentation - it's a damn mess: https://github.com
 Proper instructions incoming.
 
 
-## [Prefab Credits](PrefabCredits.md)
+## [Prefab/Plugin Credits](Credits.md)
 ## Updates
 
 ### 3/19 Map and Faction Update
