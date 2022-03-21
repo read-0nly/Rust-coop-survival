@@ -9,6 +9,8 @@ My main planning document / documentation - it's a damn mess: https://github.com
 ## So you're trying to build this thing
 Proper instructions incoming.
 
+
+## [Prefab Credits](PrefabCredits.md)
 ## Updates
 
 ### 3/19 Map and Faction Update
