@@ -1,0 +1,39 @@
+Here's a list of links to all the prefabs I plan on downloading - It's likely not all of these will be used but they're all cool af
+
+- https://codefling.com/monuments/double-oilrig
+- https://codefling.com/monuments/loading-station-doublepack-monument-arena1
+- https://codefling.com/monuments/rebel-camp
+- https://codefling.com/monuments/rebel-camp
+- https://codefling.com/monuments/titan-ii-missile-silo-by-niko
+- https://codefling.com/monuments/car-facility
+- https://codefling.com/monuments/small-cabin
+- https://codefling.com/monuments/military-camp-checkpoint
+- https://codefling.com/monuments/little-factory-road
+- https://codefling.com/monuments/hdrp-ready-checkpoint-by-uvstar
+- https://codefling.com/monuments/cemetery-free-version
+- https://codefling.com/monuments/small-village
+- https://codefling.com/monuments/cobalt-office
+- https://codefling.com/monuments/lost-factory
+- https://codefling.com/monuments/bandit-cave-village
+- https://codefling.com/monuments/cobalt-cargo
+- https://codefling.com/monuments/cobalts-rust-emporium-hdrp
+- https://codefling.com/monuments/listening-post
+- https://codefling.com/monuments/abandoned-garage
+- https://codefling.com/monuments/hillside-bunker1
+- https://codefling.com/monuments/prepper-shelter-v2
+- https://codefling.com/monuments/pumping-station
+- https://codefling.com/monuments/scientist-fallback-base
+- https://lone.design/product/breakable-monuments/
+- https://lone.design/product/super-powerplant-reconstructed-hdrp-copy/
+- https://lone.design/product/military-outpost-safezone-monument/
+- https://lone.design/product/shady-elixirs-safezone-monument/
+- https://lone.design/product/clothing-vendor-safezone-monument/
+- https://lone.design/product/repair-hut-small-monument/
+- https://lone.design/product/research-outpost-tiny-monument/
+- https://lone.design/product/abandoned-campground/
+- https://lone.design/product/little-cabin/
+- https://lone.design/product/overgrown-barge/
+- https://lone.design/product/bandit-hangar/
+- https://steamcommunity.com/groups/RobJWorkshop/discussions/0/1742230617624068974/
+- https://codefling.com/prefabs/motorbike-and-quad-set
+
