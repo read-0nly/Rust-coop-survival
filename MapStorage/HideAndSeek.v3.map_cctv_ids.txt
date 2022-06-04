@@ -1,0 +1,2 @@
+ID: COBALT5510 - Location: (38.1, 57.0, -66.3)
+ID: COBALT9695 - Location: (49.4, 108.1, -25.7)
