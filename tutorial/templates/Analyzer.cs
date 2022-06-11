@@ -30,7 +30,7 @@ namespace Oxide.Plugins
 		class Configuration{
 			
 			[JsonProperty("SomeValue", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public int SomeValue=0
+			public int SomeValue=0;
 			
 			public string ToJson() => JsonConvert.SerializeObject(this);				
 			public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
