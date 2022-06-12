@@ -11,7 +11,6 @@ using UnityEngine;
 //using Rust.Ai;
 //using Network;
 
-
 namespace Oxide.Plugins
 {
 	[Info("Analyzer", "your-name-here", "0.0.1")]
@@ -19,11 +18,11 @@ namespace Oxide.Plugins
 	public class Analyzer : CovalencePlugin
 	{
 		private void OnServerInitialized()
-        {
+                {
 			//Set yourself up
 		}
 		private void OnItemUse(Item i, int n)
-        {
+                {
 			if(i.ToString().Contains("cactus")){
 				//Do thing triggered by item use
 			}
