@@ -11,16 +11,17 @@ namespace Oxide.Plugins
 	public class Analyzer : CovalencePlugin
 	{
 		private void OnServerInitialized()
-                {
+        {
 			//Set yourself up
 		}
 		private void OnItemUse(Item i, int n)
-                {
+        {
 			if(i.ToString().Contains("cactus")){
 				//Do thing triggered by item use
 			}
 		}
-		[Command("analyze")] void analyze(IPlayer player, string command, string[] args){	
+		[Command("analyze")] 
+		private void analyze(IPlayer player, string command, string[] args){	
 			BasePlayer bp = (BasePlayer)player.Object;		
 			
 		}
