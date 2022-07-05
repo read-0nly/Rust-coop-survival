@@ -131,7 +131,7 @@ namespace Oxide.Plugins{
 				setDefaults(player);
 				player.blueprints.Reset();
 			}			
-			void OnPlayerSleepEnded(BasePlayer player)=>setDefaults(player);
+			//void OnPlayerSleepEnded(BasePlayer player)=>setDefaults(player);
 			void setDefaults(BasePlayer player){
 				if(player.IsConnected){
 					player._maxHealth = defaultHealth;						
@@ -192,7 +192,7 @@ namespace Oxide.Plugins{
 				
 			}
 			void updateOcean(){				
-				server.Command("env.oceanlevel",ConVar.Env.oceanlevel+waterStep);
+				server.Command("env.oceanlevel",Mathf.Abs(12-Convar.Env.Time)+waterStep);
 					
 				config.lastWater=ConVar.Env.oceanlevel;
 																//*/
