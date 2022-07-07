@@ -1,6 +1,0 @@
-ID: CASINO - Location: (-822.6, 32.2, 20.0)
-ID: TOWNWEAPONS - Location: (-833.7, 30.4, 83.9)
-ID: COBALT4892 - Location: (548.1, 5.8, 368.3)
-ID: COBALT4016 - Location: (557.6, 5.8, 353.0)
-ID: COBALT2365 - Location: (567.8, 7.7, 430.9)
-ID: COBALT1420 - Location: (578.5, 7.6, 408.9)
