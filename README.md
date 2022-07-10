@@ -1,7 +1,23 @@
 # Repo for development of my modded Rust server
 
-## Start here
-Just go read the wiki, it's better-formatted: https://github.com/read-0nly/Rust-coop-survival/wiki
+## What you need to know before going in
+- Dynamic faction scores - you start out very slightly pacifist. Killing scientists increases bandit score slightly and decreases scientist score, and vice versa. Killing animal raises score with both. Positive score with one aligns with that faction, with both aligns pacifist, with neither aligns Wild. Wild is the animal faction - they won't autoaggro on wild players.
+- While in a faction:
+  - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
+  - Fireworks have different effects:
+    - Boomer commands the whole faction
+    - Candle commands ~1/2
+    - Volcano commands squad
+    - Blue means go to faction town
+    - Green means go to zone nearest to spawn point
+    - Red means go to the zone nearest to firework (regardless of faction of that zone)
+    - Purple sets them in a wander mode where they're unanchored from their zone
+- Players also have faction score - shooting an aligned player could push you out of alignment and have your faction turn on you
+- Look at an NPC in your faction, then drop an item to have him drop his current item and take yours. You can use this to swap out weapons.
+- Backpack follows in death, so use it to store things in an unlootable way. Limited to 4 rows.
+- Traps SHOULD trigger on NPCs (this was likely broken recently)
+- Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
+- Yes I know the wiki and stuff are out of date, I'm working on it, a recent discovery drove me to effectively start from scratch so i<m a busy bee.
 
 ## Behind the curtain
 My main planning document / documentation - it's a damn mess: https://github.com/read-0nly/Rust-coop-survival/blob/main/planningNotes.md
@@ -13,7 +29,13 @@ Proper instructions incoming.
 ## [Prefab/Plugin Credits](Credits.md)
 ## Updates
 
-### 3/19 Map and Faction Update
+### 10/7/22 The overhaul
+- Found a way to implement TRUE deploy-anywhere. This opens up the use of procmaps but required a rewrite that has affected the faction system considerably. Adaptation continues
+- Abstracted out the BasicAIState replacement, actual state replacement and not just 10000 hooks, as well as created a  way to manipulate State-Event mapping. This allows complete AI overhaul, both of animals and humanNPC
+- With the new deployment method and the new AI management, the faction system needed a full rewrite. Work is ongoing, but most of the faction controls are back for HumanNPC. Animals are still very broken faction-control-wise and invisible to humannpcs, but the work continues.
+- Progress has been very much behind the curtain since the last update and in a lot of ways is a step back - but the sun is bright on the horizon, friends.
+
+### 19/3/22 Map and Faction Update
 Updates like this are probably not gonna be regular, but i wanted to share the map mostly (pictures at the bottom). That said, I should recap the whole faction/ai revamp
 
 - There are 4 factions - Unalgined, Scientist, Bandit, Wild
