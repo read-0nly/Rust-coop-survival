@@ -1,5 +1,7 @@
 # Repo for development of my modded Rust server
 
+[Play here!](steam://connect/rust.nullzer0.cf:28015)
+
 ## What you need to know before going in
 - Dynamic faction scores - you start out very slightly pacifist. Killing scientists increases bandit score slightly and decreases scientist score, and vice versa. Killing animal raises score with both. Positive score with one aligns with that faction, with both aligns pacifist, with neither aligns Wild. Wild is the animal faction - they won't autoaggro on wild players.
 - While in a faction:
