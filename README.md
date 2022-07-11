@@ -15,8 +15,22 @@
     - Green means go to zone nearest to spawn point
     - Red means go to the zone nearest to firework (regardless of faction of that zone)
     - Purple sets them in a wander mode where they're unanchored from their zone
+- Vending machines tie to nearest zone - purchases add to faction bank
+- Skull spikes create pay-to-spawn spawn points - on a time, if the faction bank has enough money, an npc will be spawned at one of these
+- Lanterns manipulate faction-aligned zones using special notes:
+  - On the first line, enter "zone:NameOfZone" where NameOfZone is the desired name
+  - If the lantern is green, it'll create a move point
+  - If the lantern is purple, it'll finalize the changes
+  - If the lantern is red, it'll delete the zone
+- To take control of a zone, destroy all the opposing skull spikes, then place down a skull spike  
 - Players also have faction score - shooting an aligned player could push you out of alignment and have your faction turn on you
 - Look at an NPC in your faction, then drop an item to have him drop his current item and take yours. You can use this to swap out weapons.
+- Look at an animal while wild and drop a chair or sled to tie it to the animal
+- While in a seat, animals that are squadded will run in the direction you're looking, while staying within a radius
+  - Hold SHIFT to go faster, hold CTRL to go slower
+  - Hold Right-Click to lock direction, allowing drivebys
+  - This allows you to lead your animals into battle against the other factions
+  - You don't need to be sitting on the animal to do this - sit in a friend's sled while they drive from the chair, and drive your own squad as a forward team!
 - Backpack follows in death, so use it to store things in an unlootable way. Limited to 4 rows.
 - Traps SHOULD trigger on NPCs (this was likely broken recently)
 - Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
