@@ -34,6 +34,7 @@
 - Backpack follows in death, so use it to store things in an unlootable way. Limited to 4 rows.
 - Traps SHOULD trigger on NPCs (this was likely broken recently)
 - Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
+  - Wire tool now also works like this - middle click to start making an invisible connection. Impossible circuits are possible, debugging is underway, and making the connections visible is too. Circuit based puzzles in monuments?!
 - Yes I know the wiki and stuff are out of date, I'm working on it, a recent discovery drove me to effectively start from scratch so i<m a busy bee.
 
 ## Behind the curtain
