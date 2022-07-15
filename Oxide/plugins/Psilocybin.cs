@@ -282,21 +282,6 @@ namespace Oxide.Plugins
         {
 			LoadConfig();
 		}
-		
-		void OnInitializeAI(BaseAIBrain<HumanNPC> brain)
-		{
-			BaseEntity be = brain.GetEntity();//
-			if(be==null)return;
-			if(config.GlobalDesign.availableStates.Count() ==0){
-				if(config.Assignments.ContainsKey(be.ShortPrefabName)){
-					ApplyDesign(be,config.Assignments[be.ShortPrefabName].ToProto());
-				}else{
-					
-				}
-			}else{
-				ApplyDesign(be,config.GlobalDesign.ToProto());
-			}
-		}
 		void OnEntitySpawned(BaseNetworkable entity)
 		{
 			BaseEntity be = (entity as BaseEntity);

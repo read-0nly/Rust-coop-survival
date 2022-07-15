@@ -30,6 +30,7 @@ namespace Oxide.Plugins
 		public static Dictionary<string,Dictionary<AIState,BaseAIBrain<BaseAnimalNPC>.BasicAIState>> AnimalStateAssignments = 
 			new Dictionary<string,Dictionary<AIState,BaseAIBrain<BaseAnimalNPC>.BasicAIState>>();
 		public Configuration config;
+		public bool WalkableOnly = false;
 		
 		public class Configuration
 		{
@@ -64,6 +65,10 @@ namespace Oxide.Plugins
 		{
 			ApplyDesign(brain.GetEntity());
 		}
+		void OnInitializeAI(AnimalBrain brain)
+		{
+			ApplyDesign(brain.GetEntity());
+		}
 		
 		public bool ApplyDesign(BaseEntity entity){
 			HumanNPC hn = (entity as HumanNPC);
@@ -74,8 +79,7 @@ namespace Oxide.Plugins
 				}
 				return false;
 			}else{		
-				//hn.GetComponent<BaseNavigator>().DefaultArea = "Walkable";
-				//hn.GetComponent<UnityEngine.AI.NavMeshAgent>().agentTypeID = -1372625422;
+				hn.GetComponent<BaseNavigator>().PlaceOnNavMesh();
 				return SwapHumanState(hn.Brain);
 			}
 		}
@@ -103,13 +107,21 @@ namespace Oxide.Plugins
 		}
 		public bool SwapHumanState(BaseAIBrain<HumanNPC> brain,AIState stateType,BaseAIBrain<HumanNPC>.BasicAIState state){
 			try{
+				if(brain.Navigator==null){return false;}
+				if(WalkableOnly){
+					if(brain.Navigator.DefaultArea!="Walkable") return true;
+				}
+				
+				brain.Navigator.defaultAreaMask = UnityEngine.AI.NavMesh.AllAreas;
+				brain.Navigator.navMeshQueryFilter.areaMask= UnityEngine.AI.NavMesh.AllAreas;
 				if (brain.states.ContainsKey(stateType)){
 					if(brain.CurrentState!=null)
 						if(brain.CurrentState.StateType==stateType)
 							brain.states[stateType].StateLeave();
 				}
-				state.brain = brain;
-				brain.states[stateType]=state;
+				BaseAIBrain<HumanNPC>.BasicAIState state2 = (BaseAIBrain<HumanNPC>.BasicAIState)System.Activator.CreateInstance(state.GetType());
+				state2.brain = brain;
+				brain.states[stateType]=state2;
 				return true;
 			}catch(Exception e){
 				return false;
@@ -122,8 +134,11 @@ namespace Oxide.Plugins
 						if(brain.CurrentState.StateType==stateType)
 							brain.states[stateType].StateLeave();
 				}
-				state.brain = brain;
-				brain.states[stateType]=state;
+				
+				Puts("Applying Animal States" + stateType.ToString());
+				BaseAIBrain<BaseAnimalNPC>.BasicAIState state2 = (BaseAIBrain<BaseAnimalNPC>.BasicAIState)System.Activator.CreateInstance(state.GetType());
+				state2.brain = brain;
+				brain.states[stateType]=state2;
 				return true;
 			}catch(Exception e){
 				return false;
@@ -133,7 +148,8 @@ namespace Oxide.Plugins
 			bool result = false;
 			if(AnimalStateAssignments.ContainsKey(brain.gameObject.transform.name)){
 				foreach(AIState state in AnimalStateAssignments[brain.gameObject.transform.name].Keys){
-					result = result|| SwapAnimalState(brain,state,AnimalStateAssignments[brain.gameObject.transform.name][state]);
+					bool stateResult = (SwapAnimalState(brain,state,AnimalStateAssignments[brain.gameObject.transform.name][state]));
+					result = result || stateResult;
 				}
 				return result;	
 			}
@@ -144,7 +160,8 @@ namespace Oxide.Plugins
 			bool result = false;
 			if(StateAssignments.ContainsKey(brain.gameObject.transform.name)){
 				foreach(AIState state in StateAssignments[brain.gameObject.transform.name].Keys){
-					result = result|| SwapHumanState(brain,state,StateAssignments[brain.gameObject.transform.name][state]);
+					bool stateResult = (SwapHumanState(brain,state,StateAssignments[brain.gameObject.transform.name][state]));
+					result = result || stateResult;
 				}
 				return result;	
 			}

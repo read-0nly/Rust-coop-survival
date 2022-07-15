@@ -16,6 +16,7 @@ using System.Text;
 using Rust.Ai;
 using System;
 using UnityEngine; 
+using UnityEngine.AI; 
 using Oxide.Core.Libraries.Covalence;
 using Oxide.Plugins;
 	using Oxide.Core.Plugins;
@@ -33,14 +34,12 @@ namespace Oxide.Plugins
 
 		private void OnServerInitialized()
         {
-			/*
-			UnityEngine.Object[] GameobjectList = Resources.FindObjectsOfTypeAll(typeof(GameObject));
-			foreach(GameObject go in GameobjectList){
-				if(go.ToString().Contains("prevent_building")){
-					Puts(go.ToString());
-					GameObject.Destroy(go);
-				}
-			}*/
+			UnityEngine.Object[] GameobjectList = Resources.FindObjectsOfTypeAll(typeof(NavMeshLink));
+			foreach(NavMeshLink go in GameobjectList){
+			Puts("["+go.startPoint.ToString()+"]");
+			}
+			
+			
 		}/*
 		private void OnItemUse(Item i, int n)
         {
@@ -89,6 +88,8 @@ namespace Oxide.Plugins
 				SendChatMsg(bp,LayerMask.LayerToName(t.gameObject.layer) + ":" + t.gameObject.layer.ToString());
 				t.gameObject.layer=23;
 				SendChatMsg(bp,"-----");
+				SendChatMsg(bp,((getLookingAt(bp) is HumanNPC)? getLookingAtRaw(bp).gameObject.GetComponent<ScientistBrain>().CurrentState.ToString():""));
+				SendChatMsg(bp,((getLookingAt(bp) is HumanNPC)? getLookingAtRaw(bp).gameObject.GetComponent<ScientistBrain>().Navigator.Path.Points.Count().ToString():""));
 			}catch(Exception f){}
 			bool first = true;
 			try{

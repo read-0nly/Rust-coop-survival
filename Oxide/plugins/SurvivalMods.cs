@@ -128,7 +128,7 @@ namespace Oxide.Plugins{
 			int maxHealth = 150;
 			int defaultCals = 75;
 			int maxCals = 400;
-			bool CanPickupEntity(BasePlayer player, BaseEntity entity){return false;}		
+			//bool CanPickupEntity(BasePlayer player, BaseEntity entity){return false;}		
 			private void OnPlayerRespawned(BasePlayer player){			
 				setDefaults(player);
 				player.blueprints.Reset();
@@ -190,18 +190,18 @@ namespace Oxide.Plugins{
 				if (entity == null) return;
 				entity.Spawn();
 				plant?.Kill();
-				waterStep-=0.001f;
-				config.waterSwing-=0.0001f;	
+				waterStep-=0.1f;
+				//config.waterSwing-=0.0001f;	
 				
 			}
 			object OnOvenCook(BaseOven oven, Item item)
 			{
-				config.waterSwing+=0.00001f;	
+				//config.waterSwing+=0.00001f;	
 				waterStep+=0.000001f;				
 				return null;
 			}
-			void updateOcean(){				
-				ConVar.Env.oceanlevel=Mathf.Max(0,(Mathf.Abs(12-ConVar.Env.time)*config.waterSwing)+waterStep);
+			void updateOcean(){		
+				server.Command("env.oceanlevel",Mathf.Max(0,(Mathf.Abs(12-ConVar.Env.time)*config.waterSwing)+waterStep));
 				config.lastWater=ConVar.Env.oceanlevel;
 																//*/
 			}
@@ -220,7 +220,7 @@ namespace Oxide.Plugins{
 		private void OnServerInitialized(){		
 			server.Command("env.oceanlevel",config.lastWater);
 			flushForestTopo();			
-            timer.Every(3f, () => {updateOcean();});			
+            timer.Every(17f, () => {updateOcean();});			
             timer.Every(11f, () => {PlayerMetabolismTick();});			
             timer.Every(73f, () => {growTrees();});
 		}
