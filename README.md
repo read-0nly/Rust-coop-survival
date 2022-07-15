@@ -34,7 +34,16 @@
 - Backpack follows in death, so use it to store things in an unlootable way. Limited to 4 rows.
 - Traps SHOULD trigger on NPCs (this was likely broken recently)
 - Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
-  - Wire tool now also works like this - middle click to start making an invisible connection. Impossible circuits are possible, debugging is underway, and making the connections visible is too. Circuit based puzzles in monuments?!
+  - Wire tool now also works like this, including on electronics at monuments - you can hack puzzles with a gas generator
+- Raw meat as well as berries will rot if not stored either in a fridge or alongside salt
+  - You get salt by purifying fresh water - when you open the intake, you get the salt automatically, as if scraping it off the inside.
+  - Rot happens randomly on a clock, when a stack is picked the whole stack rots
+  - If meat is stored alongside salt and gets picked for rotting, it turns to jerky instead
+  - If berries are targeted the same way, they just stay fresh berries
+  - Preserve berries by combining them with salt in an oven - campfire or bbq
+  - Because salt is a reskinned gunpowder, selling it is... complicated. Best to just trade in persone
+  - Eat everything you scavenge when you start. As you start to stabilize your food needs, start working on salt production or rush fridge
+  - A communal fridge at the faction town might be a good way to assure shared food security
 - Yes I know the wiki and stuff are out of date, I'm working on it, a recent discovery drove me to effectively start from scratch so i<m a busy bee.
 
 ## Behind the curtain
