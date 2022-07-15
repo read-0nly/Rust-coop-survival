@@ -4,6 +4,7 @@
 - Name in modded server list : GRUBHUB [Survival Factions]
 
 ## What you need to know before going in
+- Dynamic tides - burning things makes it worst, planting hemp and letting it "die" (where it'll turn into a tree) makes it better.
 - Dynamic faction scores - you start out very slightly pacifist. Killing scientists increases bandit score slightly and decreases scientist score, and vice versa. Killing animal raises score with both. Positive score with one aligns with that faction, with both aligns pacifist, with neither aligns Wild. Wild is the animal faction - they won't autoaggro on wild players.
 - While in a faction:
   - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
