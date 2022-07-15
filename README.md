@@ -1,6 +1,6 @@
 # Repo for development of my modded Rust server
 
-- Console connect URL: rust.nullzer0.cf:28015
+- Console connect URL: 78.108.218.16:28015
 - Name in modded server list : GRUBHUB [Survival Factions]
 
 ## What you need to know before going in
