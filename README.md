@@ -1,7 +1,7 @@
 # Repo for development of my modded Rust server
 
 - Console connect URL: 78.108.218.16:28015
-- Name in modded server list : GRUBHUB [Survival Factions]
+- Name in modded server list : GRUBHUB [Warring Factions]
 - SServer Discord (limited beta): https://discord.gg/DMBbNEUPs5
 
 ## What you need to know before going in
