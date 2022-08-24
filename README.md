@@ -9,22 +9,8 @@
 - Dynamic faction scores - you start out very slightly pacifist. Killing scientists increases bandit score slightly and decreases scientist score, and vice versa. Killing animal raises score with both. Positive score with one aligns with that faction, with both aligns pacifist, with neither aligns Wild. Wild is the animal faction - they won't autoaggro on wild players.
 - While in a faction:
   - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
-  - Fireworks have different effects:
-    - Boomer commands the whole faction
-    - Candle commands ~1/2
-    - Volcano commands squad
-    - Blue means go to faction town
-    - Green means go to zone nearest to spawn point
-    - Red means go to the zone nearest to firework (regardless of faction of that zone)
-    - Purple sets them in a wander mode where they're unanchored from their zone
-- Vending machines tie to nearest zone - purchases add to faction bank
-- Skull spikes create pay-to-spawn spawn points - on a time, if the faction bank has enough money, an npc will be spawned at one of these
-- Lanterns manipulate faction-aligned zones using special notes:
-  - On the first line, enter "zone:NameOfZone" where NameOfZone is the desired name
-  - If the lantern is green, it'll create a move point
-  - If the lantern is purple, it'll finalize the changes
-  - If the lantern is red, it'll delete the zone
-- To take control of a zone, destroy all the opposing skull spikes, then place down a skull spike  
+  - Commands are broken at the moment while I revamp them to be done through the website - in the meantime they'll move on their own
+- Each Bandit or Scientist is also a shop, with their own pricing - it's a bit above their heads
 - Players also have faction score - shooting an aligned player could push you out of alignment and have your faction turn on you
 - Look at an NPC in your faction, then drop an item to have him drop his current item and take yours. You can use this to swap out weapons.
 - Look at an animal while wild and drop a chair or sled to tie it to the animal
