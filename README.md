@@ -34,15 +34,18 @@
   - A communal fridge at the faction town might be a good way to assure shared food security
 - Yes I know the wiki and stuff are out of date, I'm working on it, a recent discovery drove me to effectively start from scratch so i<m a busy bee.
 
-## Behind the curtain
-My main planning document / documentation - it's a damn mess: https://github.com/read-0nly/Rust-coop-survival/blob/main/planningNotes.md
-
 ## So you're trying to build this thing
 Proper instructions incoming.
 
 
 ## [Prefab/Plugin Credits](Credits.md)
 ## Updates
+
+### 23/8/2022 Is that the finish line?
+- The command revamp is mostly functional - just need to make a different page for each faction and a bit of tweaking in the server code. Grid based, webpage driven, NPCs holding monuments and stores gives faction currency for spawning npcs - basically play rust in the browser as a weird mashup of chess, battleship, and settlers of catan
+- Every NPC is now also a shop, with their own pricing - this is still a work in progress but eh it's a start
+- deployment plays nice with factions now
+- Otherwise, just missing map-agnostic faction towns by preference/priority in a way that should hopefully allow each faction to at least have A base on the map.
 
 ### 10/7/22 The overhaul
 - Found a way to implement TRUE deploy-anywhere. This opens up the use of procmaps but required a rewrite that has affected the faction system considerably. Adaptation continues
