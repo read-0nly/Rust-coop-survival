@@ -42,7 +42,7 @@ Proper instructions incoming.
 ## Updates
 
 ### 23/8/2022 Is that the finish line?
-- The command revamp is mostly functional - just need to make a different page for each faction and a bit of tweaking in the server code. Grid based, webpage driven, NPCs holding monuments and stores gives faction currency for spawning npcs - basically play rust in the browser as a weird mashup of chess, battleship, and settlers of catan
+- The command revamp is mostly functional - no more AI Information zones, everything is a grid now. Fireworks and lanterns are now inert. Just need to make a different page for each faction and a bit of tweaking in the server code. Grid based, webpage driven, NPCs holding monuments and stores gives faction currency for spawning npcs - basically play rust in the browser as a weird mashup of chess, battleship, and settlers of catan
 - Every NPC is now also a shop, with their own pricing - this is still a work in progress but eh it's a start
 - deployment plays nice with factions now
 - Otherwise, just missing map-agnostic faction towns by preference/priority in a way that should hopefully allow each faction to at least have A base on the map.
