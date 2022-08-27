@@ -32,6 +32,13 @@
   - Because salt is a reskinned gunpowder, selling it is... complicated. Best to just trade in persone
   - Eat everything you scavenge when you start. As you start to stabilize your food needs, start working on salt production or rush fridge
   - A communal fridge at the faction town might be a good way to assure shared food security
+- Create orders both in-game using notes in sky lanterns and using C&C on the website! [http://nullzer0.42web.io/](http://nullzer0.42web.io/)
+  - Uses the following pattern (calls 5 for 300 seconds / 5 minutes)
+```
+help!
+send:5
+timeout:300
+```
 - Yes I know the wiki and stuff are out of date, I'm working on it, a recent discovery drove me to effectively start from scratch so i<m a busy bee.
 
 ## So you're trying to build this thing
