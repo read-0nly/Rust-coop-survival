@@ -10,6 +10,7 @@
 - While in a faction:
   - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
 - Each Bandit or Scientist is also a shop, with their own pricing - it's a bit above their heads
+  - Buying from them and from stores in monuments they're sharing a cell with / orbiting will increase their funds, used for spawning from junkpiles
 - Players also have faction score - shooting an aligned player could push you out of alignment and have your faction turn on you
 - Look at an NPC in your faction, then drop an item to have him drop his current item and take yours. You can use this to swap out weapons.
 - Look at an animal while wild and drop a chair or sled to tie it to the animal
