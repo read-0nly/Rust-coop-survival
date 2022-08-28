@@ -9,7 +9,6 @@
 - Dynamic faction scores - you start out very slightly pacifist. Killing scientists increases bandit score slightly and decreases scientist score, and vice versa. Killing animal raises score with both. Positive score with one aligns with that faction, with both aligns pacifist, with neither aligns Wild. Wild is the animal faction - they won't autoaggro on wild players.
 - While in a faction:
   - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
-  - Commands are broken at the moment while I revamp them to be done through the website - in the meantime they'll move on their own
 - Each Bandit or Scientist is also a shop, with their own pricing - it's a bit above their heads
 - Players also have faction score - shooting an aligned player could push you out of alignment and have your faction turn on you
 - Look at an NPC in your faction, then drop an item to have him drop his current item and take yours. You can use this to swap out weapons.
@@ -20,7 +19,7 @@
   - This allows you to lead your animals into battle against the other factions
   - You don't need to be sitting on the animal to do this - sit in a friend's sled while they drive from the chair, and drive your own squad as a forward team!
 - Backpack follows in death, so use it to store things in an unlootable way. Limited to 4 rows.
-- Traps SHOULD trigger on NPCs (this was likely broken recently)
+- Traps trigger on NPCs
 - Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
   - Wire tool now also works like this, including on electronics at monuments - you can hack puzzles with a gas generator
 - Raw meat as well as berries will rot if not stored either in a fridge or alongside salt
@@ -39,7 +38,6 @@ help!
 send:5
 timeout:300
 ```
-- Yes I know the wiki and stuff are out of date, I'm working on it, a recent discovery drove me to effectively start from scratch so i<m a busy bee.
 
 ## So you're trying to build this thing
 Proper instructions incoming.
