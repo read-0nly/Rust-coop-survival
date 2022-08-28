@@ -2,7 +2,8 @@
 
 - Console connect URL: 78.108.218.16:28015
 - Name in modded server list : GRUBHUB [Warring Factions]
-- SServer Discord (limited beta): https://discord.gg/DMBbNEUPs5
+- Discord (open beta): https://discord.gg/DMBbNEUPs5
+- Website (this is also the command and control system): http://nullzer0.42web.io/
 
 ## What you need to know before going in
 - Dynamic tides - burning things makes it worst, planting hemp and letting it "die" (where it'll turn into a tree) makes it better.
