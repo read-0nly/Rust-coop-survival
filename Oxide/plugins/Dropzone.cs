@@ -1,3 +1,24 @@
+/*README:
+
+Chat Commands:
+/clearorbit Removes the orbit points (MonumentInfo) that are actively loaded
+/clearLZ Removes active landing zones
+/clearDZ Removes active drop zones
+/setorbit sets an orbit points
+/setlz sets a landing zones
+/setdz sets a drop zone
+
+Config:
+CustomOnly - removes all the built-in orbit and drop points, only loading the points you set
+Land - unimplemented - creates landing zones defined in config
+Drop - unimplemented - creates drop points defined in config
+Orbit - unimplemented - creates orbit points in config
+
+the other three - vector lists, best to leave them alone and use chat commands to set the points, but since there's no way to delete points right now it's handy for cleanup
+
+*/
+
+
 #region using
 	using Convert = System.Convert;
 	using Network;
