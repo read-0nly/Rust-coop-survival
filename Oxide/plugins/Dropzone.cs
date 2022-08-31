@@ -1,20 +1,38 @@
 /*README:
 
 Chat Commands:
-/clearorbit Removes the orbit points (MonumentInfo) that are actively loaded
-/clearLZ Removes active landing zones
-/clearDZ Removes active drop zones
-/setorbit sets an orbit points
-/setlz sets a landing zones
-/setdz sets a drop zone
+/clearorbit		 - Removes the orbit points (MonumentInfo) that are actively loaded (native and custom)
+/clearLZ		 - Removes active landing zones (native and custom)
+/clearDZ		 - Removes active drop zones (native and custom)
+/clearall		 - Remoes all drop, landing, and orbit points on the map
+/Switchcustomonly- Flips whether or not it'll delete native points on boot
+
+/deleteLZ		 - deletes a custom landing point within 15u of you
+/deleteDZ		 - deletes a custom drop point within 15u of you
+/deleteOrbit	 - deletes a custom orbit point within 15u of you
+
+/setorbit		 - sets an orbit points
+/setlz			 - sets a landing zones
+/setdz			 - sets a drop zone
+/setpoint		 - makes a unified point (all three points as one)
+
+/clearcustom	 - flushes all custom points
+/callhere		 - removes all active points in the scene, creates all three point types at player position, and calls ch47 to position.
 
 Config:
-CustomOnly - removes all the built-in orbit and drop points, only loading the points you set
-Land - unimplemented - creates landing zones defined in config
-Drop - unimplemented - creates drop points defined in config
-Orbit - unimplemented - creates orbit points in config
+CustomOnly 		 - removes all the built-in orbit and drop points, only loading the points you set
+Land 			 - unimplemented - creates landing zones defined in config
+Drop 			 - unimplemented - creates drop points defined in config
+Orbit 			 - unimplemented - creates orbit points in config
+The other three	 - vector lists, best to leave them alone and use chat commands to set and delete points
 
-the other three - vector lists, best to leave them alone and use chat commands to set the points, but since there's no way to delete points right now it's handy for cleanup
+The permission (there's just one)
+oxide.grant group admin dropzone.admin
+
+Workflow to remove all orbit points and create a single point
+/clearall
+/setpoint
+
 
 */
 
@@ -48,7 +66,7 @@ namespace Oxide.Plugins{
 			[JsonProperty("CustomOnly", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 			public bool CustomOnly=false;
 			[JsonProperty("Land", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public bool Land=true;
+			public bool Land=false; //Requires navmesh hacks to play nice
 			[JsonProperty("Drop", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 			public bool Drop=true;
 			[JsonProperty("Orbit", ObjectCreationHandling = ObjectCreationHandling.Replace)]
@@ -90,6 +108,9 @@ namespace Oxide.Plugins{
 		List<CH47LandingZone> customLZ = new List<CH47LandingZone>();
 		List<MonumentInfo> customOrbit = new List<MonumentInfo>();
 
+		void Init(){
+				permission.RegisterPermission("dropzone.admin", this);
+			}
 		void OnServerInitialized(){
 			LoadConfig();
 			if(config.CustomOnly){
@@ -97,59 +118,230 @@ namespace Oxide.Plugins{
 				clearDZ();
 				clearOrbit();
 			}
-			if(config.Drop){
+			initPoints();
+		}
+		
+		void initPoints(bool drop = true,bool land=true,bool orbit=true){
+			
+			if(config.Drop && drop){
 				foreach(Vector3 v in config.DropPoints){
 					setDZ(v);
 				}
 			}
-			if(config.Land){
+			if(config.Land && land){
 				foreach(Vector3 v in config.LandingZone){
 					setLZ(v);
 				}
-			}
-			if(config.Orbit){
+			} 
+			if(config.Orbit && orbit){
 				foreach(Vector3 v in config.OrbitPoints){
 					setOrbit(v);
 				}
 			}
 		}
+		
 		[ChatCommand("ClearLZ")] void ClearLZ(BasePlayer player, string command, string[] args){
-			clearLZ();
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+				clearLZ();
+				delLZ();
+				SendReply(player,"All landing zones cleared");
+				}
 		}
 		[ChatCommand("ClearDZ")] void ClearDZ(BasePlayer player, string command, string[] args){
-			clearDZ();
+			
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+				clearDZ();
+				delDZ();
+				SendReply(player,"All drop zones cleared");
+				}
 		}
 		[ChatCommand("ClearOrbit")] void ClearOrbit(BasePlayer player, string command, string[] args){
-			clearOrbit();
+			
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+				clearOrbit();
+				delOrbit();
+				SendReply(player,"All orbits cleared");
+				}
+		}
+		[ChatCommand("ClearAll")] void ClearAll(BasePlayer player, string command, string[] args){
+			
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+				config.CustomOnly = true;
+				clearLZ();
+				clearDZ();
+				clearOrbit();
+				delLZ();
+				delDZ();
+				delOrbit();
+				SendReply(player,"Flushed everything, CustomOnly set to true");
+			}
+		}
+		[ChatCommand("SwitchCustomOnly")] void SwitchCustomOnly(BasePlayer player, string command, string[] args){
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+			
+				config.CustomOnly = !config.CustomOnly;
+				SaveConfig();
+				SendReply(player,"CustomOnly switched to "+config.CustomOnly.ToString());
+			}
 		}
 		
+		
+		[ChatCommand("DeleteLZ")] void DeleteLZ(BasePlayer player, string command, string[] args){
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin"))
+				delLZ(player.transform.position);
+		}
+		[ChatCommand("DeleteDZ")] void DeleteDZ(BasePlayer player, string command, string[] args){
+			
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin"))
+				delDZ(player.transform.position);
+		}
+		[ChatCommand("DeleteOrbit")] void DeleteOrbit(BasePlayer player, string command, string[] args){
+			
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin"))
+				delOrbit(player.transform.position);
+		}
+		
+		
 		[ChatCommand("SetLZ")] void SetLZ(BasePlayer player, string command, string[] args){
-			setLZ(player.transform.position);
-			config.DropPoints.Add(player.transform.position);
-			SaveConfig();
-			SendReply(player,"Landing Zone created at "+(player.transform.position.ToString()));	
+			
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+				setLZ(player.transform.position);
+				config.LandingZone.Add(player.transform.position);
+				SaveConfig();
+				SendReply(player,"Landing Zone created at "+(player.transform.position.ToString()));	
+			}
 			
 	
 		}
 		[ChatCommand("SetDZ")] void SetDZ(BasePlayer player, string command, string[] args){
-			setDZ(player.transform.position);
-			config.DropPoints.Add(player.transform.position);
-			SaveConfig();
-			SendReply(player,"Dropzone created at "+(player.transform.position.ToString()));
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+					
+				setDZ(player.transform.position);
+				config.DropPoints.Add(player.transform.position);
+				SaveConfig();
+				SendReply(player,"Dropzone created at "+(player.transform.position.ToString()));
+			}
 
 
 		}
 		[ChatCommand("SetOrbit")] void SetOrbit(BasePlayer player, string command, string[] args){
-			setOrbit(player.transform.position);
-			config.OrbitPoints.Add(player.transform.position);
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+					
+				setOrbit(player.transform.position);
+				config.OrbitPoints.Add(player.transform.position);
+				SaveConfig();
+				SendReply(player,"Orbit created at "+(player.transform.position.ToString()));
+			}
+		}
+		[ChatCommand("SetPoint")] void SetPoint(BasePlayer player, string command, string[] args){
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+					
+				setLZ(player.transform.position);
+				config.LandingZone.Add(player.transform.position);
+				setDZ(player.transform.position);
+				config.DropPoints.Add(player.transform.position);
+				setOrbit(player.transform.position);
+				config.OrbitPoints.Add(player.transform.position);
+				SaveConfig();
+				SendReply(player,"Unified point created at "+(player.transform.position.ToString()));
+					
+			}
+			
+		}
+		
+		
+		[ChatCommand("ClearCustom")] void ClearCustom(BasePlayer player, string command, string[] args){
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+				delLZ();
+				delDZ();
+				delOrbit();
+				SaveConfig();
+				SendReply(player,"All custom points deleted");
+			}
+		}
+		[ChatCommand("CallHere")] void CallHere(BasePlayer player, string command, string[] args){
+			if(permission.UserHasPermission(player.UserIDString, "dropzone.admin")){
+					
+				clearLZ();
+				clearDZ();
+				clearOrbit();
+				setLZ(player.transform.position);
+				setDZ(player.transform.position);
+				setOrbit(player.transform.position);
+				
+				ConVar.Entity.svspawn("ch47scientists.entity", player.transform.position+new Vector3(0,50,0), new Vector3(0,0,0));
+				SendReply(player,"Wiped all points and created point at "+(player.transform.position.ToString()) + " - CH47 on the way");
+			}
+		}
+		
+		
+		
+		public void delLZ(Vector3 v){
+			foreach(Vector3 v2 in config.LandingZone.ToArray()){
+				if(Vector3.Distance(v,v2)<15){
+					config.LandingZone.Remove(v2);
+				}
+			}
+			foreach(CH47LandingZone clz in customLZ.ToArray()){
+				if(Vector3.Distance(v,clz.transform.position)<15){
+					GameObject.Destroy(clz);
+				}
+			}
 			SaveConfig();
-			SendReply(player,"Orbit created at "+(player.transform.position.ToString()));
 		}
-		void OnEntitySpawned(CH47Helicopter entity){
-			entity.faction = BaseCombatEntity.Faction.Scientist;
-			Puts("Spawned ch47");
+		public void delDZ(Vector3 v){
+			foreach(Vector3 v2 in config.DropPoints.ToArray()){
+				if(Vector3.Distance(v,v2)<15){
+					config.DropPoints.Remove(v2);
+				}
+			}
+			foreach(CH47DropZone cdz in customDZ.ToArray()){
+				if(Vector3.Distance(v,cdz.transform.position)<15){
+					GameObject.Destroy(cdz);
+				}
+			}
+			SaveConfig();
 		}
-
+		public void delOrbit(Vector3 v){
+			foreach(Vector3 v2 in config.OrbitPoints.ToArray()){
+				if(Vector3.Distance(v,v2)<15){
+					config.OrbitPoints.Remove(v2);
+				}
+			}
+			foreach(MonumentInfo mi in customOrbit.ToArray()){
+				if(Vector3.Distance(v,mi.transform.position)<15){
+					GameObject.Destroy(mi);
+				}
+			}
+			SaveConfig();
+		}
+		
+		
+		
+		public void delLZ(){
+			config.LandingZone= new List<Vector3>();
+			foreach(CH47LandingZone clz in customLZ.ToArray()){
+				GameObject.Destroy(clz);
+			}
+			SaveConfig();
+		}
+		public void delDZ(){
+			config.DropPoints= new List<Vector3>();
+			foreach(CH47DropZone cdz in customDZ.ToArray()){
+				GameObject.Destroy(cdz);
+			}
+			SaveConfig();
+		}
+		public void delOrbit(){
+			config.OrbitPoints= new List<Vector3>();
+			foreach(MonumentInfo mi in customOrbit.ToArray()){
+				GameObject.Destroy(mi);
+			}
+			SaveConfig();
+		}
+		
+		
+		
 		void setLZ(Vector3 position){
 			GameObject go = new GameObject("CustomLandzone");
 			go.transform.position=position;
@@ -169,7 +361,7 @@ namespace Oxide.Plugins{
 			GameObject go = new GameObject("CustomOrbit");
 			go.transform.position=position;
 			MonumentInfo mi = go.AddComponent(typeof(MonumentInfo)) as MonumentInfo;
-			mi.displayPhrase = new Translate.Phrase("","Custom Orbit");
+			mi.displayPhrase = new Translate.Phrase("Custom Orbit","Custom Orbit");
 			mi.shouldDisplayOnMap = true;
 			mi.Bounds = new Bounds(position,new Vector3(50,20,50));
 			mi.HasNavmesh=false;
@@ -179,16 +371,22 @@ namespace Oxide.Plugins{
 			
 		}
 	
-		void clearLZ(){			
+		void setPoint(Vector3 position){
+			setLZ(position);
+			setDZ(position);
+			setOrbit(position);
+		}
+	
+	
+		void clearLZ(){		
 			foreach(CH47LandingZone s in GameObject.FindObjectsOfType<CH47LandingZone>()){
-				GameObject.Destroy(s);
-				
+				GameObject.Destroy(s);				
 			}
 		}
 		void clearDZ(){
 			foreach(CH47DropZone s in GameObject.FindObjectsOfType<CH47DropZone>()){
 				GameObject.Destroy(s);
-			}			
+			}	
 		}
 		void clearOrbit(){
 			TerrainMeta.Path.Monuments.Clear();	
