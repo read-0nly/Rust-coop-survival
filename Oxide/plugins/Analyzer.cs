@@ -20,6 +20,7 @@ using UnityEngine.AI;
 using Oxide.Core.Libraries.Covalence;
 using Oxide.Plugins;
 	using Oxide.Core.Plugins;
+using System.Threading;
 	using Oxide.Core;
 
 namespace Oxide.Plugins
@@ -31,15 +32,59 @@ namespace Oxide.Plugins
 		private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 		private void SendChatMsg(BasePlayer pl, string msg) =>
 			_rustPlayer.Message(pl, msg,  "<color=#00ff00>[Analyzer]</color>", 0, Array.Empty<object>());
-
+			
+			
+		bool keepLooping = true;
+		void Loaded(){
+			timer.Once(200f,()=>{
+				looper();
+				
+			});
+		}
+		void OnStartServer(){
+				scanAll();
+			
+		}
+		void looper(){
+			if(keepLooping){
+			}
+		}
+		void scanAll(){
+			
+			UnityEngine.Object[] GameobjectList = Resources.FindObjectsOfTypeAll(typeof(MonumentNavMesh));
+			foreach(MonumentNavMesh go in GameobjectList){
+				Puts("["+(go.transform.parent==null?go.transform.ToString():go.transform.ToString())+" : "+go.NavMeshAgentTypeIndex.ToString()+" : "+ NavMesh.GetSettingsByIndex(go.NavMeshAgentTypeIndex).agentTypeID.ToString()+"]");
+				go.NavMeshAgentTypeIndex=0;
+				go.gameObject.SetActive(false);
+				go.gameObject.SetActive(true);
+			}
+			GameobjectList = Resources.FindObjectsOfTypeAll(typeof(DungeonNavmesh));
+			foreach(DungeonNavmesh go in GameobjectList){
+				Puts("["+(go.transform.parent==null?go.transform.ToString():go.transform.ToString())+" : "+go.NavMeshAgentTypeIndex.ToString()+" : "+ NavMesh.GetSettingsByIndex(go.NavMeshAgentTypeIndex).agentTypeID.ToString()+"]");
+				go.NavMeshAgentTypeIndex=0;
+				go.gameObject.SetActive(false);
+				go.gameObject.SetActive(true);
+			}
+			GameobjectList = Resources.FindObjectsOfTypeAll(typeof(DynamicNavMesh));
+			foreach(DynamicNavMesh go in GameobjectList){
+				Puts("["+(go.transform.parent==null?go.transform.ToString():go.transform.ToString())+" : "+go.NavMeshAgentTypeIndex.ToString()+" : "+ NavMesh.GetSettingsByIndex(go.NavMeshAgentTypeIndex).agentTypeID.ToString()+"]");
+				go.NavMeshAgentTypeIndex=0;
+				go.gameObject.SetActive(false);
+				go.gameObject.SetActive(true);
+			}
+			GameobjectList = Resources.FindObjectsOfTypeAll(typeof(NavMeshSurface));
+			NavMeshSurface last;
+			(GameobjectList[0] as NavMeshSurface).size+=(GameobjectList[0] as NavMeshSurface).size;
+			foreach(NavMeshSurface go in GameobjectList){
+				Puts("["+(go.transform.parent==null?go.transform.ToString():go.transform.parent.ToString())+" : "+go.agentTypeID.ToString()+" ]");
+				last=go;
+				go.agentTypeID=0;
+				go.BuildNavMesh();
+			}
+		}
 		private void OnServerInitialized()
         {
-			UnityEngine.Object[] GameobjectList = Resources.FindObjectsOfTypeAll(typeof(NavMeshLink));
-			foreach(NavMeshLink go in GameobjectList){
-			Puts("["+go.startPoint.ToString()+"]");
-			}
-			
-			
+			keepLooping=false;
 		}/*
 		private void OnItemUse(Item i, int n)
         {

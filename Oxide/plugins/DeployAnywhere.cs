@@ -25,6 +25,18 @@ namespace Oxide.Plugins
 				sz.gameObject.SetActive(false);
 			}
 		}
+		
+		
+		void OnEntitySpawned(BaseCombatEntity entity){
+				GroundWatch gw = entity.GetComponent<GroundWatch>();
+				DestroyOnGroundMissing dg = entity.GetComponent<DestroyOnGroundMissing>();
+				if(gw!=null){
+					GameObject.Destroy(gw);
+				}
+				if(dg!=null){
+					GameObject.Destroy(dg);
+				}
+		}
 		bool? OnGround(GroundWatch gw){
 			global::BaseEntity component = gw.GetComponent<global::BaseEntity>();
 			if (component)
@@ -311,7 +323,8 @@ namespace Oxide.Plugins
 						baseEntity.gameObject.transform.Rotate(new Vector3(0,0f,0));
 						break;
 				}
-						
+			
+			
 				float num = 1f;
 				global::Item ownerItem = player.inventory.FindItemUID(planner.ownerItemUID);
 				if (ownerItem != null)

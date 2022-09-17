@@ -1,15 +1,15 @@
 {
   "EngineParts": {
-    "Tier1Chance": 10,
-    "Tier2Chance": 2,
-    "Tier3Chance": 1,
-    "MinConditionPercent": 25.0,
-    "MaxConditionPercent": 50.0
+    "Tier1Chance": 40,
+    "Tier2Chance": 0,
+    "Tier3Chance": 0,
+    "MinConditionPercent": 15.0,
+    "MaxConditionPercent": 20.0
   },
-  "MinFuelAmount": 0,
-  "MaxFuelAmount": 20,
-  "MinHealthPercent": 20.0,
-  "MaxHealthPercent": 40.0,
+  "MinFuelAmount": 5,
+  "MaxFuelAmount": 25,
+  "MinHealthPercent": 10.0,
+  "MaxHealthPercent": 20.0,
   "ModulePresets": {
     "2Sockets": {
       "UseVanillaPresets": true,

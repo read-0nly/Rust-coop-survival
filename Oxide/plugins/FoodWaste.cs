@@ -204,6 +204,8 @@ namespace Oxide.Plugins
 		object CanLootEntity(BasePlayer player, StorageContainer container)
 		{
 			Puts("CanLootEntity works!");
+			if(container == null) return null;
+			if(container is BaseOven) return null;
 			bool processRot = false;
 			int rotRolls=0;
 			if(containerLastUsed.ContainsKey(container.inventory)){
@@ -361,7 +363,10 @@ namespace Oxide.Plugins
 			WaterPurifier wp = entity.GetComponent<WaterPurifier>();
 			if(wp==null){return;}
 			if(!purifierSaltStorage.ContainsKey(wp)){return;}
+			Puts(purifierSaltStorage[wp].ToString());
 			int saltAmount = (int)purifierSaltStorage[wp];
+			
+			if(saltAmount==0) {return;}
             Item item = ItemManager.CreateByItemID(-265876753, saltAmount, 2689553090);////
 			item.name = "Salt";
 			item.MarkDirty();

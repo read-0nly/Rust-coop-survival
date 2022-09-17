@@ -286,15 +286,16 @@ namespace Oxide.Plugins
 		{
 			BaseEntity be = (entity as BaseEntity);
 			if(be==null)return;
-			if(config.GlobalDesign.availableStates.Count() ==0){
 				if(config.Assignments.ContainsKey(be.ShortPrefabName)){
 					ApplyDesign(be,config.Assignments[be.ShortPrefabName].ToProto());
 				}else{
+					if(config.GlobalDesign.availableStates.Count() ==0){
+						
+					}else{
+						ApplyDesign(be,config.GlobalDesign.ToProto());
+					}
 					
 				}
-			}else{
-				ApplyDesign(be,config.GlobalDesign.ToProto());
-			}
 		}
 		void ApplyDesign(BaseEntity entity, ProtoBuf.AIDesign aid){
 			HumanNPC hn = (entity as HumanNPC);
@@ -371,8 +372,13 @@ namespace Oxide.Plugins
 						SendChatMsg(bp, "<color=#00FF00>AgentTypeID: "+brain.Navigator.Agent.agentTypeID);
 						SendChatMsg(bp, "<color=#00FF00>Layermask: "+brain.Navigator.DefaultArea);
 					}else{
-						SendChatMsg(bp, "<color=#00FF00>AgentTypeID: "+(fc as BaseNpc).GetNavAgent.agentTypeID);
-						SendChatMsg(bp, "<color=#00FF00>Layermask: "+((int)(fc as BaseNpc).movementMask));
+						BaseAIBrain<BaseAnimalNPC> brain = fc.GetComponent<BaseAIBrain<BaseAnimalNPC>>();
+						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
+						SendChatMsg(bp, "<color=#00FFFF>["+brain.CurrentState.ToString()+"] ");
+						string pathname = (brain.Navigator.Path==null?"<color=#FF0000>No Path</color>":"<color=#00FF00>"+brain.Navigator.Path.transform.parent.name+"</color>");
+						SendChatMsg(bp,pathname);
+						SendChatMsg(bp, "<color=#00FF00>AgentTypeID: "+brain.Navigator.Agent.agentTypeID);
+						SendChatMsg(bp, "<color=#00FF00>Layermask: "+brain.Navigator.DefaultArea);
 						
 					}
 				}
@@ -381,23 +387,67 @@ namespace Oxide.Plugins
 		}
 		[Command("aid-export")] void chat_export(IPlayer player, string command, string[] args){	
 			BasePlayer bp = (BasePlayer)player.Object;
-			try{
-				BaseCombatEntity fc = (BaseCombatEntity)getLookingAt(bp);
-				if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
-					BaseAIBrain<HumanNPC> brain = fc.GetComponent<ScientistBrain>();
-					if(brain==null){brain=fc.GetComponent<BaseAIBrain<HumanNPC>>();}
-                    if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
-					SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
-                    try{
-						Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
-						string key = "Exported";
-						if(args.Count()>0)key=args[0];
-						if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
-						else{config.AIDesigns.Add(key,aid);}
-						SaveConfig();
-					}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+" ");}		
-				}
-			}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+"</color>");}
+			BaseCombatEntity fc = (BaseCombatEntity)getLookingAt(bp);
+			if(fc==null){return;}
+			
+			if(fc is HumanNPC){
+				try{
+					if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
+						BaseAIBrain<HumanNPC> brain = fc.GetComponent<ScientistBrain>();
+						if(brain==null){brain=fc.GetComponent<BaseAIBrain<HumanNPC>>();}
+						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
+						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
+						try{
+							Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
+							string key = "Exported";
+							if(args.Count()>0)key=args[0];
+							if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
+							else{config.AIDesigns.Add(key,aid);}
+							SaveConfig();
+						}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+" ");}		
+					}
+				}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+"</color>");}
+			}else if (fc is BaseAnimalNPC){
+				try{
+					if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
+						BaseAIBrain<BaseAnimalNPC> brain = fc.GetComponent<BaseAIBrain<BaseAnimalNPC>>();
+						if(brain==null){brain=fc.GetComponent<BaseAIBrain<BaseAnimalNPC>>();}
+						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
+						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
+						try{
+							Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
+							string key = "Exported";
+							if(args.Count()>0)key=args[0];
+							if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
+							else{config.AIDesigns.Add(key,aid);}
+							SaveConfig();
+						}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+" ");}		
+					}
+				}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+"</color>");}
+				
+			}else if(fc is CH47HelicopterAIController){
+				try{
+					if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
+						BaseAIBrain<CH47HelicopterAIController> brain = fc.GetComponent<CH47AIBrain>();
+						if(brain==null){brain=fc.GetComponent<CH47AIBrain>();}
+						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
+						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
+						try{
+							if (brain.UseAIDesign)
+							{
+								Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
+								string key = "Exported";
+								if(args.Count()>0)key=args[0];
+								if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
+								else{config.AIDesigns.Add(key,aid);}
+								SaveConfig();
+							}
+						}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+" ");}		
+					}
+				}catch(Exception e){SendChatMsg(bp, "<color=#FF0000>"+e.Message+"</color>");}
+				
+				
+			}
 		}
 		
 		public Transform getLookingAtRaw(BasePlayer player){			
