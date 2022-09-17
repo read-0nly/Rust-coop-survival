@@ -62,7 +62,7 @@ namespace Oxide.Plugins
 					break;
 				case "point":
 					
-					server.Command("spawn","grenade.molotov.deployed",(getLookingAtVect(player)+new Vector3(0,50,0)).ToString());	
+					server.Command("spawn","grenade.molotov.deployed",(getLookingAtVect(player)+new Vector3(0,200,0)).ToString());	
 					 
 					break;
 				case "shrug":

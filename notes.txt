@@ -1,0 +1,37 @@
+baseCombatEntity.GetFaction() == global::BaseCombatEntity.Faction.Horror <<< This should allow damage
+
+BaseNpc.AiStatistics.FamilyEnum
+	Bear,
+	Wolf,
+	Deer,
+	Boar,
+	Chicken,
+	Horse,
+	Zombie,
+	Scientist,
+	Murderer,
+	Player
+BasePlayer.Family
+BaseNpc.AiStatistics.Family
+
+
+Rework sensing to return self if same family
+Set faction of all NPCs and players to Horror
+
+OnNpcTargetSense should let you replace all the threat target and friendly stuff. Add everything to Players to make everything intervisible
+
+Merge hooks, then remove most of the faction stuff - replace with AICaresAbout that checks if visible
+OnNpcTargetSense is SetKnown - add to brainSenses.Memory.Players.Add(ent) if visible and mean, brainSenses.Memory.Friendles.Add(ent) if good;
+then boid behavior can be fully separated and handled by new plugin based off memory
+
+Boid controls roaming, with functions to add points based on family, faction, and baseentity type, as well as 
+	creatorentity. Players are stickier.
+Need more curves
+	players are sticky with little heading control but can change their stickiness and heading factors using gestures.
+	points follow simple sigmoid with params
+
+Reduce sensing to targetsense
+
+Heli controls seperated - Just call it vietnam sim
+
+

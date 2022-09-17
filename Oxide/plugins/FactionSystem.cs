@@ -2628,7 +2628,7 @@ namespace Oxide.Plugins{
 		void OnSenseBrains(AIBrainSenses aibs){
 			foreach (PatrolHelicopterAI ent in AIHelis){
 				if(Vector3.Distance(ent.transform.position,aibs.owner.transform.position)<200){
-					aibs.Memory.SetKnown(ent.gameObject.GetComponent<BaseHelicopter>(), aibs.owner, aibs);
+					aibs.Memory.Players.Add(ent.helicopterBase);
 				}
 			}
 		}

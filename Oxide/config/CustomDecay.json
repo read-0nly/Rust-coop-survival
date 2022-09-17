@@ -35,7 +35,8 @@
       "2module_flatbed": 0.5,
       "1module_passengers_armored": 0.5,
       "Rowboat": 0.5,
-      "Snowmobile": 0.5
+      "Snowmobile": 0.5,
+      "RHIB": 0.5
     }
   }
 }
