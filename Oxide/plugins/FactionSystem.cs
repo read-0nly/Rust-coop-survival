@@ -403,7 +403,7 @@ namespace Oxide.Plugins{
 			public bool state;
 			public float lastUpdate;
 			public OrderCell currentTarget;
-			public BaseAIBrain<HumanNPC> brain;
+			public BaseAIBrain brain;
 		}
 		public class MonumentCell{
 			public MonumentInfo info;
@@ -413,7 +413,7 @@ namespace Oxide.Plugins{
 		}
 		public class OrderCell{
 			public BaseCombatEntity.Faction faction;
-			public List<BaseAIBrain<HumanNPC>> assignedAgents = new List<BaseAIBrain<HumanNPC>>();
+			public List<BaseAIBrain> assignedAgents = new List<BaseAIBrain>();
 			public Vector3Int position;
 			public int targetCount;
 			public float timeOut;
@@ -423,7 +423,7 @@ namespace Oxide.Plugins{
 			class FactionCombatState : ScientistBrain.CombatState{
 				private global::StateStatus status = global::StateStatus.Error;
 				
-				public override void StateEnter(){
+				public override void StateEnter(BaseAIBrain brain, BaseEntity selfEntity){
 					if(this.brain==null){return;}
 					if(this.brain.Navigator==null){return;}
 					if(this.brain.Navigator.BaseEntity==null){
@@ -431,7 +431,7 @@ namespace Oxide.Plugins{
 					}		
 					if (WaterLevel.GetOverallWaterDepth(this.brain.transform.position, true, null, false) > 0.8f)
 					{
-						(this.brain.GetEntity() as BasePlayer).Hurt(10f);
+						(this.brain.Navigator.BaseEntity as BasePlayer).Hurt(10f);
 					}
 					if(!(this.brain.Navigator.BaseEntity as HumanNPC)==null){
 						return;
@@ -460,17 +460,17 @@ namespace Oxide.Plugins{
 				}
 			}
 			class FactionCombatStationaryState : ScientistBrain.CombatStationaryState{
-				public override void StateEnter(){
+				public override void StateEnter(BaseAIBrain brain, BaseEntity selfEntity){
 					if(this.brain.Navigator.BaseEntity==null){
-						base.StateEnter();					return;
+						base.StateEnter(brain, selfEntity);					return;
 					}		
 					if(!(this.brain.Navigator.BaseEntity as HumanNPC)==null){
-						base.StateEnter();					return;
+						base.StateEnter(brain, selfEntity);					return;
 					}		
 					HumanNPC hn = (this.brain.Navigator.BaseEntity as HumanNPC);
 					if (hn.inventory == null || hn.inventory.containerBelt == null)
 					{
-						base.StateEnter();
+						base.StateEnter(brain, selfEntity);
 					}
 					
 					GridAgent ga = getGridAgent(this.brain);
@@ -489,13 +489,13 @@ namespace Oxide.Plugins{
 							}
 						}
 					}
-					base.StateEnter();
+					base.StateEnter(brain, selfEntity);
 				}
 			}
-			class FactionAnimalIdleState : BaseAIBrain<BaseAnimalNPC>.BaseIdleState{
+			class FactionAnimalIdleState : BaseAIBrain.BaseIdleState{
 				private global::StateStatus status = global::StateStatus.Error;
 				
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
 					if(!waitTimes.ContainsKey(this.brain)) waitTimes.Add(this.brain,0f);
 					waitTimes[this.brain]+=delta;
@@ -564,7 +564,7 @@ namespace Oxide.Plugins{
 			class FactionAnimalRoamState : AnimalBrain.BaseRoamState{
 				private global::StateStatus status = global::StateStatus.Error;
 			
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
 						if(!waitTimes.ContainsKey(this.brain)) waitTimes.Add(this.brain,0f);
 					waitTimes[this.brain]+=delta;
@@ -632,13 +632,13 @@ namespace Oxide.Plugins{
 			class FactionAnimalChaseState : AnimalBrain.ChaseState{
 				private global::StateStatus status = global::StateStatus.Error;
 				
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
-					if(this.brain==null){return base.StateThink(delta);}
-					if(this.brain.Navigator==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity.creatorEntity==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity.creatorEntity.transform==null){return base.StateThink(delta);}
+					if(this.brain==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity.creatorEntity==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity.creatorEntity.transform==null){return base.StateThink(delta,brain,selfEntity);}
 					if(!waitTimes.ContainsKey(this.brain)) waitTimes.Add(this.brain,0f);
 					waitTimes[this.brain]+=delta;
 					if(waitTimes[this.brain]<0.5f){return global::StateStatus.Running;}
@@ -667,7 +667,7 @@ namespace Oxide.Plugins{
 								}
 								
 								if((this.brain.Navigator.BaseEntity.creatorEntity as BasePlayer).serverInput.IsDown(BUTTON.FIRE_SECONDARY) || !(this.brain.Navigator.BaseEntity.creatorEntity as BasePlayer).serverInput.IsDown(BUTTON.SPRINT) || UnityEngine.Random.Range(0,1)!=0){
-									return base.StateThink(delta);
+									return base.StateThink(delta,brain,selfEntity);
 								}
 								else{
 									if (Vector3.Distance(this.brain.Navigator.BaseEntity.creatorEntity.transform.position,this.brain.transform.position) > 20f)
@@ -688,20 +688,20 @@ namespace Oxide.Plugins{
 							
 						}
 					}
-					return base.StateThink(delta);
+					return base.StateThink(delta,brain,selfEntity);
 				}	
 				
 			}
 			class FactionAnimalAttackState : AnimalBrain.AttackState{
 				private global::StateStatus status = global::StateStatus.Error;
 				
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
-					if(this.brain==null){return base.StateThink(delta);}
-					if(this.brain.Navigator==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity.creatorEntity==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity.creatorEntity.transform==null){return base.StateThink(delta);}
+					if(this.brain==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity.creatorEntity==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity.creatorEntity.transform==null){return base.StateThink(delta,brain,selfEntity);}
 					if(!waitTimes.ContainsKey(this.brain)) waitTimes.Add(this.brain,0f);
 					waitTimes[this.brain]+=delta;
 					if(waitTimes[this.brain]<0.5f){return global::StateStatus.Running;}
@@ -730,7 +730,7 @@ namespace Oxide.Plugins{
 								}
 								
 								if((this.brain.Navigator.BaseEntity.creatorEntity as BasePlayer).serverInput.IsDown(BUTTON.FIRE_SECONDARY) || !(this.brain.Navigator.BaseEntity.creatorEntity as BasePlayer).serverInput.IsDown(BUTTON.SPRINT) || UnityEngine.Random.Range(0,1)!=0){
-									return base.StateThink(delta);
+									return base.StateThink(delta,brain,selfEntity);
 								}
 								else{
 									if (Vector3.Distance(this.brain.Navigator.BaseEntity.creatorEntity.transform.position,this.brain.transform.position) > 20f)
@@ -751,20 +751,20 @@ namespace Oxide.Plugins{
 							
 						}
 					}
-					return base.StateThink(delta);
+					return base.StateThink(delta,brain,selfEntity);
 				}			
 				
 			}
 			class FactionAnimalFleeState : AnimalBrain.FleeState{
 				private global::StateStatus status = global::StateStatus.Error;
 				
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
-					if(this.brain==null){return base.StateThink(delta);}
-					if(this.brain.Navigator==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity.creatorEntity==null){return base.StateThink(delta);}
-					if(this.brain.Navigator.BaseEntity.creatorEntity.transform==null){return base.StateThink(delta);}
+					if(this.brain==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity.creatorEntity==null){return base.StateThink(delta,brain,selfEntity);}
+					if(this.brain.Navigator.BaseEntity.creatorEntity.transform==null){return base.StateThink(delta,brain,selfEntity);}
 					if(!waitTimes.ContainsKey(this.brain)) waitTimes.Add(this.brain,0f);
 					waitTimes[this.brain]+=delta;
 					if(waitTimes[this.brain]<0.5f){return global::StateStatus.Running;}
@@ -793,7 +793,7 @@ namespace Oxide.Plugins{
 								}
 								
 								if((this.brain.Navigator.BaseEntity.creatorEntity as BasePlayer).serverInput.IsDown(BUTTON.FIRE_SECONDARY) || !(this.brain.Navigator.BaseEntity.creatorEntity as BasePlayer).serverInput.IsDown(BUTTON.SPRINT) || UnityEngine.Random.Range(0,1)!=0){
-									return base.StateThink(delta);
+									return base.StateThink(delta,brain,selfEntity);
 								}
 								else{
 									if (Vector3.Distance(this.brain.Navigator.BaseEntity.creatorEntity.transform.position,this.brain.transform.position) > 20f)
@@ -814,11 +814,11 @@ namespace Oxide.Plugins{
 							
 						}
 					}
-					return base.StateThink(delta);
+					return base.StateThink(delta,brain,selfEntity);
 				}	
 				
 			}
-			class FactionBaseFollowPathState : BaseAIBrain<HumanNPC>.BasicAIState{
+			class FactionBaseFollowPathState : BaseAIBrain.BasicAIState{
 				public global::StateStatus status = global::StateStatus.Error;
 				// Token: 0x040001DF RID: 479
 				public global::AIMovePointPath path;
@@ -835,13 +835,13 @@ namespace Oxide.Plugins{
 				public FactionBaseFollowPathState() : base(AIState.FollowPath){
 					pathDirection = (UnityEngine.Random.Range(0,1)==1?AIMovePointPath.PathDirection.Forwards:AIMovePointPath.PathDirection.Backwards);
 				}
-				public override void StateEnter(){
+				public override void StateEnter(BaseAIBrain brain, BaseEntity selfEntity){
 					int i=0;
 					this.currentWaitTime =0;
 					
 					if (WaterLevel.GetOverallWaterDepth(this.brain.transform.position, true, null, false) > 0.8f)
 					{
-						(this.brain.GetEntity() as BasePlayer).Hurt(10f);
+						(this.brain.Navigator.BaseEntity as BasePlayer).Hurt(10f);
 					}
 					if(this.brain==null){
 						return;
@@ -887,7 +887,7 @@ namespace Oxide.Plugins{
 					return;
 				
 				}
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
 					this.currentWaitTime += delta;
 					if(!(this.brain.Navigator.BaseEntity.creatorEntity==null)){
@@ -913,13 +913,13 @@ namespace Oxide.Plugins{
 					
 				}
 				
-				public override void StateLeave()
+				public override void StateLeave(BaseAIBrain brain, BaseEntity selfEntity)
 				{
 					this.brain.Navigator.ClearFacingDirectionOverride();
 				}
 				
 			}
-			class FactionBaseRoamState : BaseAIBrain<HumanNPC>.BaseRoamState{
+			class FactionBaseRoamState : BaseAIBrain.BaseRoamState{
 				public global::StateStatus status = global::StateStatus.Error;
 				// Token: 0x040001DF RID: 479
 				public global::AIMovePointPath path;
@@ -943,13 +943,13 @@ namespace Oxide.Plugins{
 				public FactionBaseRoamState() : base(){
 					pathDirection = (UnityEngine.Random.Range(0,1)==1?AIMovePointPath.PathDirection.Forwards:AIMovePointPath.PathDirection.Backwards);
 				}
-				public override void StateEnter(){
+				public override void StateEnter(BaseAIBrain brain, BaseEntity selfEntity){
 					int i=0;
 					this.currentWaitTime =0;
 					
 					if (WaterLevel.GetOverallWaterDepth(this.brain.transform.position, true, null, false) > 0.8f)
 					{
-						(this.brain.GetEntity() as BasePlayer).Hurt(10f);
+						(this.brain.Navigator.BaseEntity as BasePlayer).Hurt(10f);
 					}
 					if(this.brain==null){
 						return;
@@ -1023,7 +1023,7 @@ namespace Oxide.Plugins{
 					return;
 				
 				}
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
 					this.currentWaitTime += delta;
 					if(!(this.brain.Navigator.BaseEntity.creatorEntity==null)){
@@ -1051,7 +1051,7 @@ namespace Oxide.Plugins{
 					
 				}
 				
-				public override void StateLeave()
+				public override void StateLeave(BaseAIBrain brain, BaseEntity selfEntity)
 				{ 
 					waitTime=defaultWaitTime;
 					this.brain.Navigator.ClearFacingDirectionOverride();
@@ -1061,9 +1061,9 @@ namespace Oxide.Plugins{
 			class FactionTakeCoverState : ScientistBrain.TakeCoverState{
 				private global::StateStatus status = global::StateStatus.Error;
 				private global::BaseEntity coverFromEntity;
-				public override void StateEnter(){
+				public override void StateEnter(BaseAIBrain brain, BaseEntity selfEntity){
 					
-					base.StateEnter();					
+					base.StateEnter(brain, selfEntity);					
 					if(this.brain==null){return;}
 					if(this.brain.Navigator==null){return;}
 					
@@ -1102,16 +1102,16 @@ namespace Oxide.Plugins{
 							return;
 						}
 					}
-					global::HumanNPC entity = base.GetEntity();
+					global::HumanNPC entity = brain.Navigator.BaseEntity as HumanNPC;
 					RadialPoint(this.brain.Navigator, this.brain.transform.position+(entity.LastAttackedDir*15)+new Vector3(UnityEngine.Random.Range(-5f,5f),0,UnityEngine.Random.Range(-5f,5f)),this.brain.transform.position);
 					
 					return;
 				}
-				public override void StateLeave()
+				public override void StateLeave(BaseAIBrain brain, BaseEntity selfEntity)
 				{
 					this.brain.Navigator.ClearFacingDirectionOverride();
 					ClearCoverPointUsage();
-						base.StateLeave();
+						base.StateLeave(brain, selfEntity);
 						return;
 					
 				}
@@ -1121,7 +1121,7 @@ namespace Oxide.Plugins{
 					{
 						return false;
 					}
-					global::HumanNPC entity = base.GetEntity();
+					global::HumanNPC entity = brain.Navigator.BaseEntity as HumanNPC;
 					Vector3 hideFromPosition = this.coverFromEntity ? this.coverFromEntity.transform.position : (entity.transform.position + entity.LastAttackedDir * 30f);
 					global::AIInformationZone informationZone = entity.GetInformationZone(entity.transform.position);
 					if (informationZone == null)
@@ -1150,7 +1150,7 @@ namespace Oxide.Plugins{
 					global::AIPoint aipoint = this.brain.Events.Memory.AIPoint.Get(4);
 					if (aipoint != null)
 					{
-						aipoint.ClearIfUsedBy(base.GetEntity());
+						aipoint.ClearIfUsedBy(brain.Navigator.BaseEntity);
 				
 					}
 				}
@@ -1165,7 +1165,7 @@ namespace Oxide.Plugins{
 				}
 				
 			}		
-			class FactionChaseState : global::BaseAIBrain<global::HumanNPC>.BaseChaseState
+			class FactionChaseState : global::BaseAIBrain.BaseChaseState
 			{
 				Vector3 LastVector = new Vector3(0,-501,0);
 				Vector3 Target = new Vector3(0,0,0);
@@ -1183,16 +1183,16 @@ namespace Oxide.Plugins{
 					startTime = Time.realtimeSinceStartup;
 				}
 
-				public override void StateLeave()
+				public override void StateLeave(BaseAIBrain brain, BaseEntity selfEntity)
 				{
-					base.StateLeave();
+					base.StateLeave(brain, selfEntity);
 							
 					this.Stop();
 				}
 
-				public override void StateEnter()
+				public override void StateEnter(BaseAIBrain brain, BaseEntity selfEntity)
 				{
-					base.StateEnter();
+					base.StateEnter(brain, selfEntity);
 					if(this.brain==null){return;}
 					if(this.brain.Navigator==null){return;}
 					if(this.brain.Navigator.BaseEntity==null){
@@ -1232,7 +1232,7 @@ namespace Oxide.Plugins{
 							
 					if (WaterLevel.GetOverallWaterDepth(this.brain.transform.position, true, null, false) > 0.8f)
 					{
-						(this.brain.GetEntity() as BasePlayer).Hurt(10f);
+						(this.brain.Navigator.BaseEntity as BasePlayer).Hurt(10f);
 					}
 					this.status = global::StateStatus.Running;
 					this.nextPositionUpdateTime = 0f;
@@ -1253,14 +1253,14 @@ namespace Oxide.Plugins{
 					}
 				}
 
-				public override global::StateStatus StateThink(float delta)
+				public override global::StateStatus StateThink(float delta, BaseAIBrain brain, BaseEntity selfEntity)
 				{
 					global::BaseEntity baseEntity = this.brain.Events.Memory.Entity.Get(this.brain.Events.CurrentInputMemorySlot);
 					if (baseEntity == null)
 					{
 						return global::StateStatus.Error;
 					}
-					global::HumanNPC entity = base.GetEntity();
+					global::HumanNPC entity = brain.Navigator.BaseEntity as HumanNPC;
 					float num = Vector3.Distance(baseEntity.transform.position, entity.transform.position);
 					if (this.brain.Senses.Memory.IsLOS(baseEntity) || num <= 10f || base.TimeInState <= 5f)
 					{
@@ -1286,7 +1286,7 @@ namespace Oxide.Plugins{
 						float currentWet = WaterLevel.GetOverallWaterDepth(this.brain.transform.position, true, null, false);
 						if(currentWet > 0f)	{
 							if (currentWet > 0.8f){
-									(this.brain.GetEntity() as BasePlayer).Hurt(10f);
+									(this.brain.Navigator.BaseEntity as BasePlayer).Hurt(10f);
 							}
 							Root = LastVector;
 							Direction = (TurnDirection?this.brain.transform.right:(-1*this.brain.transform.right));
@@ -1330,7 +1330,7 @@ namespace Oxide.Plugins{
 			#endregion
 		#endregion classes
 	#region variables
-		private static Dictionary<BaseAIBrain<BaseAnimalNPC>, float> waitTimes = new Dictionary<BaseAIBrain<BaseAnimalNPC>, float>();
+		private static Dictionary<BaseAIBrain, float> waitTimes = new Dictionary<BaseAIBrain, float>();
 		
 		static float SwapWanderRate = 0.1f;
 		static int popLimit = 100;
@@ -1341,7 +1341,7 @@ namespace Oxide.Plugins{
 		public float spawnTimeout = 300;
 		public float roamChance = 0.7f;
 		public static int coinTick = 300;
-		public static Dictionary<BaseAIBrain<HumanNPC>,GridAgent> gridAgents = new Dictionary<BaseAIBrain<HumanNPC>,GridAgent>();
+		public static Dictionary<BaseAIBrain,GridAgent> gridAgents = new Dictionary<BaseAIBrain,GridAgent>();
 		public static List<MonumentCell> monuments = new List<MonumentCell>();
 		public static  Dictionary<BaseCombatEntity.Faction,List<OrderCell>> orders = new Dictionary<BaseCombatEntity.Faction,List<OrderCell>>();
 		List<PatrolHelicopterAI> AIHelis = new List<PatrolHelicopterAI>();
@@ -1528,8 +1528,8 @@ namespace Oxide.Plugins{
 		}
 		void OnPlayerRespawned(BasePlayer player)=>initPlayer(player);
 		void OnPlayerSleepEnded(BasePlayer player)=>initPlayer(player);
-		object OnInitializeAI(BaseAIBrain<HumanNPC> player){swapSciRoamState(player.GetEntity() as HumanNPC); return null;}
-		object OnInitializeAI(BaseAIBrain<BaseAnimalNPC> player){initAnimal(player.GetEntity() as BaseAnimalNPC); return null;}
+		object OnInitializeAI(ScientistBrain player){swapSciRoamState(player.Navigator.BaseEntity as HumanNPC); return null;}
+		object OnInitializeAI(AnimalBrain player){initAnimal(player.Navigator.BaseEntity as BaseAnimalNPC); return null;}
 		object OnBradleyApcInitialize(BradleyAPC apc){swapTank((apc));return null;}
 		void OnEntitySpawned(BaseNetworkable entity){
 			if(entity is ResourceEntity){
@@ -1822,7 +1822,7 @@ namespace Oxide.Plugins{
 			int topEdge = (int)(0+gridAdjustmentZ)/100;
 			int width=(int)(System.Math.Abs(leftEdge)*2);
 			int height=(int)(System.Math.Abs(topEdge)*2);
-			foreach(BaseAIBrain<HumanNPC> mm in gridAgents.Keys){
+			foreach(BaseAIBrain mm in gridAgents.Keys){
 				if(mm!=null){
 					Vector3Int gridPos = posToGrid(mm.transform.position);
 					
@@ -1927,7 +1927,7 @@ namespace Oxide.Plugins{
 		}
 		public static bool removeOrder(OrderCell oc){
 			if(orders[BaseCombatEntity.Faction.Bandit].Contains(oc)){
-				foreach(BaseAIBrain<HumanNPC> hn in oc.assignedAgents){
+				foreach(BaseAIBrain hn in oc.assignedAgents){
 					if(gridAgents.ContainsKey(hn)){
 						gridAgents[hn].currentTarget=null;
 					}
@@ -1936,7 +1936,7 @@ namespace Oxide.Plugins{
 				return true;
 			}
 			if(orders[BaseCombatEntity.Faction.Scientist].Contains(oc)){
-				foreach(BaseAIBrain<HumanNPC> hn in oc.assignedAgents){
+				foreach(BaseAIBrain hn in oc.assignedAgents){
 					if(gridAgents.ContainsKey(hn)){
 						gridAgents[hn].currentTarget=null;
 					}
@@ -1974,7 +1974,7 @@ namespace Oxide.Plugins{
 			return false;
 			
 		}
-		public static OrderCell bestOrder(BaseAIBrain<HumanNPC> bn){	
+		public static OrderCell bestOrder(BaseAIBrain bn){	
 			if(bn==null){return null;}
 			if((bn.Navigator)==null){return null;}
 			if((bn.Navigator.BaseEntity as BaseCombatEntity)==null){return null;}
@@ -1994,7 +1994,7 @@ namespace Oxide.Plugins{
 					ga.currentTarget=null;
 				}
 				if(ga.currentTarget!=null && ga.currentTarget.assignedAgents==null){
-					ga.currentTarget.assignedAgents =  new List<BaseAIBrain<HumanNPC>>();
+					ga.currentTarget.assignedAgents =  new List<BaseAIBrain>();
 				}
 				if(ga.currentTarget!=null && ga.currentTarget.assignedAgents.Count()>ga.currentTarget.targetCount){
 					ga.currentTarget.assignedAgents.Remove(bn);
@@ -2021,14 +2021,14 @@ namespace Oxide.Plugins{
 			GridAgent removalTarget = ga;
 			foreach(OrderCell ic in orders[(bn.Navigator.BaseEntity as BaseCombatEntity).faction].OrderBy(a => Vector3.Distance(gridToPos(a.position),bn.Navigator.transform.position))){
 				if(ic.assignedAgents== null){
-					ic.assignedAgents =  new List<BaseAIBrain<HumanNPC>>();
+					ic.assignedAgents =  new List<BaseAIBrain>();
 				}
 				if(ga.currentTarget == null || ic != ga.currentTarget){
 					if(ic.assignedAgents.Count()<ic.targetCount){
 						betterTarget = ic;
 						break;
 					}else{
-						foreach(BaseAIBrain<HumanNPC> hn in ic.assignedAgents.ToArray()){
+						foreach(BaseAIBrain hn in ic.assignedAgents.ToArray()){
 							//UnityEngine.Debug.Log("hn:"+(hn==null).ToString());
 							if(hn==null){ic.assignedAgents.Remove(hn);continue;}
 							if(hn.transform==null){ic.assignedAgents.Remove(hn);continue;}
@@ -2066,14 +2066,14 @@ namespace Oxide.Plugins{
 							//UnityEngine.Debug.Log("BetterPick");
 							if(ga.currentTarget!=null){
 								if(ga.currentTarget.assignedAgents== null){
-									ga.currentTarget.assignedAgents =  new List<BaseAIBrain<HumanNPC>>();
+									ga.currentTarget.assignedAgents =  new List<BaseAIBrain>();
 								}
 								ga.currentTarget.assignedAgents.Remove(bn);
 							}
 							ga.currentTarget = betterTarget;
 							if(ga.currentTarget!=null){
 								if(ga.currentTarget.assignedAgents== null){
-									ga.currentTarget.assignedAgents =  new List<BaseAIBrain<HumanNPC>>();
+									ga.currentTarget.assignedAgents =  new List<BaseAIBrain>();
 								}
 								ga.currentTarget.assignedAgents.Add(bn);
 							}
@@ -2085,14 +2085,14 @@ namespace Oxide.Plugins{
 										
 							if(ga.currentTarget!=null){
 								if(ga.currentTarget.assignedAgents== null){
-									ga.currentTarget.assignedAgents =  new List<BaseAIBrain<HumanNPC>>();
+									ga.currentTarget.assignedAgents =  new List<BaseAIBrain>();
 								}
 								ga.currentTarget.assignedAgents.Remove(bn);
 							}
 							ga.currentTarget = betterTarget;
 							if(ga.currentTarget!=null){
 								if(ga.currentTarget.assignedAgents== null){
-									ga.currentTarget.assignedAgents =  new List<BaseAIBrain<HumanNPC>>();
+									ga.currentTarget.assignedAgents =  new List<BaseAIBrain>();
 								}
 								ga.currentTarget.assignedAgents.Add(bn);
 							}
@@ -2102,7 +2102,7 @@ namespace Oxide.Plugins{
 			}
 			return ga.currentTarget;
 		}
-		public static GridAgent getGridAgent(BaseAIBrain<HumanNPC> bn){
+		public static GridAgent getGridAgent(BaseAIBrain bn){
 			if((bn.Navigator.BaseEntity as BaseCombatEntity)==null){return null;}
 			if(gridAgents.ContainsKey(bn)){
 				gridAgents[bn] = gridAgents[bn];
@@ -2820,13 +2820,13 @@ namespace Oxide.Plugins{
 		void OnOpenVendingShop(VendingMachine machine, BasePlayer player){
 			if(machine is InvisibleVendingMachine){
 				if(machine.transform.parent==null){return;}
-				BaseAIBrain<HumanNPC> hn = machine.transform.parent.gameObject.GetComponent<BaseAIBrain<HumanNPC>>();
+				BaseAIBrain hn = machine.transform.parent.gameObject.GetComponent<BaseAIBrain>();
 				if(hn.states!=null){
 					if(hn.states[AIState.Roam]!=null){
 						FactionBaseRoamState fbrs = hn.states[AIState.Roam]	as FactionBaseRoamState;
 						if(fbrs != null){
 							fbrs.waitTime=60;
-							fbrs.StateLeave();
+							fbrs.StateLeave(hn,hn.Navigator.BaseEntity);
 						}
 					}					
 				}				

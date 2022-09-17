@@ -77,9 +77,9 @@ function updateServer(){
 	
 	copy-item "$($global:Settings['dir'])\OxidePatcher\*" "$($global:Settings['dir'])\RustDedicated_Data\Managed\" -force
 	write-host "-- Safe-copying oxide files (no overwrite)" -foregroundcolor Green
-	safecopy -p1 ("$($global:Settings['dir'])\oxideexport\") -p2 ("$($global:Settings['dir'])\")
-	remove-item "$($global:Settings['dir'])\oxideexport" -recurse -force 
-	remove-item "$($global:Settings['dir'])\oxide.zip" -force 
+	copy-item ("$($global:Settings['dir'])\oxideexport\") ("$($global:Settings['dir'])\") -force
+	#remove-item "$($global:Settings['dir'])\oxideexport" -recurse -force 
+	#remove-item "$($global:Settings['dir'])\oxide.zip" -force 
 	write-host "-- Updating Rustedit DLL" -foregroundcolor Green
 	$downloadurl = "https://github.com/k1lly0u/Oxide.Ext.RustEdit/blob/master/Oxide.Ext.RustEdit.dll?raw=true"
 	iwr $downloadurl -UseBasicParsing -OutFile "$($global:Settings['dir'])\RustDedicated_Data\Managed\Oxide.Ext.RustEdit.dll"
@@ -142,6 +142,10 @@ function runServer(){
 		}
 	}
 	if($global:map -eq ""){exit 0}
+		
+	$cmdz= @"
+RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir"
+"@
 	$global:map | out-file "$($global:Settings['dir'])\lastmap"
 	$serverConfigString = (-join (
 	$global:Settings.keys.split("`n")|%{
@@ -157,12 +161,14 @@ function runServer(){
 		if($y -ne ""){echo ($y)}
 	}))
 	cd $global:Settings['dir']
-write-host (@"
-start RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix"
-"@) -foregroundcolor yellow
-cmd /c (@"
-start RustDedicated.exe -batchmode -nographics$serverConfigString -dir="$dir" -levelurl "$ServerPath/$global:map.map$ServerSuffix"
-"@)
+	if($global:map -eq " "){
+		write-host ($cmdz) -foregroundcolor yellow
+		cmd /c ($cmdz) 
+				
+	}else{
+		write-host ($cmdz) -foregroundcolor yellow
+		cmd /c (($cmdz) +" -levelurl `"$ServerPath/$global:map.map$ServerSuffix`"")		
+	}
 $global:mapStr=""
 read-host "Enter to continue"
 }

@@ -25,10 +25,10 @@ namespace Oxide.Plugins
 	{
 		private Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 		private void SendChatMsg(BasePlayer pl, string msg) => _rustPlayer.Message(pl, msg,  "<color=#00ff00>[Cordyceps]</color>", 0, Array.Empty<object>());	
-		public static Dictionary<string,Dictionary<AIState,BaseAIBrain<HumanNPC>.BasicAIState>> StateAssignments = 
-			new Dictionary<string,Dictionary<AIState,BaseAIBrain<HumanNPC>.BasicAIState>>();
-		public static Dictionary<string,Dictionary<AIState,BaseAIBrain<BaseAnimalNPC>.BasicAIState>> AnimalStateAssignments = 
-			new Dictionary<string,Dictionary<AIState,BaseAIBrain<BaseAnimalNPC>.BasicAIState>>();
+		public static Dictionary<string,Dictionary<AIState,BaseAIBrain.BasicAIState>> StateAssignments = 
+			new Dictionary<string,Dictionary<AIState,BaseAIBrain.BasicAIState>>();
+		public static Dictionary<string,Dictionary<AIState,BaseAIBrain.BasicAIState>> AnimalStateAssignments = 
+			new Dictionary<string,Dictionary<AIState,BaseAIBrain.BasicAIState>>();
 		public Configuration config;
 		public bool WalkableOnly = false;
 		
@@ -61,13 +61,13 @@ namespace Oxide.Plugins
 		}
 		
 		// Requires custom injection : BaseAIBrain.InitializeAI() injection index 0, continue, just this//
-		void OnInitializeAI(BaseAIBrain<HumanNPC> brain)
+		void OnInitializeAI(BaseAIBrain brain)
 		{
-			ApplyDesign(brain.GetEntity());
+			ApplyDesign(brain.Navigator.BaseEntity);
 		}
 		void OnInitializeAI(AnimalBrain brain)
 		{
-			ApplyDesign(brain.GetEntity());
+			ApplyDesign(brain.Navigator.BaseEntity);
 		}
 		
 		public bool ApplyDesign(BaseEntity entity){
@@ -83,9 +83,9 @@ namespace Oxide.Plugins
 				return SwapHumanState(hn.Brain);
 			}
 		}
-		public bool AssignHumanState(string prefabname, AIState stateType, BaseAIBrain<HumanNPC>.BasicAIState state){
+		public bool AssignHumanState(string prefabname, AIState stateType, BaseAIBrain.BasicAIState state){
 			if(!StateAssignments.ContainsKey(prefabname)){
-				StateAssignments.Add(prefabname,new Dictionary<AIState,BaseAIBrain<HumanNPC>.BasicAIState>());
+				StateAssignments.Add(prefabname,new Dictionary<AIState,BaseAIBrain.BasicAIState>());
 			}
 			if(!StateAssignments[prefabname].ContainsKey(stateType)){
 				StateAssignments[prefabname].Add(stateType,state);
@@ -94,9 +94,9 @@ namespace Oxide.Plugins
 			}
 			return true;
 		}
-		public bool AssignAnimalState(string prefabname, AIState stateType, BaseAIBrain<BaseAnimalNPC>.BasicAIState state){
+		public bool AssignAnimalState(string prefabname, AIState stateType, BaseAIBrain.BasicAIState state){
 			if(!AnimalStateAssignments.ContainsKey(prefabname)){
-				AnimalStateAssignments.Add(prefabname,new Dictionary<AIState,BaseAIBrain<BaseAnimalNPC>.BasicAIState>());
+				AnimalStateAssignments.Add(prefabname,new Dictionary<AIState,BaseAIBrain.BasicAIState>());
 			}
 			if(!AnimalStateAssignments[prefabname].ContainsKey(stateType)){
 				AnimalStateAssignments[prefabname].Add(stateType,state);
@@ -105,7 +105,7 @@ namespace Oxide.Plugins
 			}
 			return true;
 		}
-		public bool SwapHumanState(BaseAIBrain<HumanNPC> brain,AIState stateType,BaseAIBrain<HumanNPC>.BasicAIState state){
+		public bool SwapHumanState(BaseAIBrain brain,AIState stateType,BaseAIBrain.BasicAIState state){
 			try{
 				if(brain.Navigator==null){return false;}
 				if(WalkableOnly){
@@ -117,9 +117,9 @@ namespace Oxide.Plugins
 				if (brain.states.ContainsKey(stateType)){
 					if(brain.CurrentState!=null)
 						if(brain.CurrentState.StateType==stateType)
-							brain.states[stateType].StateLeave();
+							brain.states[stateType].StateLeave(brain,brain.Navigator.BaseEntity);
 				}
-				BaseAIBrain<HumanNPC>.BasicAIState state2 = (BaseAIBrain<HumanNPC>.BasicAIState)System.Activator.CreateInstance(state.GetType());
+				BaseAIBrain.BasicAIState state2 = (BaseAIBrain.BasicAIState)System.Activator.CreateInstance(state.GetType());
 				state2.brain = brain;
 				brain.states[stateType]=state2;
 				return true;
@@ -127,16 +127,16 @@ namespace Oxide.Plugins
 				return false;
 			}
 		}
-		public bool SwapAnimalState(BaseAIBrain<BaseAnimalNPC> brain,AIState stateType,BaseAIBrain<BaseAnimalNPC>.BasicAIState state){
+		public bool SwapAnimalState(BaseAIBrain brain,AIState stateType,BaseAIBrain.BasicAIState state){
 			try{
 				if (brain.states.ContainsKey(stateType)){
 					if(brain.CurrentState!=null)
 						if(brain.CurrentState.StateType==stateType)
-							brain.states[stateType].StateLeave();
+							brain.states[stateType].StateLeave(brain,brain.Navigator.BaseEntity);
 				}
 				
 				Puts("Applying Animal States" + stateType.ToString());
-				BaseAIBrain<BaseAnimalNPC>.BasicAIState state2 = (BaseAIBrain<BaseAnimalNPC>.BasicAIState)System.Activator.CreateInstance(state.GetType());
+				BaseAIBrain.BasicAIState state2 = (BaseAIBrain.BasicAIState)System.Activator.CreateInstance(state.GetType());
 				state2.brain = brain;
 				brain.states[stateType]=state2;
 				return true;
@@ -144,7 +144,7 @@ namespace Oxide.Plugins
 				return false;
 			}
 		}
-		public bool SwapAnimalState(BaseAIBrain<BaseAnimalNPC> brain){
+		public bool SwapAnimalState(BaseAIBrain brain){
 			bool result = false;
 			if(AnimalStateAssignments.ContainsKey(brain.gameObject.transform.name)){
 				foreach(AIState state in AnimalStateAssignments[brain.gameObject.transform.name].Keys){
@@ -156,7 +156,7 @@ namespace Oxide.Plugins
 			return false;
 		}
 
-		public bool SwapHumanState(BaseAIBrain<HumanNPC> brain){
+		public bool SwapHumanState(BaseAIBrain brain){
 			bool result = false;
 			if(StateAssignments.ContainsKey(brain.gameObject.transform.name)){
 				foreach(AIState state in StateAssignments[brain.gameObject.transform.name].Keys){

@@ -141,8 +141,8 @@ namespace Oxide.Plugins
 				BaseCombatEntity fc = (BaseCombatEntity)getLookingAt(bp);
 				if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
 					SendChatMsg(bp, "<color=#FF0000>["+fc.faction.ToString()+":"+fc.name+"]</color>");
-					BaseAIBrain<BaseCombatEntity> brain = fc.GetComponent<BaseAIBrain<BaseCombatEntity>>();
-					if(brain==null){fc.GetComponent<BaseAIBrain<HumanNPC>>();}
+					BaseAIBrain brain = fc.GetComponent<BaseAIBrain>();
+					if(brain==null){fc.GetComponent<BaseAIBrain>();}
 					if(brain==null) return;
 					SendChatMsg(bp, "<color=#00FFFF>["+brain.CurrentState.ToString()+"] ");
 					SendChatMsg(bp,brain.Navigator.Path.transform.parent.name.ToString());

@@ -302,14 +302,14 @@ namespace Oxide.Plugins
 			BaseNpc bn = (entity as BaseNpc);
 			if(hn==null){
 				if(bn==null) return;
-				BaseAIBrain<BaseNpc> brain = (bn.GetComponent<BaseAIBrain<BaseNpc>>());
+				BaseAIBrain brain = (bn.GetComponent<BaseAIBrain>());
 				if (brain==null){return;}//
 				brain.InstanceSpecificDesign = aid;
 				if(bn.HasBrain) brain.LoadAIDesignAtIndex(0);
 					
 			}else{
-				BaseAIBrain<HumanNPC> brain = (hn.GetComponent<BaseAIBrain<HumanNPC>>());
-				if (brain==null){ brain = (hn.GetComponent<ScientistBrain>() as BaseAIBrain<HumanNPC>);}
+				BaseAIBrain brain = (hn.GetComponent<BaseAIBrain>());
+				if (brain==null){ brain = (hn.GetComponent<ScientistBrain>() as BaseAIBrain);}
 				if (brain==null){return;}//
 				brain.InstanceSpecificDesign = aid;
 				if(hn.HasBrain) brain.LoadAIDesignAtIndex(0);
@@ -328,9 +328,9 @@ namespace Oxide.Plugins
 					
 					BaseEntity entity = getLookingAt(bp);
 					SendChatMsg(bp, "<color=#00FF00>Assigning to "+entity.name+"</color>");
-					BaseAIBrain<HumanNPC> brain = (entity.GetComponent<BaseAIBrain<HumanNPC>>());
+					BaseAIBrain brain = (entity.GetComponent<BaseAIBrain>());
 					
-					if (brain==null){ brain = (entity.GetComponent<ScientistBrain>() as BaseAIBrain<HumanNPC>);}
+					if (brain==null){ brain = (entity.GetComponent<ScientistBrain>() as BaseAIBrain);}
 					if (brain==null){SendChatMsg(bp,"<color=#FF0000>No brain</color>");return;}//
 					if(!config.AIDesigns.ContainsKey(args[0])) SendChatMsg(bp,"<color=#FF0000>Key not found: "+args[0]);
 					SendChatMsg(bp,"<color=#00FF00>IsNull?: "+(config.AIDesigns[args[0]].ToProto()==null));
@@ -348,8 +348,8 @@ namespace Oxide.Plugins
 				}else if(args[1]=="prefab"){
 					BaseEntity entity = getLookingAt(bp);
 					SendChatMsg(bp, "<color=#00FF00>Assigning to "+entity.ShortPrefabName+"</color>");
-					BaseAIBrain<HumanNPC> brain = (entity.GetComponent<BaseAIBrain<HumanNPC>>());
-					if (brain==null){ brain = (entity.GetComponent<ScientistBrain>() as BaseAIBrain<HumanNPC>);}
+					BaseAIBrain brain = (entity.GetComponent<BaseAIBrain>());
+					if (brain==null){ brain = (entity.GetComponent<ScientistBrain>() as BaseAIBrain);}
 					if (brain==null){SendChatMsg(bp,"<color=#FF0000>No brain</color>");return;}//
 					config.Assignments[entity.ShortPrefabName]=config.AIDesigns[args[0]];
 				}
@@ -363,8 +363,8 @@ namespace Oxide.Plugins
 				BaseCombatEntity fc = (BaseCombatEntity)getLookingAt(bp);
 				if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
 					if((fc as BaseNpc)==null){
-						BaseAIBrain<HumanNPC> brain = fc.GetComponent<ScientistBrain>();
-						if(brain==null){brain=fc.GetComponent<BaseAIBrain<HumanNPC>>();}
+						BaseAIBrain brain = fc.GetComponent<ScientistBrain>();
+						if(brain==null){brain=fc.GetComponent<BaseAIBrain>();}
 						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
 						SendChatMsg(bp, "<color=#00FFFF>["+brain.CurrentState.ToString()+"] ");
 						string pathname = (brain.Navigator.Path==null?"<color=#FF0000>No Path</color>":"<color=#00FF00>"+brain.Navigator.Path.transform.parent.name+"</color>");
@@ -372,7 +372,7 @@ namespace Oxide.Plugins
 						SendChatMsg(bp, "<color=#00FF00>AgentTypeID: "+brain.Navigator.Agent.agentTypeID);
 						SendChatMsg(bp, "<color=#00FF00>Layermask: "+brain.Navigator.DefaultArea);
 					}else{
-						BaseAIBrain<BaseAnimalNPC> brain = fc.GetComponent<BaseAIBrain<BaseAnimalNPC>>();
+						BaseAIBrain brain = fc.GetComponent<BaseAIBrain>();
 						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
 						SendChatMsg(bp, "<color=#00FFFF>["+brain.CurrentState.ToString()+"] ");
 						string pathname = (brain.Navigator.Path==null?"<color=#FF0000>No Path</color>":"<color=#00FF00>"+brain.Navigator.Path.transform.parent.name+"</color>");
@@ -393,8 +393,8 @@ namespace Oxide.Plugins
 			if(fc is HumanNPC){
 				try{
 					if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
-						BaseAIBrain<HumanNPC> brain = fc.GetComponent<ScientistBrain>();
-						if(brain==null){brain=fc.GetComponent<BaseAIBrain<HumanNPC>>();}
+						BaseAIBrain brain = fc.GetComponent<ScientistBrain>();
+						if(brain==null){brain=fc.GetComponent<BaseAIBrain>();}
 						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
 						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
 						try{
@@ -410,8 +410,8 @@ namespace Oxide.Plugins
 			}else if (fc is BaseAnimalNPC){
 				try{
 					if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
-						BaseAIBrain<BaseAnimalNPC> brain = fc.GetComponent<BaseAIBrain<BaseAnimalNPC>>();
-						if(brain==null){brain=fc.GetComponent<BaseAIBrain<BaseAnimalNPC>>();}
+						BaseAIBrain brain = fc.GetComponent<BaseAIBrain>();
+						if(brain==null){brain=fc.GetComponent<BaseAIBrain>();}
 						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
 						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
 						try{
@@ -428,7 +428,7 @@ namespace Oxide.Plugins
 			}else if(fc is CH47HelicopterAIController){
 				try{
 					if(Vector3.Distance(fc.gameObject.transform.position,bp.transform.position) < 10){
-						BaseAIBrain<CH47HelicopterAIController> brain = fc.GetComponent<CH47AIBrain>();
+						BaseAIBrain brain = fc.GetComponent<CH47AIBrain>();
 						if(brain==null){brain=fc.GetComponent<CH47AIBrain>();}
 						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
 						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
