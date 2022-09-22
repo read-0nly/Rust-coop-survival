@@ -1,0 +1,49 @@
+{
+  "Factions": [
+    "Default",
+    "Player-Aligned",
+    "Player",
+    "Scientist",
+    "Dwellers",
+    "Bandits",
+    "Carnivores",
+    "Herbivores"
+  ],
+  "Assignments": {
+    "TunnelDweller": "Dwellers",
+    "UnderwaterDweller": "Dwellers",
+    "BanditGuard": "Bandits",
+    "ScientistNPC": "Scientist",
+    "Bear": "Herbivores",
+    "Polarbear": "Carnivores",
+    "Boar": "Herbivores",
+    "Chicken": "Herbivores",
+    "Stag": "Herbivores",
+    "Wolf": "Carnivores",
+    "76561198004703684": "Player"
+  },
+  "Alliances": {
+    "Player-Aligned": [
+      "Player",
+      "Herbivores"
+    ],
+    "Bandits": [
+      "Player",
+      "Herbivores"
+    ],
+    "Herbivores": [
+      "Bandits",
+      "Player-Aligned",
+      "Scientist"
+    ],
+    "Dwellers": [
+      "Carnivores"
+    ],
+    "Carnivores": [
+      "Dwellers"
+    ],
+    "Scientist": [
+      "Herbivores"
+    ]
+  }
+}

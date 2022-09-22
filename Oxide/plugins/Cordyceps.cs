@@ -61,11 +61,7 @@ namespace Oxide.Plugins
 		}
 		
 		// Requires custom injection : BaseAIBrain.InitializeAI() injection index 0, continue, just this//
-		void OnInitializeAI(BaseAIBrain brain)
-		{
-			ApplyDesign(brain.Navigator.BaseEntity);
-		}
-		void OnInitializeAI(AnimalBrain brain)
+		void OnAIInitialize(BaseAIBrain brain)
 		{
 			ApplyDesign(brain.Navigator.BaseEntity);
 		}
@@ -107,13 +103,6 @@ namespace Oxide.Plugins
 		}
 		public bool SwapHumanState(BaseAIBrain brain,AIState stateType,BaseAIBrain.BasicAIState state){
 			try{
-				if(brain.Navigator==null){return false;}
-				if(WalkableOnly){
-					if(brain.Navigator.DefaultArea!="Walkable") return true;
-				}
-				
-				brain.Navigator.defaultAreaMask = UnityEngine.AI.NavMesh.AllAreas;
-				brain.Navigator.navMeshQueryFilter.areaMask= UnityEngine.AI.NavMesh.AllAreas;
 				if (brain.states.ContainsKey(stateType)){
 					if(brain.CurrentState!=null)
 						if(brain.CurrentState.StateType==stateType)
@@ -124,6 +113,7 @@ namespace Oxide.Plugins
 				brain.states[stateType]=state2;
 				return true;
 			}catch(Exception e){
+				Puts(e.ToString());
 				return false;
 			}
 		}
@@ -135,12 +125,12 @@ namespace Oxide.Plugins
 							brain.states[stateType].StateLeave(brain,brain.Navigator.BaseEntity);
 				}
 				
-				Puts("Applying Animal States" + stateType.ToString());
 				BaseAIBrain.BasicAIState state2 = (BaseAIBrain.BasicAIState)System.Activator.CreateInstance(state.GetType());
 				state2.brain = brain;
 				brain.states[stateType]=state2;
 				return true;
 			}catch(Exception e){
+				Puts(e.ToString());
 				return false;
 			}
 		}

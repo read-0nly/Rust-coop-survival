@@ -286,16 +286,16 @@ namespace Oxide.Plugins
 		{
 			BaseEntity be = (entity as BaseEntity);
 			if(be==null)return;
-				if(config.Assignments.ContainsKey(be.ShortPrefabName)){
-					ApplyDesign(be,config.Assignments[be.ShortPrefabName].ToProto());
-				}else{
-					if(config.GlobalDesign.availableStates.Count() ==0){
-						
-					}else{
-						ApplyDesign(be,config.GlobalDesign.ToProto());
-					}
+			if(config.Assignments.ContainsKey(be.ShortPrefabName)){
+				ApplyDesign(be,config.Assignments[be.ShortPrefabName].ToProto());
+			}else{
+				if(config.GlobalDesign.availableStates.Count() ==0){
 					
+				}else{
+					ApplyDesign(be,config.GlobalDesign.ToProto());
 				}
+				
+			}
 		}
 		void ApplyDesign(BaseEntity entity, ProtoBuf.AIDesign aid){
 			HumanNPC hn = (entity as HumanNPC);
@@ -396,10 +396,10 @@ namespace Oxide.Plugins
 						BaseAIBrain brain = fc.GetComponent<ScientistBrain>();
 						if(brain==null){brain=fc.GetComponent<BaseAIBrain>();}
 						if(brain==null) {SendChatMsg(bp, "<color=#FF0000>No brain found</color>");return;}
-						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
+						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.ShortPrefabName+"]</color>");
 						try{
 							Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
-							string key = "Exported";
+							string key = fc.ShortPrefabName;
 							if(args.Count()>0)key=args[0];
 							if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
 							else{config.AIDesigns.Add(key,aid);}
@@ -416,7 +416,7 @@ namespace Oxide.Plugins
 						SendChatMsg(bp, "<color=#00FFFF>Exporting AI mapping for ["+fc.faction.ToString()+":"+fc.name+"]</color>");
 						try{
 							Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
-							string key = "Exported";
+							string key = fc.ShortPrefabName;
 							if(args.Count()>0)key=args[0];
 							if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
 							else{config.AIDesigns.Add(key,aid);}
@@ -436,7 +436,7 @@ namespace Oxide.Plugins
 							if (brain.UseAIDesign)
 							{
 								Configuration.AIDesign aid = new Configuration.AIDesign(brain.AIDesign.ToProto(brain.currentStateContainerID));
-								string key = "Exported";
+								string key = fc.ShortPrefabName;
 								if(args.Count()>0)key=args[0];
 								if(config.AIDesigns.ContainsKey(key)){config.AIDesigns[key]=aid;}
 								else{config.AIDesigns.Add(key,aid);}
