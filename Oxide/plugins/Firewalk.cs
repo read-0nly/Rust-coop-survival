@@ -25,24 +25,12 @@ namespace Oxide.Plugins
 		public long timeout = 5000;
 		private Configuration config;
 		class Configuration{
-			[JsonProperty("timeoutTime", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public long timeoutTime = 30;
-			[JsonProperty("cooldownTime", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public long cooldownTime = 5;
-			
-			[JsonProperty("protectionTimeouts", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public Dictionary<string,long> protectionTimeouts = new Dictionary<string,long>();
-			[JsonProperty("protectionCooldowns", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public Dictionary<string,long> protectionCooldowns = new Dictionary<string,long>();
-			[JsonProperty("protectionState", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public Dictionary<string,bool> protectionState = new Dictionary<string,bool>();
-			[JsonProperty("buildingRefreshers", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public Dictionary<string, List<string>> buildingRefreshers = new Dictionary<string, List<string>>();
-			[JsonProperty("refresherBuildings", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public Dictionary<string, List<string>> refresherBuildings = new Dictionary<string, List<string>>();					
+			[JsonProperty("ownerOnly", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public bool ownerOnly = true;
+			[JsonProperty("timeout", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public long timeout = 5000;
 			
 			
-			public Dictionary<BaseCombatEntity.Faction, Dictionary<string,Vector3>> newFactionSpawns = new Dictionary<BaseCombatEntity.Faction, Dictionary<string,Vector3>>();
 			public string ToJson() => JsonConvert.SerializeObject(this);				
 			public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
 		}
@@ -57,6 +45,7 @@ namespace Oxide.Plugins
 			}
 			catch{
 				LoadDefaultConfig();}
+			timeout = config.timeout;
 		}
 		protected override void SaveConfig(){
 			Config.WriteObject(config, true);
@@ -77,11 +66,14 @@ namespace Oxide.Plugins
 				}
 			 }
 			 ConVar.AntiHack.flyhack_protection=0;
+			 //
+            permission.RegisterPermission("firewalk.use", this);
+            permission.RegisterPermission("firewalk.usemine", this);
 		}
 		object OnOvenToggle(BaseOven oven, BasePlayer player)
 		{
 			if(!oven.transform.name.Contains("campfire")) return null;
-			if( (oven.IsOn())){
+			if((oven.IsOn())){
 				if(fires.Contains(oven))
 					fires.Remove(oven);
 				if(!playerFires.ContainsKey(oven.OwnerID)){
@@ -111,9 +103,12 @@ namespace Oxide.Plugins
 			TorchWeapon torch = (bp.GetHeldEntity() as TorchWeapon);
 			List<BaseOven> firelist = new List<BaseOven>();
 			firelist.AddRange(fires.ToArray());
-			if(torch!=null){
+			if(!permission.UserHasPermission(bp.UserIDString, "firewalk.use") && !permission.UserHasPermission(bp.UserIDString, "firewalk.usemine") && !config.ownerOnly) return null;
+			if((torch!=null && permission.UserHasPermission(bp.UserIDString, "firewalk.use")) || config.ownerOnly || (!permission.UserHasPermission(bp.UserIDString, "firewalk.use") && permission.UserHasPermission(bp.UserIDString, "firewalk.usemine"))){
 				if(playerFires.ContainsKey(oven.OwnerID))
 					firelist = playerFires[oven.OwnerID];
+				else
+					return null;
 				if(torch.HasFlag(BaseEntity.Flags.On)){
 					firelist.Reverse();
 				}
@@ -133,6 +128,7 @@ namespace Oxide.Plugins
 			for(int i = 0; i < firelist.Count()+1;i++){
 				BaseOven bo = firelist[i%firelist.Count()];
 				if (found && bo.IsOn() && bo.FindBurnable()!=null){
+					Puts("Warpng");
 					bp.Teleport(bo.transform.position);
 					return null;
 				}

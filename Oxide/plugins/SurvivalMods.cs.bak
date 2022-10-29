@@ -220,7 +220,7 @@ namespace Oxide.Plugins{
 		private void OnServerInitialized(){		
 			server.Command("env.oceanlevel",config.lastWater);
 			flushForestTopo();			
-            timer.Every(17f, () => {updateOcean();});			
+            timer.Every(600f, () => {updateOcean();});			
             timer.Every(11f, () => {PlayerMetabolismTick();});			
             timer.Every(73f, () => {growTrees();});
 		}

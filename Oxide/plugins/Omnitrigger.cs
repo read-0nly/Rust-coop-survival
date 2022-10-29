@@ -1,9 +1,24 @@
 
+// Requires: Omninasty
 using Oxide.Plugins;
 using Oxide.Core.Plugins;
 using UnityEngine;
 using Oxide.Core;
 using System;
+using System.Collections.Generic;
+using System.Collections;
+using Newtonsoft.Json;
+using Convert = System.Convert;
+using Network;
+using System.Linq;
+using System.Text;
+using Oxide.Core.Libraries.Covalence;
+using UnityEngine; 
+using UnityEngine.SceneManagement;
+using UnityEngine.AI;
+using Rust.Ai;
+using Oxide.Ext.RustEdit;
+using Oxide.Ext.RustEdit.NPC;
 
 namespace Oxide.Plugins
 {
@@ -13,7 +28,52 @@ namespace Oxide.Plugins
 	{
 				
 				
-		public LayerMask NPCLayers = 0; //Debug.Log(LayerMask.LayerToName(1));
+		Configuration config;
+		Omninasty omninasty;
+		public class Configuration
+		{
+			[JsonProperty("LayerMask", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public int LayerMask = 0;
+			public string ToJson() => JsonConvert.SerializeObject(this);				
+			public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
+			
+		}
+		protected override void LoadDefaultConfig(){
+			config = new Configuration();//
+		}
+		protected override void LoadConfig(){
+			base.LoadConfig();
+			try{
+				config = Config.ReadObject<Configuration>();
+				if (config == null) throw new JsonException();
+				if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys)){
+					
+				}
+			}
+			catch(Exception e){
+				LoadDefaultConfig();
+				}
+		}
+		protected override void SaveConfig(){
+			Config.WriteObject(config, true);
+		}		
+		private void OnServerInitialized()
+        {
+			LoadConfig();
+		}
+		
+		void Loaded(){
+			
+			omninasty = (Omninasty)Manager.GetPlugin("Omninasty");
+		}
+		private void Unload()
+		{
+			SaveConfig();
+		}
+		object CanBuild(Planner planner, Construction prefab, Construction.Target target)
+		{
+			return null;
+		}
 		void OnEntitySpawned(BaseNetworkable entity)
 		{
 			BaseEntity be = (entity as BaseEntity);
@@ -22,16 +82,16 @@ namespace Oxide.Plugins
 			if(be==null)return;
 			if(be is GunTrap){
 					GunTrap gt = be as GunTrap;
-					gt.trigger.interestLayers = gt.trigger.interestLayers|NPCLayers;
+					gt.trigger.interestLayers = gt.trigger.interestLayers|config.LayerMask;
 			}else if(be is AutoTurret){
 					AutoTurret gt = be as AutoTurret;//
-					gt.targetTrigger.interestLayers = gt.targetTrigger.interestLayers|NPCLayers;
+					gt.targetTrigger.interestLayers = gt.targetTrigger.interestLayers|config.LayerMask;
 			}else if(be is FlameTurret){
 					FlameTurret gt = be as FlameTurret;
-					gt.trigger.interestLayers = gt.trigger.interestLayers|NPCLayers;
+					gt.trigger.interestLayers = gt.trigger.interestLayers|config.LayerMask;
 			}else if(be is TeslaCoil){
 					TeslaCoil gt = be as TeslaCoil;
-					gt.targetTrigger.interestLayers = gt.targetTrigger.interestLayers|NPCLayers;
+					gt.targetTrigger.interestLayers = gt.targetTrigger.interestLayers|config.LayerMask;
 			}else if((be is BaseTrap)){
 				TriggerBase btt = be.GetComponentInChildren<TriggerBase>();
 				if(btt==null){
@@ -41,7 +101,7 @@ namespace Oxide.Plugins
 					btt = be.GetComponentInChildren<BearTrapTrigger>();
 				}
 				if(btt!=null){
-					btt.interestLayers = btt.interestLayers|NPCLayers;
+					btt.interestLayers = btt.interestLayers|config.LayerMask;
 				}
 			} else if((entity is BaseAnimalNPC) && bn.gameObject!=null){
 				try{
@@ -59,7 +119,7 @@ namespace Oxide.Plugins
 						rb.useGravity = false;	
 						bn.ForceUpdateTriggers();	
 					}					
-					NPCLayers = NPCLayers | (1 << bn.gameObject.layer);
+					config.LayerMask = config.LayerMask | (1 << bn.gameObject.layer);
 				}catch (Exception e){
 					Puts(e.ToString());
 				}
@@ -76,7 +136,7 @@ namespace Oxide.Plugins
 					rb.detectCollisions = true;
 					rb.isKinematic = true;		
 					rb.useGravity = false;	
-					NPCLayers = NPCLayers | (1 << hn.gameObject.layer);
+					config.LayerMask = config.LayerMask | (1 << hn.gameObject.layer);
 					hn.ForceUpdateTriggers();					
 				}catch ( Exception e){
 					Puts(e.ToString());
@@ -84,5 +144,11 @@ namespace Oxide.Plugins
 			
 			}
 		}
+		object OnTrapTrigger(BaseTrap trap, GameObject go)
+		{
+			if(omninasty.getFaction(trap)==omninasty.getFaction(go.GetComponent<BaseEntity>())) return trap;
+			return null;
+		}
+	
 	}
 }
