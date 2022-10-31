@@ -17,7 +17,7 @@ namespace Oxide.Plugins
 	{
 		private static Game.Rust.Libraries.Player _rustPlayer = Interface.Oxide.GetLibrary<Game.Rust.Libraries.Player>("Player");
 		private static void SendChatMsg(BasePlayer pl, string msg) =>
-			_rustPlayer.Message(pl, msg,  "<color=#00ff00>[DeployAnywhere]</color>", 0, Array.Empty<object>());
+			_rustPlayer.Message(pl, msg,  "<color=#00ff00>[FactionSystem]</color>", 0, Array.Empty<object>());
 		private void OnServerInitialized()
         {
 			TriggerSafeZone[] szArr = TriggerSafeZone.allSafeZones.ToArray();
