@@ -1,3 +1,5 @@
+# Project on hold till I get my head straight again
+
 # Repo for development of my modded Rust server
 
 - Console connect URL: 78.108.218.16:28015
