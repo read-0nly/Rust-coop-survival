@@ -1,0 +1,129 @@
+{
+  "FactionScores": {
+    "Carnivores": {
+      "Scientist": -39.55316,
+      "Carnivores": 0.0,
+      "Herbivores": -165.804947,
+      "Bandits": 20.4689846,
+      "Player": 20.7029858,
+      "Dwellers": 20.7479858
+    },
+    "Scientist": {
+      "Carnivores": -13.9594488,
+      "Bandits": -39.7320824,
+      "Scientist": 0.0,
+      "Herbivores": -36.58505,
+      "Player": -2.01903176,
+      "Dwellers": -1.91584957
+    },
+    "Herbivores": {
+      "Carnivores": -105.999153,
+      "Scientist": -22.088047,
+      "Herbivores": 0.0,
+      "Bandits": -35.1942062,
+      "Player": 10.5261354,
+      "Dwellers": 11.084137
+    },
+    "Bandits": {
+      "Scientist": -33.0643158,
+      "Carnivores": 8.396981,
+      "Bandits": 0.0,
+      "Herbivores": -45.7152138,
+      "Player": 8.486986,
+      "Dwellers": 7.946957
+    },
+    "Player": {
+      "Scientist": -0.0529922023,
+      "Carnivores": 0.004817473,
+      "Bandits": 0.004817473,
+      "Herbivores": 0.004817473,
+      "Player": 0.0,
+      "Dwellers": -0.004817473
+    },
+    "76561198004703684": {
+      "Scientist": 164.383133,
+      "Carnivores": 14.0602837,
+      "Bandits": 5.060284,
+      "Herbivores": 15.9232836,
+      "Player": 14.0602837,
+      "Dwellers": 14.1232843
+    },
+    "Dwellers": {
+      "Carnivores": 0.521999955,
+      "Dwellers": 0.0,
+      "Herbivores": 3.38399982,
+      "Scientist": -2.817,
+      "Bandits": 20.396,
+      "Player": -3.504
+    },
+    "76561198011951828": {
+      "Scientist": 60.2019234,
+      "Carnivores": 5.4729023,
+      "Bandits": 5.4729023,
+      "Herbivores": 5.4729023,
+      "Player": 5.4729023,
+      "Dwellers": 5.4729023
+    }
+  },
+  "FactionBanks": {
+    "Dwellers": 2788.0,
+    "Carnivores": 0.0,
+    "Scientist": 0.0,
+    "Herbivores": 0.0,
+    "Bandits": 0.0,
+    "Player": 0.0,
+    "76561198004703684": 0.0
+  },
+  "FactionSpawnEntities": {
+    "Scientist": [
+      "scientistnpc_junkpile_pistol",
+      "scientistnpc_oilrig",
+      "scientistnpc_roamtethered",
+      "scientistnpc_patrol",
+      "scientistnpc_roam",
+      "scientistnpc_cargo",
+      "scientistnpc_cargo_turret_lr300",
+      "scientistnpc_cargo_turret_any",
+      "scientistnpc_peacekeeper",
+      "scientistnpc_ch47_gunner"
+    ],
+    "Carnivores": [
+      "wolf",
+      "polarbear"
+    ],
+    "Herbivores": [
+      "boar",
+      "chicken",
+      "stag",
+      "bear"
+    ],
+    "Dwellers": [
+      "npc_tunneldweller",
+      "npc_underwaterdweller"
+    ],
+    "Bandits": [
+      "npc_bandit_guard"
+    ],
+    "Player": [],
+    "76561198004703684": []
+  },
+  "FactionSpawnLimits": {
+    "Carnivores": 50,
+    "Scientist": 50,
+    "Herbivores": 50,
+    "Bandits": 50,
+    "Player": 0,
+    "76561198004703684": 0,
+    "Dwellers": 50
+  },
+  "FactionSpawnMinimums": {
+    "Carnivores": 20,
+    "Scientist": 20,
+    "Herbivores": 20,
+    "Bandits": 20,
+    "Player": 0,
+    "76561198004703684": 0,
+    "Dwellers": 20
+  },
+  "FactionSpawnCost": 500
+}

@@ -1,0 +1,2 @@
+param($dir = ".")
+((cat (dir $dir -file).fullname) -match "\[Info\(`".+`", `".+`", `".+`"\)\]").replace("`t","").replace(" ","").replace("[Info(","").replace(")]","").replace('"',"")|%{$split = $_.split(",");[pscustomobject]@{"Name"=$split[0];"Author"=$split[1];"Version"=$split[2]}}

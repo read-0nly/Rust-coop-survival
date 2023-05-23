@@ -1,0 +1,105 @@
+{
+  "Factions": [
+    "Default",
+    "Player-Aligned",
+    "Player",
+    "Scientist",
+    "Dwellers",
+    "Bandits",
+    "Carnivores",
+    "Herbivores",
+    "Shopkeep"
+  ],
+  "Assignments": {
+    "TunnelDweller": "Dwellers",
+    "UnderwaterDweller": "Dwellers",
+    "BanditGuard": "Bandits",
+    "ScientistNPC": "Scientist",
+    "Bear": "Herbivores",
+    "Polarbear": "Carnivores",
+    "Boar": "Herbivores",
+    "Chicken": "Herbivores",
+    "Stag": "Herbivores",
+    "Wolf": "Carnivores",
+    "76561198004703684": "Carnivores",
+    "RidableHorse": "Shopkeep",
+    "HotAirBalloon": null,
+    "MotorRowboat": null,
+    "RHIB": null,
+    "NPCShopKeeper": "Shopkeep",
+    "NPCAutoTurret": "Shopkeep",
+    "NPCAutoTurret:sentry.bandit.static": "Bandits",
+    "NPCAutoTurret:sentry.scientist.static": "Scientist",
+    "BaseCorpse": null,
+    "NPCMissionProvider": "Shopkeep",
+    "Door": null,
+    "LootContainer": null,
+    "ModularCar": null,
+    "BaseVehicleModule": null,
+    "VehicleModuleEngine": null,
+    "InvisibleVendingMachine": null,
+    "NPCPlayerCorpse": null,
+    "BasePlayer": null,
+    "VehicleModuleSeating": null,
+    "VehicleModuleStorage": null,
+    "ElectricSwitch": null,
+    "MarketTerminal": null,
+    "VehicleModuleCamper": null,
+    "MLRS": null,
+    "MiningQuarry": null,
+    "ResourceExtractorFuelStorage": null,
+    "VehicleVendor": null,
+    "CardTable": null,
+    "BaseVehicle": null,
+    "SlotMachine": null,
+    "DroppedItemContainer": null,
+    "WaterWell": null,
+    "SlidingProgressDoor": null,
+    "WheelSwitch": null,
+    "HackableLockedCrate": null,
+    "ShopFront": null
+  },
+  "Alliances": {
+    "Player-Aligned": [
+      "Player",
+      "Herbivores",
+      "Shopkeep"
+    ],
+    "Bandits": [
+      "Player",
+      "Carnivores",
+      "Shopkeep",
+      "Dwellers",
+      "76561198004703684"
+    ],
+    "Herbivores": [
+      "Player-Aligned",
+      "Shopkeep",
+      "76561198004703684"
+    ],
+    "Dwellers": [
+      "Carnivores",
+      "Shopkeep",
+      "Bandits",
+      "76561198004703684"
+    ],
+    "Carnivores": [
+      "Dwellers",
+      "Player",
+      "Bandits",
+      "Shopkeep",
+      "76561198004703684"
+    ],
+    "Scientist": [
+      "Shopkeep"
+    ],
+    "Player": [
+      "Player",
+      "Carnivores",
+      "Bandits",
+      "Shopkeep",
+      "Dwellers",
+      "76561198004703684"
+    ]
+  }
+}

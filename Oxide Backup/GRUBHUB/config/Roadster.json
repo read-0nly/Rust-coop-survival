@@ -1,0 +1,11 @@
+{
+  "monumentDelay": 20.0,
+  "roadDelay": 3.0,
+  "monumentLoopMin": 3,
+  "monumentLoopMax": 15,
+  "monumentRoadDistance": 50.0,
+  "roadRoadDistance": 30.0,
+  "stepSize": 10,
+  "nodeStuck": 20,
+  "HomeList": {}
+}

@@ -1,0 +1,303 @@
+{
+  "monumentDelay": 20.0,
+  "roadDelay": 3.0,
+  "monumentLoopMin": 3,
+  "monumentLoopMax": 15,
+  "monumentRoadDistance": 60.0,
+  "roadRoadDistance": 30.0,
+  "stepSize": 5,
+  "nodeStuck": 20,
+  "HomeList": {},
+  "MonumentDefinitions": {
+    "Harbor": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 3
+    },
+    "Abandoned Military Base": {
+      "radius": 70,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 4
+    },
+    "Bandit Camp": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 3,
+      "monumentMax": 7
+    },
+    "Outpost": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 3,
+      "monumentMax": 7
+    },
+    "Water Treatment Plant": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -60.0
+      },
+      "monumentMin": 3,
+      "monumentMax": 7
+    },
+    "Power Plant": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 3,
+      "monumentMax": 4
+    },
+    "Sulfur Quarry": {
+      "radius": 20,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Satellite Dish": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 3
+    },
+    "HQM Quarry": {
+      "radius": 20,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Water Well": {
+      "radius": 20,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Abandoned Cabins": {
+      "radius": 60,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Wild Swamp": {
+      "radius": 60,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Ice Lake": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Abandoned Supermarket": {
+      "radius": 40,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Oxum's Gas Station": {
+      "radius": 40,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Mining Outpost": {
+      "radius": 20,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Substation": {
+      "radius": 15,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 0,
+      "monumentMax": 2
+    },
+    "Underwater Lab": {
+      "radius": 40,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Large Oil Rig": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Oil Rig": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Arctic Research Base": {
+      "radius": 80,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "The Dome": {
+      "radius": 80,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Stone Quarry": {
+      "radius": 20,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Ranch": {
+      "radius": 70,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Train Tunnel": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Large Fishing Village": {
+      "radius": 70,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Fishing Village": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 1,
+      "monumentMax": 3
+    },
+    "Junkyard": {
+      "radius": 70,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Military Tunnel": {
+      "radius": 100,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 3,
+      "monumentMax": 5
+    }
+  }
+}

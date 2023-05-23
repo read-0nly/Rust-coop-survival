@@ -1,0 +1,12 @@
+{
+  "Attract": 200.0,
+  "Align": 30.0,
+  "Repulse": 3.0,
+  "PointAttract": 200.0,
+  "PointFactor": 2.0,
+  "AttractionFactor": 2.0,
+  "CohesionFactor": 2.5,
+  "AttractOptimal": 50.0,
+  "AttractHome": 10.0,
+  "HomeOptimal": 20.0
+}

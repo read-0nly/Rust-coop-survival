@@ -1,0 +1,180 @@
+{
+  "FactionScores": {
+    "Carnivores": {
+      "Scientist": -2652.48267,
+      "Carnivores": 0.0,
+      "Herbivores": -4539.11768,
+      "Bandits": 1191.24731,
+      "Player": 1218.72839,
+      "Dwellers": 1211.31238,
+      "Default": -1812.76648
+    },
+    "Scientist": {
+      "Carnivores": -8473.22,
+      "Bandits": -7699.53369,
+      "Scientist": 0.0,
+      "Herbivores": 3748.222,
+      "Player": -7500.80029,
+      "Dwellers": -9094.774,
+      "Default": 2677.34985
+    },
+    "Herbivores": {
+      "Carnivores": -4412.78125,
+      "Scientist": 1318.90076,
+      "Herbivores": 0.0,
+      "Bandits": -2346.021,
+      "Player": -2613.10571,
+      "Dwellers": -2511.06055,
+      "Default": 1001.5788
+    },
+    "Bandits": {
+      "Scientist": -7371.40674,
+      "Carnivores": 1760.21448,
+      "Bandits": 0.0,
+      "Herbivores": -5341.681,
+      "Player": 1765.03967,
+      "Dwellers": 1746.58325,
+      "Default": -2539.55615
+    },
+    "Player": {
+      "Scientist": -1.638,
+      "Carnivores": 0.0449999981,
+      "Bandits": 0.719999969,
+      "Herbivores": 3.35699987,
+      "Player": 0.0,
+      "Dwellers": 0.0449999981
+    },
+    "76561198004703684": {
+      "Scientist": -0.0449999981,
+      "Carnivores": 0.0,
+      "Bandits": 0.107999995,
+      "Herbivores": 0.0,
+      "Player": 0.0,
+      "Dwellers": 0.0
+    },
+    "Dwellers": {
+      "Carnivores": 5564.22559,
+      "Dwellers": 0.0,
+      "Herbivores": -12514.8242,
+      "Scientist": -25914.4746,
+      "Bandits": 5526.88232,
+      "Player": 5568.887,
+      "Default": -7538.519
+    },
+    "76561198011951828": {
+      "Scientist": 0.0,
+      "Carnivores": 0.0,
+      "Bandits": 0.0,
+      "Herbivores": 0.0,
+      "Player": 0.0,
+      "Dwellers": 0.0
+    },
+    "76561198125872313": {
+      "Herbivores": -50.697,
+      "Carnivores": -454.68,
+      "Scientist": -170.793,
+      "Bandits": -147.645,
+      "Player": -109.377,
+      "Dwellers": -413.361,
+      "Default": -5.51699972
+    },
+    "76561198274996910": {
+      "Scientist": -1176.273,
+      "Carnivores": 72.8279953,
+      "Bandits": 96.075,
+      "Herbivores": -336.546,
+      "Player": 96.075,
+      "Dwellers": 42.246,
+      "Default": -232.434
+    },
+    "Default": {
+      "Dwellers": -100.512,
+      "Herbivores": -16.119,
+      "Carnivores": -107.64,
+      "Scientist": -47.3309975,
+      "Bandits": -49.131,
+      "Player": -48.7079964
+    }
+  },
+  "FactionBanks": {
+    "Dwellers": 70.0,
+    "Carnivores": 0.0,
+    "Scientist": 0.0,
+    "Herbivores": 0.0,
+    "Bandits": 0.0,
+    "Player": 0.0,
+    "76561198004703684": 0.0,
+    "76561198011951828": 0.0,
+    "76561198125872313": 0.0,
+    "76561198274996910": 0.0,
+    "Default": 0.0
+  },
+  "FactionSpawnEntities": {
+    "Scientist": [
+      "scientistnpc_junkpile_pistol",
+      "scientistnpc_oilrig",
+      "scientistnpc_roamtethered",
+      "scientistnpc_patrol",
+      "scientistnpc_roam",
+      "scientistnpc_cargo",
+      "scientistnpc_cargo_turret_lr300",
+      "scientistnpc_cargo_turret_any",
+      "scientistnpc_peacekeeper",
+      "scientistnpc_ch47_gunner",
+      "scientistnpc_heavy",
+      "scientistnpc_full_lr300",
+      "scientistnpc_full_shotgun"
+    ],
+    "Carnivores": [
+      "wolf",
+      "polarbear",
+      "boar"
+    ],
+    "Herbivores": [
+      "boar",
+      "chicken",
+      "stag",
+      "bear"
+    ],
+    "Dwellers": [
+      "npc_tunneldweller",
+      "npc_underwaterdweller"
+    ],
+    "Bandits": [
+      "npc_bandit_guard"
+    ],
+    "Player": [],
+    "76561198004703684": [],
+    "76561198011951828": [],
+    "76561198125872313": [],
+    "76561198274996910": [],
+    "Default": []
+  },
+  "FactionSpawnLimits": {
+    "Carnivores": 30,
+    "Scientist": 60,
+    "Herbivores": 30,
+    "Bandits": 60,
+    "Player": 0,
+    "76561198004703684": 0,
+    "Dwellers": 60,
+    "76561198011951828": 60,
+    "76561198125872313": 50,
+    "76561198274996910": 50,
+    "Default": 50
+  },
+  "FactionSpawnMinimums": {
+    "Carnivores": 12,
+    "Scientist": 40,
+    "Herbivores": 12,
+    "Bandits": 40,
+    "Player": 0,
+    "76561198004703684": 0,
+    "Dwellers": 40,
+    "76561198011951828": 10,
+    "76561198125872313": 10,
+    "76561198274996910": 10,
+    "Default": 10
+  },
+  "FactionSpawnCost": 500
+}
