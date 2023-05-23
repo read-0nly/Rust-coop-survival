@@ -1,4 +1,4 @@
-cd E:\RustDev\Scripts
+cd $PSScriptRoot
 .\BackupServers.ps1 -backup $true;
 .\InstallServers.ps1;
 .\InstallPlugins.ps1;
