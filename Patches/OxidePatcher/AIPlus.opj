@@ -183,30 +183,6 @@
             "ReturnBehavior": 1,
             "ArgumentBehavior": 3,
             "HookTypeName": "Simple",
-            "Name": "OnTrapInterest",
-            "HookName": "OnTrapInterest",
-            "AssemblyName": "Assembly-CSharp.dll",
-            "TypeName": "TriggerBase",
-            "Flagged": false,
-            "Signature": {
-              "Exposure": 3,
-              "Name": "InterestedInObject",
-              "ReturnType": "UnityEngine.GameObject",
-              "Parameters": [
-                "UnityEngine.GameObject"
-              ]
-            },
-            "MSILHash": "dJZ1yJD9nxyMGmfhck29i3ubBcfRAWEgRvasFo/9TfE=",
-            "HookCategory": "Traps"
-          }
-        },
-        {
-          "Type": "Simple",
-          "Hook": {
-            "InjectionIndex": 0,
-            "ReturnBehavior": 1,
-            "ArgumentBehavior": 3,
-            "HookTypeName": "Simple",
             "Name": "OnStuck",
             "HookName": "OnStuck",
             "AssemblyName": "Assembly-CSharp.dll",
@@ -219,6 +195,29 @@
               "Parameters": []
             },
             "MSILHash": "oCnosK7uzSQNXKAPEmwwq8xZLLE4gHlocWmB/Gfisz0="
+          }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 0,
+            "ReturnBehavior": 1,
+            "ArgumentBehavior": 3,
+            "HookTypeName": "Simple",
+            "Name": "InterestedInObject",
+            "HookName": "OnInterestedInObject",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "TriggerBase",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 3,
+              "Name": "InterestedInObject",
+              "ReturnType": "UnityEngine.GameObject",
+              "Parameters": [
+                "UnityEngine.GameObject"
+              ]
+            },
+            "MSILHash": "dJZ1yJD9nxyMGmfhck29i3ubBcfRAWEgRvasFo/9TfE="
           }
         }
       ],

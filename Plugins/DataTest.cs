@@ -52,6 +52,7 @@ namespace Oxide.Plugins
         #region config
         public static Configuration config = new Configuration();
         public static Core.Configuration.DynamicConfigFile configRef;
+        public Dictionary<string, List<string>> HomeList = new Dictionary<string, List<string>>();
         public class Configuration
         {
             [JsonProperty("monumentDelay", ObjectCreationHandling = ObjectCreationHandling.Replace)]
@@ -111,6 +112,10 @@ namespace Oxide.Plugins
         void Loaded()
         {
             omninasty = (Omninasty)Manager.GetPlugin("Omninasty");
+			LoadConfig();
+			foreach(string key in config.HomeList.Keys){
+				HomeList.Add(key,new List<string>(config.HomeList[key].ToArray()));
+			}
         }
 
         #region Classes
@@ -164,7 +169,7 @@ namespace Oxide.Plugins
                     connections[0].finish.Extend(connections, idx, entity, out logging);
                 }
 
-                {
+                
                 string faction = omninasty.getFaction(entity);
                 if (!seats.ContainsKey(faction))
                 {
@@ -179,7 +184,7 @@ namespace Oxide.Plugins
                     {
                         seats[faction].Add((long)(entity as BasePlayer).userID, UnityEngine.Time.time);
                     }
-                }
+                
                 return -1;
             }
             public virtual int Extend(List<Connection> connections, int idx, BaseEntity entity, out string logging)
@@ -403,6 +408,7 @@ namespace Oxide.Plugins
         }
         public class NodeMonument:NodeInterest
         {
+			public MapMarkerGenericRadius marker;
             public NodeMonument(MonumentInfo mn, int min, int max) : base(mn.displayPhrase.translated.Replace("\r", "").Replace("\n", "").Replace("\t", ""), new Vector3[] { mn.transform.position}, min, max,mn.Bounds,mn.transform)
             {
                 if (points==null||points.Count() == 0)
@@ -411,6 +417,24 @@ namespace Oxide.Plugins
                     points.Add(mn.transform.position);
                 }
                 name = mn.displayPhrase.translated.Replace("\r", "").Replace("\n", "").Replace("\t", "");
+				//"assets/prefabs/tools/map/genericradiusmarker.prefab"
+				if(mn.transform.position.y>0){
+					if(!config.HomeList.ContainsKey("HomeList"))
+						config.HomeList.Add("HomeList",new List<String>());
+					if(!config.HomeList["HomeList"].Contains(name))
+						config.HomeList["HomeList"].Add(name);
+					
+					marker = global::GameManager.server.CreateEntity("assets/prefabs/tools/map/genericradiusmarker.prefab", mn.transform.position, Quaternion.LookRotation(new Vector3(0,0,0), Vector3.up), true).GetComponent<MapMarkerGenericRadius>();;
+					marker.appType=ProtoBuf.AppMarkerType.GenericRadius;
+					marker.radius=0.2f;
+					marker.color1=new Color(0,0,0);
+					marker.color2=new Color(0,0,0);
+					marker.alpha=0.2f;
+					marker.enabled = true;
+					marker.Spawn();
+					marker.enableSaving=false;
+					marker.SendUpdate();
+				}
                 if (config.MonumentDefinitions.ContainsKey(name))
                 {
                     MonumentDefinition md = config.MonumentDefinitions[name];
@@ -695,6 +719,11 @@ namespace Oxide.Plugins
                 else if (n is NodeTransit) ColorWrite(n.name, ConsoleColor.Magenta);
             }
         }
+        [Command("roadnet.savecfg")]
+        void savecfg(IPlayer player, string command, string[] args)
+        {
+			SaveConfig();
+        }
         #endregion
 
         public static void ColorWrite(string s, ConsoleColor c)
@@ -708,6 +737,22 @@ namespace Oxide.Plugins
         void OnServerInitialized()
         {
             SetupNetwork();
+			foreach(string key in HomeList.Keys){
+				foreach(string val in HomeList[key].ToArray()){
+					bool found = false;
+					foreach(Node n in Node.nodePool){
+						if(n is NodeMonument)
+							found = found || ((n as NodeMonument).name==val);
+						if (found) break;
+					}
+					if(!found){
+						HomeList[key].Remove(val);
+					}
+				}
+				if(HomeList[key].Count()>0){
+					ColorWrite("HOME : "+key+" : "+HomeList[key][0],ConsoleColor.Yellow);
+				}
+			}
         }
         #endregion
         #region Functions

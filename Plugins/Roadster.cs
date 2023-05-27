@@ -38,6 +38,7 @@ namespace Oxide.Plugins{
 	public class Roadster : CovalencePlugin{
         public static int debugCnt = 0;
         public static bool debugging = false;
+		public static Dictionary<string,List<string>> homelist = new Dictionary<string,List<string>>();
         [Command("send.npc")]
         void setOrderToPlayerPoss(IPlayer player, string command, string[] args)
         {
@@ -126,6 +127,7 @@ namespace Oxide.Plugins{
 			omninasty = (Omninasty)Manager.GetPlugin("Omninasty");
             vehicleHandler = (VehicleHandler)Manager.GetPlugin("VehicleHandler");
             dt = (DataTest)Manager.GetPlugin("DataTest");
+			homelist=dt.HomeList;
             cordy.WalkableOnly = false;
 			VehicleHandler.AIZRoam = false;
 			loadStates();
@@ -159,12 +161,17 @@ namespace Oxide.Plugins{
                             max = count;
                             selection = n;
                         }
-                    }   
+                    } 
+					if(homelist.ContainsKey(faction) && homelist[faction].Count()>0){
+						if((n as NodeMonument).name==homelist[faction][0]){
+							selection = n;
+							break;
+						}
+					}  
                 }
             }
             if (selection != null)
                 result = selection.GetPoint();
-            return result;
             return result;
         }
 		public class CustomBaseRoamState : VehicleHandler.CustomBaseRoamState{
@@ -270,7 +277,7 @@ namespace Oxide.Plugins{
                 {
                     return;
                 }
-                if (!flag)
+                if (!flag || lastLocation == new Vector3(0,0,0))
                     lastLocation = this.brain.Navigator.BaseEntity.gameObject.transform.position;
 				
 
@@ -282,6 +289,29 @@ namespace Oxide.Plugins{
                     //ColorWrite(entity.transform.position.ToString()+ " Sent to " +steps[0].parent.name,ConsoleColor.Magenta);
                 }
                 Vector3 target = this.brain.transform.position;
+				//ColorWrite("Generating debug info", ConsoleColor.Cyan);
+				Color textCol = Color.red;
+				Color oldtextCol = Color.Lerp(Color.red, Color.clear, 0.8f);
+				string repchar = "[#]";
+				if (entity is BanditGuard) {
+					textCol = Color.red;
+					oldtextCol = Color.Lerp(Color.red, Color.clear, 0.1f);
+				}
+				else if (entity is ScientistNPC)
+				{
+					textCol = Color.cyan;
+					oldtextCol = Color.Lerp(Color.cyan, Color.clear, 0.1f);
+				}
+				else if (entity is TunnelDweller)
+				{
+					textCol = Color.yellow;
+					oldtextCol = Color.Lerp(Color.yellow, Color.clear, 0.1f);
+				}
+				else if (entity is UnderwaterDweller)
+				{
+					textCol = Color.yellow;
+					oldtextCol = Color.Lerp(Color.yellow, Color.clear, 0.1f);
+				}
 
                 Vector3 targetPin = new Vector3(0, 0, 0);
                 if (steps.Count() > 0)
@@ -290,6 +320,16 @@ namespace Oxide.Plugins{
                     if (steps[0].parent is NodeInterest)
                     {
                         waitTime += config.monumentDelay;
+						if(steps[0].parent is DataTest.NodeMonument){
+							
+							DataTest.NodeMonument tgt =(steps[0].parent as DataTest.NodeMonument);
+							if(tgt.marker!=null){
+								tgt.marker.color1=Color.Lerp(tgt.marker.color1, textCol, 0.1f);
+								tgt.marker.color2=new Color(0,0,0);
+								tgt.marker.alpha=0.75f;
+								tgt.marker.SendUpdate();
+							}
+						}
                     }
                     else { waitTime += config.roadDelay; }
                     //ColorWrite("Getting NodeIndex", ConsoleColor.Cyan);
@@ -393,29 +433,6 @@ namespace Oxide.Plugins{
                 bool isAggro = false;
                 this.brain.Navigator.Path = null;
 
-                //ColorWrite("Generating debug info", ConsoleColor.Cyan);
-                Color textCol = Color.red;
-                Color oldtextCol = Color.Lerp(Color.red, Color.clear, 0.8f);
-                string repchar = "[#]";
-                if (entity is BanditGuard) {
-                    textCol = Color.red;
-                    oldtextCol = Color.Lerp(Color.red, Color.clear, 0.1f);
-                }
-                else if (entity is ScientistNPC)
-                {
-                    textCol = Color.cyan;
-                    oldtextCol = Color.Lerp(Color.cyan, Color.clear, 0.1f);
-                }
-                else if (entity is TunnelDweller)
-                {
-                    textCol = Color.yellow;
-                    oldtextCol = Color.Lerp(Color.yellow, Color.clear, 0.1f);
-                }
-                else if (entity is UnderwaterDweller)
-                {
-                    textCol = Color.yellow;
-                    oldtextCol = Color.Lerp(Color.yellow, Color.clear, 0.1f);
-                }
                 if (debugTgt == this && debugging)
                 {
                     textCol = Color.green;

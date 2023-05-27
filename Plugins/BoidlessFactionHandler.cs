@@ -447,7 +447,7 @@ namespace Oxide.Plugins{
 						if(!config.FactionScores.ContainsKey(faction2))
 							config.FactionScores.Add(faction2,new Dictionary<string,float>());
 						if(!config.FactionScores[id].ContainsKey(faction2))
-							config.FactionScores[id].Add(faction2,0);
+							config.FactionScores[id].Add(faction2,-2000);
 						
 						//Apply direct score
 						config.FactionScores[id][faction2]-=damage;
@@ -456,17 +456,18 @@ namespace Oxide.Plugins{
 						foreach(string s in config.FactionScores[faction2].Keys){
 							if(config.FactionScores[faction2][s]<0){
 								if(!config.FactionScores[id].ContainsKey(s))
-									config.FactionScores[id].Add(s,0);
+									config.FactionScores[id].Add(s,-2000);
 								config.FactionScores[id][s]+=damage/10;								
 							}else{
 								if(!config.FactionScores[id].ContainsKey(s))
-									config.FactionScores[id].Add(s,0);
-								config.FactionScores[id][s]-=damage/5;										
+									config.FactionScores[id].Add(s,-2000);
+								config.FactionScores[id][s]-=damage/30;										
 							}
 						}
 						//Regen
 						regenAlliances(bp);
 					}
+					/*
 					//Ignore friendly fire
 					if(faction1!=faction2){
 						//Validate safe for interfaction
@@ -475,20 +476,20 @@ namespace Oxide.Plugins{
 						if(!config.FactionScores.ContainsKey(faction2))
 							config.FactionScores.Add(faction2,new Dictionary<string,float>());
 						if(!config.FactionScores[faction2].ContainsKey(faction1))
-							config.FactionScores[faction2].Add(faction1,0f);
+							config.FactionScores[faction2].Add(faction1,-2000f);
 						if(!config.FactionScores[faction1].ContainsKey(faction2))
-							config.FactionScores[faction1].Add(faction2,0f);					
+							config.FactionScores[faction1].Add(faction2,-2000f);					
 						//Apply relational score 
 						foreach(string s in config.FactionScores[faction2].Keys){
 							if(s==faction1)continue;
 
 							if(config.FactionScores[faction2][s]< 0){
 								if(!config.FactionScores[faction1].ContainsKey(s))
-									config.FactionScores[faction1].Add(s,0);
+									config.FactionScores[faction1].Add(s,-2000);
 								config.FactionScores[faction1][s]+=damage/20;								
 							}else{
 								if(!config.FactionScores[faction1].ContainsKey(s))
-									config.FactionScores[faction1].Add(s,0);
+									config.FactionScores[faction1].Add(s,-2000);
 								config.FactionScores[faction1][s]-=damage/10;										
 							}
 						}
@@ -498,6 +499,7 @@ namespace Oxide.Plugins{
 						regenAlliances(faction1);
 						regenAlliances(faction2);
 					}
+					*/
 					
 				}
 				#endregion
@@ -609,13 +611,13 @@ namespace Oxide.Plugins{
 				}
 				
 				if(!config.FactionScores[id].ContainsKey(storeFaction)){
-					config.FactionScores[id].Add(storeFaction,0);
+					config.FactionScores[id].Add(storeFaction,-2000);
 				}
 				if(!config.FactionScores[buyerFaction].ContainsKey(storeFaction)){
-					config.FactionScores[buyerFaction].Add(storeFaction,0);
+					config.FactionScores[buyerFaction].Add(storeFaction,-2000);
 				}
 				if(!config.FactionScores[storeFaction].ContainsKey(buyerFaction)){
-					config.FactionScores[storeFaction].Add(buyerFaction,0);
+					config.FactionScores[storeFaction].Add(buyerFaction,-2000);
 				}
 				
 				config.FactionBanks[storeFaction]+=amount;

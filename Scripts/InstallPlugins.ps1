@@ -12,5 +12,6 @@ cat "$PSSCRIPTROOT\..\Env\ServerInstances.txt" |%{
 		$tgt = (dir "$_*" -recurse)[0]
 		new-item -type symboliclink -target $tgt.fullname ("c:\rust\$env\oxide\plugins\"+$tgt.name)
 	}
+	. "$PSSCRIPTROOT\Install3rd.ps1" $_
 }
 cd $strt
