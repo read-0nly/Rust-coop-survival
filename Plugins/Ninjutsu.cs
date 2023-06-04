@@ -528,7 +528,8 @@ namespace Oxide.Plugins
 			{
 				if(!nightTimeouts.ContainsKey(basePlayer2) || nightTimeouts[basePlayer2] < System.DateTime.Now.Ticks){
 					if(basePlayer2.Connection==null) continue;
-					if (Net.sv.write.Start())
+					NetWrite nw = Net.sv.StartWrite();
+					if (nw.CanWrite)
 					{
                         Connection connection = basePlayer2.Connection;
 						connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
@@ -537,8 +538,8 @@ namespace Oxide.Plugins
 							forConnection = connection,
 							forDisk = false
 						};
-						Net.sv.write.PacketID(Message.Type.Entities);
-						Net.sv.write.UInt32(connection.validate.entityUpdates);
+						nw.PacketID(Message.Type.Entities);
+						nw.UInt32(connection.validate.entityUpdates);
 						using (saveInfo.msg = Facepunch.Pool.Get<ProtoBuf.Entity>())
 						{
 							_envSync.Save(saveInfo);
@@ -550,9 +551,9 @@ namespace Oxide.Plugins
 							{
 								return;
 							}
-							saveInfo.msg.ToProto(Net.sv.write);
+							saveInfo.msg.ToProto(nw);
 							_envSync.PostSave(saveInfo);
-							Net.sv.write.Send(new SendInfo(connection));
+							nw.Send(new SendInfo(connection));
 						}
 					}
 					
@@ -578,15 +579,16 @@ namespace Oxide.Plugins
 					//move the bushes back to 0 0 0
 					foreach(BaseNetworkable.SaveInfo si in bushGhosts){
 						if(basePlayer2.Connection==null) continue;
-						if (Net.sv.write.Start())
+						NetWrite nw = Net.sv.StartWrite();
+						if (nw.CanWrite)
 						{
                             Connection connection = basePlayer2.Connection;
 							connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
 							si.msg.baseEntity.pos = new Vector3(0,0,0);
-							Net.sv.write.PacketID(Message.Type.Entities);
-							Net.sv.write.UInt32(connection.validate.entityUpdates);
-							si.msg.ToProto(Net.sv.write);
-							Net.sv.write.Send(new SendInfo(connection));
+							nw.PacketID(Message.Type.Entities);
+							nw.UInt32(connection.validate.entityUpdates);
+							si.msg.ToProto(nw);
+							nw.Send(new SendInfo(connection));
 						}
 					}
 				}
@@ -1138,13 +1140,13 @@ namespace Oxide.Plugins
 				case "Spirit Focus":// Done!
 					switch(gesture.gestureCommand)
 					{
-						case "shrug": //Self day / AOE night
+						case "shrug": //self wisp
 							magicCost+=10;
 							Wisp w = new Wisp(player);
 							w.timeout = System.DateTime.Now.Ticks + (System.TimeSpan.TicksPerMillisecond * 1000 * 300);
 							wisps.Add(w );
 							break;
-						case "point": //Self day / AOE night
+						case "point": //Attach wisp
 							magicCost+=10;
 							BasePlayer wispTgt = getLookingAtPlayer(player);
 							if (wispTgt==null) return null;
@@ -1169,7 +1171,8 @@ namespace Oxide.Plugins
 								if(bp==null||bp.transform==null)continue;
 								if(bp!=player){
 									if(bp.Connection==null) continue;
-									if (Net.sv.write.Start())
+									NetWrite nw = Net.sv.StartWrite();
+									if (nw.CanWrite)
 									{
                                         Connection connection = bp.Connection;
 										connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
@@ -1178,8 +1181,8 @@ namespace Oxide.Plugins
 											forConnection = connection,
 											forDisk = false
 										};
-										Net.sv.write.PacketID(Message.Type.Entities);
-										Net.sv.write.UInt32(connection.validate.entityUpdates);
+										nw.PacketID(Message.Type.Entities);
+										nw.UInt32(connection.validate.entityUpdates);
 										using (saveInfo.msg = Facepunch.Pool.Get<ProtoBuf.Entity>())
 										{
 											_envSync.Save(saveInfo);
@@ -1195,13 +1198,14 @@ namespace Oxide.Plugins
 											{
 												return null;
 											}
-											saveInfo.msg.ToProto(Net.sv.write);
+											saveInfo.msg.ToProto(nw);
 											_envSync.PostSave(saveInfo);
-											Net.sv.write.Send(new SendInfo(connection));
+											nw.Send(new SendInfo(connection));
 										}
 									}
 								}else{
-									if (Net.sv.write.Start())
+									NetWrite nw = Net.sv.StartWrite();
+									if (nw.CanWrite)
 									{
                                         Connection connection = bp.Connection;
 										connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
@@ -1210,8 +1214,8 @@ namespace Oxide.Plugins
 											forConnection = connection,
 											forDisk = false
 										};
-										Net.sv.write.PacketID(Message.Type.Entities);
-										Net.sv.write.UInt32(connection.validate.entityUpdates);
+										nw.PacketID(Message.Type.Entities);
+										nw.UInt32(connection.validate.entityUpdates);
 										using (saveInfo.msg = Facepunch.Pool.Get<ProtoBuf.Entity>())
 										{
 											_envSync.Save(saveInfo);
@@ -1227,9 +1231,9 @@ namespace Oxide.Plugins
 											{
 												return null;
 											}
-											saveInfo.msg.ToProto(Net.sv.write);
+											saveInfo.msg.ToProto(nw);
 											_envSync.PostSave(saveInfo);
-											Net.sv.write.Send(new SendInfo(connection));
+											nw.Send(new SendInfo(connection));
 										}
 									}									
 								}
@@ -1254,16 +1258,17 @@ namespace Oxide.Plugins
 								}
 								foreach(BaseNetworkable.SaveInfo si in bushGhosts){
 									if(bp.Connection==null) continue;
-									if (Net.sv.write.Start())
+									NetWrite nw = Net.sv.StartWrite();
+									if (nw.CanWrite)
 									{
                                         Connection connection = bp.Connection;
 										connection.validate.entityUpdates = connection.validate.entityUpdates + 1;
 										Vector3 bushposition = getNearbyPos(bp,10);
 										si.msg.baseEntity.pos =bushposition;
-										Net.sv.write.PacketID(Message.Type.Entities);
-										Net.sv.write.UInt32(connection.validate.entityUpdates);
-										si.msg.ToProto(Net.sv.write);
-										Net.sv.write.Send(new SendInfo(connection));
+										nw.PacketID(Message.Type.Entities);
+										nw.UInt32(connection.validate.entityUpdates);
+										si.msg.ToProto(nw);
+										nw.Send(new SendInfo(connection));
 									}
 								}
 								

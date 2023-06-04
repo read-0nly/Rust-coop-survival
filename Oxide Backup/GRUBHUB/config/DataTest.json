@@ -7,7 +7,60 @@
   "roadRoadDistance": 30.0,
   "stepSize": 5,
   "nodeStuck": 20,
-  "HomeList": {},
+  "HomeList": {
+    "HomeList": [
+      "Harbor",
+      "Abandoned Military Base",
+      "Bandit Camp",
+      "Ranch",
+      "Power Plant",
+      "Satellite Dish",
+      "The Dome",
+      "HQM Quarry",
+      "Stone Quarry",
+      "Water Well",
+      "Abandoned Cabins",
+      "Wild Swamp",
+      "Ice Lake",
+      "Train Tunnel",
+      "Mining Outpost",
+      "Abandoned Supermarket",
+      "Substation",
+      "Outpost",
+      "Missile Silo",
+      "Water Treatment Plant",
+      "Sulfur Quarry",
+      "Arctic Research Base",
+      "Airfield",
+      "Oxum's Gas Station",
+      "Train Yard",
+      "Launch Site",
+      "Giant Excavator Pit",
+      "Junkyard",
+      "Sewer Branch"
+    ],
+    "Scientist": [
+      "Outpost",
+      "Abandoned Military Base",
+      "Arctic Research Base",
+      "Train Yard",
+      "Launch Site"
+    ],
+    "Bandits": [
+      "Bandit Camp",
+      "Junkyard",
+      "Ranch",
+      "Sewer Branch",
+      "Abandoned Cabins"
+    ],
+    "Dwellers": [
+      "Power Plant",
+      "Water Treatment Plant",
+      "Harbor",
+      "Train Yard",
+      "Junkyard"
+    ]
+  },
   "MonumentDefinitions": {
     "Harbor": {
       "radius": 100,
@@ -297,6 +350,66 @@
         "z": 0.0
       },
       "monumentMin": 3,
+      "monumentMax": 5
+    },
+    "Missile Silo": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Airfield": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Train Yard": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Launch Site": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Giant Excavator Pit": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
+      "monumentMax": 5
+    },
+    "Sewer Branch": {
+      "radius": 50,
+      "centerOffset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "monumentMin": 2,
       "monumentMax": 5
     }
   }

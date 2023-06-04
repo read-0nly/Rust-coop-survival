@@ -219,6 +219,31 @@
             },
             "MSILHash": "dJZ1yJD9nxyMGmfhck29i3ubBcfRAWEgRvasFo/9TfE="
           }
+        },
+        {
+          "Type": "Simple",
+          "Hook": {
+            "InjectionIndex": 72,
+            "ReturnBehavior": 4,
+            "ArgumentBehavior": 3,
+            "HookTypeName": "Simple",
+            "Name": "SetKnown",
+            "HookName": "OnSetKnown",
+            "AssemblyName": "Assembly-CSharp.dll",
+            "TypeName": "Rust.AI.SimpleAIMemory",
+            "Flagged": false,
+            "Signature": {
+              "Exposure": 2,
+              "Name": "SetKnown",
+              "ReturnType": "System.Void",
+              "Parameters": [
+                "BaseEntity",
+                "BaseEntity",
+                "AIBrainSenses"
+              ]
+            },
+            "MSILHash": "d9SI0Dg1CGNB8MMfmej1LLTh4Duec1JN9zheeJdq+Gg="
+          }
         }
       ],
       "Modifiers": [

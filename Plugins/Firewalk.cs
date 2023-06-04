@@ -22,13 +22,13 @@ namespace Oxide.Plugins
 		List<BaseOven> fires = new List<BaseOven>();
 		Dictionary<BasePlayer,long> playerTimeouts = new Dictionary<BasePlayer,long>();
 		Dictionary<ulong,List<BaseOven>> playerFires = new Dictionary<ulong,List<BaseOven>>();
-		public long timeout = 5000;
+		public long timeout = 1000;
 		private Configuration config;
 		class Configuration{
 			[JsonProperty("ownerOnly", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 			public bool ownerOnly = true;
 			[JsonProperty("timeout", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-			public long timeout = 5000;
+			public long timeout = 1000;
 			
 			
 			public string ToJson() => JsonConvert.SerializeObject(this);				
@@ -72,6 +72,7 @@ namespace Oxide.Plugins
 		}
 		object OnOvenToggle(BaseOven oven, BasePlayer player)
 		{
+			Puts(oven.transform.name);
 			if(!oven.transform.name.Contains("campfire")) return null;
 			if((oven.IsOn())){
 				if(fires.Contains(oven))
@@ -102,38 +103,37 @@ namespace Oxide.Plugins
 			BasePlayer bp = (entity as BasePlayer);
 			TorchWeapon torch = (bp.GetHeldEntity() as TorchWeapon);
 			List<BaseOven> firelist = new List<BaseOven>();
-			firelist.AddRange(fires.ToArray());
 			if(!permission.UserHasPermission(bp.UserIDString, "firewalk.use") && !permission.UserHasPermission(bp.UserIDString, "firewalk.usemine") && !config.ownerOnly) return null;
-			if((torch!=null && permission.UserHasPermission(bp.UserIDString, "firewalk.use")) || config.ownerOnly || (!permission.UserHasPermission(bp.UserIDString, "firewalk.use") && permission.UserHasPermission(bp.UserIDString, "firewalk.usemine"))){
-				if(playerFires.ContainsKey(oven.OwnerID))
+			if((torch!=null&&torch.HasFlag(BaseEntity.Flags.On) && permission.UserHasPermission(bp.UserIDString, "firewalk.use"))/* || config.ownerOnly || (!permission.UserHasPermission(bp.UserIDString, "firewalk.use") && permission.UserHasPermission(bp.UserIDString, "firewalk.usemine"))*/){
+				/*if(playerFires.ContainsKey(oven.OwnerID))
 					firelist = playerFires[oven.OwnerID];
-				else
-					return null;
-				if(torch.HasFlag(BaseEntity.Flags.On)){
-					firelist.Reverse();
-				}
+				else*/
+					//return null;
+				firelist.AddRange(fires.ToArray());
 			}
 			if(playerTimeouts.ContainsKey(bp)){
 				if(playerTimeouts[bp]<System.DateTime.Now.Ticks){
 					playerTimeouts.Remove(bp);
 				}
 				else{
-					return null;
+					return bp;
 				}
 			}
 			if(!playerTimeouts.ContainsKey(bp))
 				playerTimeouts.Add(bp,System.DateTime.Now.Ticks + (System.TimeSpan.TicksPerMillisecond * timeout ));
 			
 			bool found = false;
-			for(int i = 0; i < firelist.Count()+1;i++){
-				BaseOven bo = firelist[i%firelist.Count()];
-				if (found && bo.IsOn() && bo.FindBurnable()!=null){
-					Puts("Warpng");
-					bp.Teleport(bo.transform.position);
-					return null;
-				}
-				if(bo==info.Initiator){
-					found=true;
+			if(firelist.Count()>0){
+				for(int i = 0; i < firelist.Count()*2;i++){
+					BaseOven bo = firelist[i%firelist.Count()];
+					if (found && bo.IsOn() && bo.FindBurnable()!=null){
+						Puts("Warpng");
+						bp.Teleport(bo.transform.position+new Vector3(0,2,0));
+						return bp;
+					}
+					if(bo==info.Initiator){
+						found=true;
+					}
 				}
 			}
 			return null;

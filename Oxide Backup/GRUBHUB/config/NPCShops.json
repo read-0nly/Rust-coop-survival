@@ -1,346 +1,10 @@
 {
   "Economy": [
     {
-      "name": "High External Stone Gate",
-      "id": -691113464,
-      "amount": 1,
-      "price": 640
-    },
-    {
-      "name": "Semi-Automatic Pistol",
-      "id": 818877484,
-      "amount": 1,
-      "price": 65
-    },
-    {
-      "name": "F1 Grenade",
-      "id": 143803535,
-      "amount": 1,
-      "price": 13
-    },
-    {
-      "name": "Potato",
-      "id": -2086926071,
-      "amount": 10,
-      "price": 50
-    },
-    {
-      "name": "Switch",
-      "id": 1951603367,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "Reinforced Glass Window",
-      "id": 671706427,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Metal Chest plate",
-      "id": 1110385766,
-      "amount": 1,
-      "price": 270
-    },
-    {
-      "name": "Blocker",
-      "id": -690968985,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "SAM Site",
-      "id": -1009359066,
-      "amount": 1,
-      "price": 500
-    },
-    {
-      "name": "Combat Knife",
-      "id": 2040726127,
-      "amount": 1,
-      "price": 5
-    },
-    {
-      "name": "Rifle Body",
-      "id": 176787552,
-      "amount": 1,
-      "price": 29
-    },
-    {
-      "name": "Triangle Ladder Hatch",
-      "id": 2041899972,
-      "amount": 1,
-      "price": 423
-    },
-    {
-      "name": "Salvaged Cleaver",
-      "id": -1978999529,
-      "amount": 1,
-      "price": 55
-    },
-    {
-      "name": "Explosives",
-      "id": -592016202,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Pure Scrap Tea",
-      "id": 2024467711,
+      "name": "Pure Wood Tea",
+      "id": -557539629,
       "amount": 1,
       "price": 320
-    },
-    {
-      "name": "LR-300 Assault Rifle",
-      "id": -1812555177,
-      "amount": 1,
-      "price": 500
-    },
-    {
-      "name": "Flame Turret",
-      "id": 528668503,
-      "amount": 1,
-      "price": 250
-    },
-    {
-      "name": "Salvaged Axe",
-      "id": -262590403,
-      "amount": 1,
-      "price": 105
-    },
-    {
-      "name": "High Quality Carburetor",
-      "id": 656371026,
-      "amount": 1,
-      "price": 17
-    },
-    {
-      "name": "M39 Rifle",
-      "id": 28201841,
-      "amount": 1,
-      "price": 400
-    },
-    {
-      "name": "Ceiling Light",
-      "id": 1142993169,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Timer",
-      "id": 665332906,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Boots",
-      "id": -1549739227,
-      "amount": 1,
-      "price": 57
-    },
-    {
-      "name": "Road Sign Kilt",
-      "id": 1850456855,
-      "amount": 1,
-      "price": 100
-    },
-    {
-      "name": "Rocket",
-      "id": -742865266,
-      "amount": 1,
-      "price": 319
-    },
-    {
-      "name": "Jackhammer",
-      "id": 1488979457,
-      "amount": 1,
-      "price": 150
-    },
-    {
-      "name": "Rear Seats Vehicle Module",
-      "id": 1376065505,
-      "amount": 1,
-      "price": 17
-    },
-    {
-      "name": "Mixing Table",
-      "id": 1259919256,
-      "amount": 1,
-      "price": 175
-    },
-    {
-      "name": "Basic Max Health Tea",
-      "id": -1184406448,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Tech Trash",
-      "id": 73681876,
-      "amount": 1,
-      "price": 250
-    },
-    {
-      "name": "Engine Vehicle Module",
-      "id": 1559779253,
-      "amount": 1,
-      "price": 16
-    },
-    {
-      "name": "Water Jug",
-      "id": -119235651,
-      "amount": 1,
-      "price": 5
-    },
-    {
-      "name": "Smart Alarm",
-      "id": -695978112,
-      "amount": 1,
-      "price": 256
-    },
-    {
-      "name": "Holosight",
-      "id": 442289265,
-      "amount": 1,
-      "price": 274
-    },
-    {
-      "name": "Auto Turret",
-      "id": -2139580305,
-      "amount": 1,
-      "price": 1281
-    },
-    {
-      "name": "Leather",
-      "id": 1381010055,
-      "amount": 100,
-      "price": 200
-    },
-    {
-      "name": "Red Berry",
-      "id": 1272194103,
-      "amount": 2,
-      "price": 10
-    },
-    {
-      "name": "Rocket Launcher",
-      "id": 442886268,
-      "amount": 1,
-      "price": 200
-    },
-    {
-      "name": "Blue Keycard",
-      "id": -484206264,
-      "amount": 1,
-      "price": 40
-    },
-    {
-      "name": "Adv. Anti-Rad Tea",
-      "id": -1729415579,
-      "amount": 1,
-      "price": 80
-    },
-    {
-      "name": "Semi Automatic Body",
-      "id": 573926264,
-      "amount": 1,
-      "price": 27
-    },
-    {
-      "name": "Coffee Can Helmet",
-      "id": -803263829,
-      "amount": 1,
-      "price": 23
-    },
-    {
-      "name": "Elevator",
-      "id": 1177596584,
-      "amount": 1,
-      "price": 151
-    },
-    {
-      "name": "Basic Ore Tea",
-      "id": 1480022580,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Black Berry",
-      "id": 1771755747,
-      "amount": 2,
-      "price": 10
-    },
-    {
-      "name": "Flatbed Vehicle Module",
-      "id": -1880231361,
-      "amount": 1,
-      "price": 12
-    },
-    {
-      "name": "Salvaged Hammer",
-      "id": -1506397857,
-      "amount": 1,
-      "price": 35
-    },
-    {
-      "name": "Torpedo",
-      "id": -1671551935,
-      "amount": 1,
-      "price": 38
-    },
-    {
-      "name": "High Quality Valves",
-      "id": -1802083073,
-      "amount": 2,
-      "price": 24
-    },
-    {
-      "name": "Shotgun Trap",
-      "id": 352499047,
-      "amount": 1,
-      "price": 293
-    },
-    {
-      "name": "Timed Explosive Charge",
-      "id": 1248356124,
-      "amount": 1,
-      "price": 918
-    },
-    {
-      "name": "Road Signs",
-      "id": 1199391518,
-      "amount": 1,
-      "price": 50
-    },
-    {
-      "name": "Smart Switch",
-      "id": 988652725,
-      "amount": 1,
-      "price": 256
-    },
-    {
-      "name": "16x Zoom Scope",
-      "id": 174866732,
-      "amount": 1,
-      "price": 300
-    },
-    {
-      "name": "SAM Ammo",
-      "id": -384243979,
-      "amount": 1,
-      "price": 31
-    },
-    {
-      "name": "Armored Double Door",
-      "id": 1221063409,
-      "amount": 1,
-      "price": 675
-    },
-    {
-      "name": "Advanced Rad. Removal Tea",
-      "id": 2021351233,
-      "amount": 1,
-      "price": 80
     },
     {
       "name": "Root Combiner",
@@ -349,28 +13,46 @@
       "price": 8
     },
     {
-      "name": "Large Water Catcher",
-      "id": -1100168350,
+      "name": "Thompson",
+      "id": -1758372725,
       "amount": 1,
-      "price": 90
+      "price": 101
     },
     {
-      "name": "Red Keycard",
-      "id": -1880870149,
+      "name": "Blue Keycard",
+      "id": -484206264,
       "amount": 1,
-      "price": 80
+      "price": 40
     },
     {
-      "name": "Medium Rechargeable Battery",
-      "id": 2023888403,
+      "name": "Paddle",
+      "id": 1491189398,
       "amount": 1,
-      "price": 260
+      "price": 25
     },
     {
-      "name": "Multiple Grenade Launcher",
-      "id": -1123473824,
+      "name": "SAM Site",
+      "id": -1009359066,
       "amount": 1,
-      "price": 86
+      "price": 500
+    },
+    {
+      "name": "Rocket Launcher",
+      "id": 442886268,
+      "amount": 1,
+      "price": 200
+    },
+    {
+      "name": "Metal Barricade",
+      "id": 1655650836,
+      "amount": 1,
+      "price": 50
+    },
+    {
+      "name": "Wood",
+      "id": -151838493,
+      "amount": 1000,
+      "price": 20
     },
     {
       "name": "Blue Berry",
@@ -379,328 +61,10 @@
       "price": 10
     },
     {
-      "name": "Hoodie",
-      "id": 1751045826,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Splitter",
-      "id": -563624462,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "Green Berry",
-      "id": 858486327,
-      "amount": 2,
-      "price": 10
-    },
-    {
-      "name": "Fridge",
-      "id": 1413014235,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "12 Gauge Incendiary Shell",
-      "id": -1036635990,
-      "amount": 32,
-      "price": 115
-    },
-    {
-      "name": "Stones",
-      "id": -2099697608,
-      "amount": 1000,
-      "price": 50
-    },
-    {
-      "name": "40mm Smoke Grenade",
-      "id": 915408809,
-      "amount": 1,
-      "price": 33
-    },
-    {
-      "name": "Targeting Computer",
-      "id": 1523195708,
-      "amount": 1,
-      "price": 757
-    },
-    {
-      "name": "Small Water Catcher",
-      "id": -132247350,
-      "amount": 1,
-      "price": 37
-    },
-    {
-      "name": "Weapon Lasersight",
-      "id": -132516482,
-      "amount": 1,
-      "price": 256
-    },
-    {
-      "name": "12 Gauge Buckshot",
-      "id": -1685290200,
-      "amount": 32,
-      "price": 62
-    },
-    {
-      "name": "Custom SMG",
-      "id": 1796682209,
-      "amount": 1,
-      "price": 95
-    },
-    {
-      "name": "L96 Rifle",
-      "id": -778367295,
-      "amount": 1,
-      "price": 339
-    },
-    {
-      "name": "Test Generator",
-      "id": -295829489,
-      "amount": 1,
-      "price": 346
-    },
-    {
-      "name": "Wetsuit",
-      "id": -1101924344,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Sheet Metal",
-      "id": -1994909036,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "MLRS Aiming Module",
-      "id": 343045591,
-      "amount": 1,
-      "price": 505
-    },
-    {
-      "name": "Advanced Wood Tea",
-      "id": -541206665,
-      "amount": 1,
-      "price": 80
-    },
-    {
-      "name": "Silencer",
-      "id": -1850571427,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "High Quality Crankshaft",
-      "id": 1158340332,
-      "amount": 1,
-      "price": 12
-    },
-    {
-      "name": "RAND Switch",
-      "id": 492357192,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Pure Healing Tea",
-      "id": -1677315902,
-      "amount": 1,
-      "price": 320
-    },
-    {
-      "name": "Computer Station",
-      "id": -1588628467,
-      "amount": 1,
-      "price": 1287
-    },
-    {
-      "name": "Incendiary Rocket",
-      "id": 1638322904,
-      "amount": 1,
-      "price": 290
-    },
-    {
-      "name": "Siren Light",
-      "id": 762289806,
-      "amount": 1,
-      "price": 12
-    },
-    {
-      "name": "Pure Rad. Removal Tea",
-      "id": 1905387657,
-      "amount": 1,
-      "price": 320
-    },
-    {
-      "name": "Workbench Level 2",
-      "id": -41896755,
-      "amount": 1,
-      "price": 590
-    },
-    {
-      "name": "Snow Jacket",
-      "id": -48090175,
-      "amount": 1,
-      "price": 23
-    },
-    {
-      "name": "Electric Heater",
-      "id": -784870360,
-      "amount": 1,
-      "price": 75
-    },
-    {
-      "name": "Thompson",
-      "id": -1758372725,
-      "amount": 1,
-      "price": 101
-    },
-    {
-      "name": "Water Pump",
-      "id": -1284169891,
-      "amount": 1,
-      "price": 200
-    },
-    {
-      "name": "Tarp",
-      "id": 2019042823,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Heavy Plate Helmet",
-      "id": 1181207482,
-      "amount": 1,
-      "price": 38
-    },
-    {
-      "name": "Metal horizontal embrasure",
-      "id": -1199897169,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "Yellow Berry",
-      "id": 1660145984,
-      "amount": 2,
-      "price": 10
-    },
-    {
-      "name": "Gears",
-      "id": 479143914,
-      "amount": 1,
-      "price": 125
-    },
-    {
-      "name": "Metal Blade",
-      "id": 1882709339,
-      "amount": 1,
-      "price": 15
-    },
-    {
-      "name": "Metal Vertical embrasure",
-      "id": -1199897172,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "Armored Door",
-      "id": 1353298668,
-      "amount": 1,
-      "price": 665
-    },
-    {
-      "name": "Fluid Combiner",
-      "id": -265292885,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Diving Mask",
-      "id": -113413047,
-      "amount": 1,
-      "price": 15
-    },
-    {
-      "name": "Small Generator",
-      "id": 1849887541,
-      "amount": 1,
-      "price": 260
-    },
-    {
-      "name": "Pure Anti-Rad Tea",
-      "id": -33009419,
-      "amount": 1,
-      "price": 320
-    },
-    {
-      "name": "Large Planter Box",
-      "id": 1581210395,
-      "amount": 1,
-      "price": 64
-    },
-    {
-      "name": "Basic Healing Tea",
-      "id": -929092070,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "40mm HE Grenade",
-      "id": 349762871,
-      "amount": 1,
-      "price": 54
-    },
-    {
-      "name": "Diving Tank",
-      "id": -2022172587,
-      "amount": 1,
-      "price": 35
-    },
-    {
-      "name": "Ladder Hatch",
-      "id": 1948067030,
-      "amount": 1,
-      "price": 423
-    },
-    {
-      "name": "Electrical Branch",
-      "id": -1448252298,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Flasher Light",
-      "id": -939424778,
-      "amount": 1,
-      "price": 12
-    },
-    {
-      "name": "Advanced Max Health Tea",
-      "id": 603811464,
-      "amount": 1,
-      "price": 80
-    },
-    {
-      "name": "Garage Door",
-      "id": -148794216,
-      "amount": 1,
-      "price": 280
-    },
-    {
-      "name": "Roadsign Gloves",
-      "id": -699558439,
-      "amount": 1,
-      "price": 120
-    },
-    {
-      "name": "XOR Switch",
-      "id": 1293102274,
-      "amount": 1,
-      "price": 10
+      "name": "HV Pistol Ammo",
+      "id": -1691396643,
+      "amount": 64,
+      "price": 164
     },
     {
       "name": "Fuel Tank Vehicle Module",
@@ -709,20 +73,62 @@
       "price": 20
     },
     {
-      "name": "Advanced Healing Tea",
-      "id": -2123125470,
+      "name": "Explosives",
+      "id": -592016202,
       "amount": 1,
-      "price": 80
+      "price": 20
     },
     {
-      "name": "Medical Syringe",
-      "id": 1079279582,
-      "amount": 2,
-      "price": 16
+      "name": "Speargun",
+      "id": -1517740219,
+      "amount": 1,
+      "price": 9
     },
     {
-      "name": "Door Controller",
-      "id": -502177121,
+      "name": "Homemade Landmine",
+      "id": -1663759755,
+      "amount": 1,
+      "price": 15
+    },
+    {
+      "name": "Rocket",
+      "id": -742865266,
+      "amount": 1,
+      "price": 319
+    },
+    {
+      "name": "M249",
+      "id": -2069578888,
+      "amount": 1,
+      "price": 624
+    },
+    {
+      "name": "Wetsuit",
+      "id": -1101924344,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Large Rechargeable Battery",
+      "id": 553270375,
+      "amount": 1,
+      "price": 520
+    },
+    {
+      "name": "Water Jug",
+      "id": -119235651,
+      "amount": 1,
+      "price": 5
+    },
+    {
+      "name": "Boots",
+      "id": -1549739227,
+      "amount": 1,
+      "price": 57
+    },
+    {
+      "name": "Reinforced Glass Window",
+      "id": 671706427,
       "amount": 1,
       "price": 8
     },
@@ -733,130 +139,16 @@
       "price": 500
     },
     {
-      "name": "CCTV Camera",
-      "id": 634478325,
+      "name": "Pure Healing Tea",
+      "id": -1677315902,
       "amount": 1,
-      "price": 504
+      "price": 320
     },
     {
-      "name": "5.56 Rifle Ammo",
-      "id": -1211166256,
-      "amount": 64,
-      "price": 57
-    },
-    {
-      "name": "Pump Shotgun",
-      "id": 795371088,
+      "name": "F1 Grenade",
+      "id": 143803535,
       "amount": 1,
-      "price": 150
-    },
-    {
-      "name": "Powered Water Purifier",
-      "id": -365097295,
-      "amount": 1,
-      "price": 150
-    },
-    {
-      "name": "Diving Fins",
-      "id": 296519935,
-      "amount": 1,
-      "price": 25
-    },
-    {
-      "name": "Modular Car Lift",
-      "id": 1696050067,
-      "amount": 1,
-      "price": 155
-    },
-    {
-      "name": "Tesla Coil",
-      "id": 1371909803,
-      "amount": 1,
-      "price": 256
-    },
-    {
-      "name": "Heavy Plate Jacket",
-      "id": -1102429027,
-      "amount": 1,
-      "price": 68
-    },
-    {
-      "name": "High External Wooden Wall",
-      "id": 99588025,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Pressure Pad",
-      "id": -2049214035,
-      "amount": 1,
-      "price": 188
-    },
-    {
-      "name": "Rope",
-      "id": 1414245522,
-      "amount": 1,
-      "price": 4
-    },
-    {
-      "name": "HV Pistol Ammo",
-      "id": -1691396643,
-      "amount": 64,
-      "price": 164
-    },
-    {
-      "name": "Taxi Vehicle Module",
-      "id": -626174997,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Pants",
-      "id": 237239288,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Speargun Spear",
-      "id": -1800345240,
-      "amount": 1,
-      "price": 5
-    },
-    {
-      "name": "Large Rechargeable Battery",
-      "id": 553270375,
-      "amount": 1,
-      "price": 520
-    },
-    {
-      "name": "Search Light",
-      "id": 2087678962,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "8x Zoom Scope",
-      "id": 567235583,
-      "amount": 1,
-      "price": 100
-    },
-    {
-      "name": "Advanced Scrap Tea",
-      "id": 524678627,
-      "amount": 1,
-      "price": 80
-    },
-    {
-      "name": "Satchel Charge",
-      "id": -1878475007,
-      "amount": 1,
-      "price": 94
-    },
-    {
-      "name": "High External Stone Wall",
-      "id": -967648160,
-      "amount": 1,
-      "price": 75
+      "price": 13
     },
     {
       "name": "Storage Vehicle Module",
@@ -865,220 +157,40 @@
       "price": 8
     },
     {
-      "name": "Button",
-      "id": -1778897469,
+      "name": "Flasher Light",
+      "id": -939424778,
       "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Spas-12 Shotgun",
-      "id": -41440462,
-      "amount": 1,
-      "price": 250
-    },
-    {
-      "name": "Low Grade Fuel",
-      "id": -946369541,
-      "amount": 100,
-      "price": 50
-    },
-    {
-      "name": "Explosives",
-      "id": -592016202,
-      "amount": 5,
-      "price": 104
-    },
-    {
-      "name": "Locker",
-      "id": -110921842,
-      "amount": 1,
-      "price": 40
-    },
-    {
-      "name": "Muzzle Brake",
-      "id": 1478091698,
-      "amount": 1,
-      "price": 16
-    },
-    {
-      "name": "Assault Rifle",
-      "id": 1545779598,
-      "amount": 1,
-      "price": 373
-    },
-    {
-      "name": "Double Barrel Shotgun",
-      "id": -765183617,
-      "amount": 1,
-      "price": 250
-    },
-    {
-      "name": "Heavy Plate Pants",
-      "id": -1778159885,
-      "amount": 1,
-      "price": 38
-    },
-    {
-      "name": "Weapon Flashlight",
-      "id": 952603248,
-      "amount": 1,
-      "price": 6
-    },
-    {
-      "name": "Explosive 5.56 Rifle Ammo",
-      "id": -1321651331,
-      "amount": 64,
-      "price": 299
-    },
-    {
-      "name": "Metal Facemask",
-      "id": -194953424,
-      "amount": 1,
-      "price": 220
-    },
-    {
-      "name": "Storage Monitor",
-      "id": 1149964039,
-      "amount": 1,
-      "price": 256
-    },
-    {
-      "name": "Memory Cell",
-      "id": -746647361,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Salvaged Shelves",
-      "id": 1950721418,
-      "amount": 1,
-      "price": 25
-    },
-    {
-      "name": "Homemade Landmine",
-      "id": -1663759755,
-      "amount": 1,
-      "price": 15
-    },
-    {
-      "name": "Diesel Fuel",
-      "id": 1568388703,
-      "amount": 1,
-      "price": 150
-    },
-    {
-      "name": "MP5A4",
-      "id": 1318558775,
-      "amount": 1,
-      "price": 169
-    },
-    {
-      "name": "Wooden Ladder",
-      "id": -316250604,
-      "amount": 1,
-      "price": 18
-    },
-    {
-      "name": "White Berry",
-      "id": 854447607,
-      "amount": 2,
-      "price": 10
-    },
-    {
-      "name": "Semi-Automatic Rifle",
-      "id": -904863145,
-      "amount": 1,
-      "price": 140
-    },
-    {
-      "name": "Pure Max Health Tea",
-      "id": 1712261904,
-      "amount": 1,
-      "price": 320
-    },
-    {
-      "name": "Large Medkit",
-      "id": 254522515,
-      "amount": 1,
-      "price": 21
-    },
-    {
-      "name": "Bolt Action Rifle",
-      "id": 1588298435,
-      "amount": 1,
-      "price": 219
-    },
-    {
-      "name": "SMG Body",
-      "id": 1230323789,
-      "amount": 1,
-      "price": 19
-    },
-    {
-      "name": "Cloth",
-      "id": -858312878,
-      "amount": 100,
       "price": 12
     },
     {
-      "name": "Workbench Level 3",
-      "id": -1607980696,
+      "name": "40mm Smoke Grenade",
+      "id": 915408809,
       "amount": 1,
-      "price": 1550
+      "price": 33
     },
     {
-      "name": "Metal Fragments",
-      "id": 69511070,
-      "amount": 250,
-      "price": 25
-    },
-    {
-      "name": "Night Vision Goggles",
-      "id": -1518883088,
+      "name": "Triangle Ladder Hatch",
+      "id": 2041899972,
       "amount": 1,
-      "price": 520
+      "price": 423
     },
     {
-      "name": "High Quality Pistons",
-      "id": 1883981800,
-      "amount": 2,
-      "price": 24
-    },
-    {
-      "name": "Pure Wood Tea",
-      "id": -557539629,
+      "name": "Large Water Catcher",
+      "id": -1100168350,
       "amount": 1,
-      "price": 320
+      "price": 90
     },
     {
-      "name": "Passenger Vehicle Module",
-      "id": 895374329,
+      "name": "Salvaged Icepick",
+      "id": -1780802565,
       "amount": 1,
-      "price": 20
+      "price": 105
     },
     {
-      "name": "Bed",
-      "id": -1273339005,
-      "amount": 1,
-      "price": 48
-    },
-    {
-      "name": "Longsword",
-      "id": -1469578201,
-      "amount": 1,
-      "price": 40
-    },
-    {
-      "name": "Tactical Gloves",
-      "id": -1108136649,
-      "amount": 1,
-      "price": 95
-    },
-    {
-      "name": "Road Sign Jacket",
-      "id": -2002277461,
-      "amount": 1,
-      "price": 170
+      "name": "HV 5.56 Rifle Ammo",
+      "id": 1712070256,
+      "amount": 64,
+      "price": 246
     },
     {
       "name": "Leather",
@@ -1087,52 +199,46 @@
       "price": 2
     },
     {
-      "name": "Advanced Ore Tea",
-      "id": 2063916636,
+      "name": "Medium Rechargeable Battery",
+      "id": 2023888403,
       "amount": 1,
-      "price": 80
+      "price": 260
     },
     {
-      "name": "AND Switch",
-      "id": 1171735914,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "Wooden Barricade",
-      "id": 866889860,
-      "amount": 1,
-      "price": 10
-    },
-    {
-      "name": "Wood",
-      "id": -151838493,
-      "amount": 1000,
-      "price": 20
-    },
-    {
-      "name": "Pistol Bullet",
-      "id": 785728077,
+      "name": "Incendiary Pistol Bullet",
+      "id": 51984655,
       "amount": 64,
-      "price": 43
+      "price": 111
     },
     {
-      "name": "Anti-Rad Tea",
-      "id": -487356515,
+      "name": "Tesla Coil",
+      "id": 1371909803,
       "amount": 1,
-      "price": 20
+      "price": 256
     },
     {
-      "name": "Salvaged Sword",
-      "id": 1326180354,
+      "name": "Assault Rifle",
+      "id": 1545779598,
       "amount": 1,
-      "price": 17
+      "price": 373
     },
     {
-      "name": "Pumpkin",
-      "id": -567909622,
-      "amount": 10,
-      "price": 50
+      "name": "HBHF Sensor",
+      "id": -1507239837,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "High Quality Valves",
+      "id": -1802083073,
+      "amount": 2,
+      "price": 24
+    },
+    {
+      "name": "Weapon Lasersight",
+      "id": -132516482,
+      "amount": 1,
+      "price": 256
     },
     {
       "name": "RF Transmitter",
@@ -1141,80 +247,68 @@
       "price": 260
     },
     {
-      "name": "Speargun",
-      "id": -1517740219,
+      "name": "Large Furnace",
+      "id": -1992717673,
       "amount": 1,
-      "price": 9
+      "price": 350
+    },
+    {
+      "name": "Longsword",
+      "id": -1469578201,
+      "amount": 1,
+      "price": 40
+    },
+    {
+      "name": "Sprinkler",
+      "id": -781014061,
+      "amount": 1,
+      "price": 15
+    },
+    {
+      "name": "MLRS Aiming Module",
+      "id": 343045591,
+      "amount": 1,
+      "price": 505
+    },
+    {
+      "name": "M39 Rifle",
+      "id": 28201841,
+      "amount": 1,
+      "price": 400
+    },
+    {
+      "name": "RF Broadcaster",
+      "id": -1044468317,
+      "amount": 1,
+      "price": 260
+    },
+    {
+      "name": "Metal horizontal embrasure",
+      "id": -1199897169,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Double Barrel Shotgun",
+      "id": -765183617,
+      "amount": 1,
+      "price": 250
+    },
+    {
+      "name": "Small Generator",
+      "id": 1849887541,
+      "amount": 1,
+      "price": 260
+    },
+    {
+      "name": "MP5A4",
+      "id": 1318558775,
+      "amount": 1,
+      "price": 169
     },
     {
       "name": "Camper Vehicle Module",
       "id": -1040518150,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "40mm Shotgun Round",
-      "id": 1055319033,
-      "amount": 1,
-      "price": 3
-    },
-    {
-      "name": "Metal Spring",
-      "id": -1021495308,
-      "amount": 1,
-      "price": 60
-    },
-    {
-      "name": "Fluid Splitter",
-      "id": -1166712463,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Python Revolver",
-      "id": 1373971859,
-      "amount": 1,
-      "price": 200
-    },
-    {
-      "name": "Flame Thrower",
-      "id": -1215753368,
-      "amount": 1,
-      "price": 262
-    },
-    {
-      "name": "RF Pager",
-      "id": -566907190,
-      "amount": 1,
-      "price": 258
-    },
-    {
-      "name": "Pure Ore Tea",
-      "id": 1729374708,
-      "amount": 1,
-      "price": 320
-    },
-    {
-      "name": "Corn",
-      "id": 1367190888,
-      "amount": 10,
-      "price": 7
-    },
-    {
-      "name": "Mining Quarry",
-      "id": 1052926200,
-      "amount": 1,
-      "price": 1000
-    },
-    {
-      "name": "Pump Jack",
-      "id": -1130709577,
-      "amount": 1,
-      "price": 750
-    },
-    {
-      "name": "Empty Propane Tank",
-      "id": -1673693549,
       "amount": 1,
       "price": 20
     },
@@ -1225,34 +319,94 @@
       "price": 94
     },
     {
-      "name": "Small Planter Box",
-      "id": 1903654061,
+      "name": "Timed Explosive Charge",
+      "id": 1248356124,
       "amount": 1,
-      "price": 32
+      "price": 918
     },
     {
-      "name": "12 Gauge Slug",
-      "id": -727717969,
-      "amount": 32,
-      "price": 62
+      "name": "Mining Quarry",
+      "id": 1052926200,
+      "amount": 1,
+      "price": 1000
     },
     {
-      "name": "Metal Pipe",
-      "id": 95950017,
+      "name": "Taxi Vehicle Module",
+      "id": -626174997,
       "amount": 1,
       "price": 30
     },
     {
-      "name": "HV 5.56 Rifle Ammo",
-      "id": 1712070256,
-      "amount": 64,
-      "price": 246
+      "name": "Low Grade Fuel",
+      "id": -946369541,
+      "amount": 100,
+      "price": 50
     },
     {
-      "name": "Large Solar Panel",
-      "id": 2090395347,
+      "name": "High Quality Pistons",
+      "id": 1883981800,
+      "amount": 2,
+      "price": 24
+    },
+    {
+      "name": "Pump Jack",
+      "id": -1130709577,
       "amount": 1,
-      "price": 260
+      "price": 750
+    },
+    {
+      "name": "High Quality Metal",
+      "id": 317398316,
+      "amount": 10,
+      "price": 20
+    },
+    {
+      "name": "Small Oil Refinery",
+      "id": -1293296287,
+      "amount": 1,
+      "price": 179
+    },
+    {
+      "name": "Multiple Grenade Launcher",
+      "id": -1123473824,
+      "amount": 1,
+      "price": 86
+    },
+    {
+      "name": "Smart Switch",
+      "id": 988652725,
+      "amount": 1,
+      "price": 256
+    },
+    {
+      "name": "Elevator",
+      "id": 1177596584,
+      "amount": 1,
+      "price": 151
+    },
+    {
+      "name": "Tactical Gloves",
+      "id": -1108136649,
+      "amount": 1,
+      "price": 95
+    },
+    {
+      "name": "Pure Anti-Rad Tea",
+      "id": -33009419,
+      "amount": 1,
+      "price": 320
+    },
+    {
+      "name": "Small Water Catcher",
+      "id": -132247350,
+      "amount": 1,
+      "price": 37
+    },
+    {
+      "name": "SMG Body",
+      "id": 1230323789,
+      "amount": 1,
+      "price": 19
     },
     {
       "name": "High External Wooden Gate",
@@ -1261,88 +415,22 @@
       "price": 310
     },
     {
-      "name": "High Velocity Rocket",
-      "id": -1841918730,
+      "name": "Metal Vertical embrasure",
+      "id": -1199897172,
       "amount": 1,
-      "price": 64
+      "price": 10
     },
     {
-      "name": "Survey Charge",
-      "id": 1975934948,
+      "name": "Jackhammer",
+      "id": 1488979457,
       "amount": 1,
-      "price": 22
+      "price": 150
     },
     {
-      "name": "Large Furnace",
-      "id": -1992717673,
+      "name": "Small Planter Box",
+      "id": 1903654061,
       "amount": 1,
-      "price": 350
-    },
-    {
-      "name": "Counter",
-      "id": -216999575,
-      "amount": 1,
-      "price": 8
-    },
-    {
-      "name": "Metal Barricade",
-      "id": 1655650836,
-      "amount": 1,
-      "price": 50
-    },
-    {
-      "name": "High Quality Spark Plugs",
-      "id": 1072924620,
-      "amount": 2,
-      "price": 24
-    },
-    {
-      "name": "Incendiary 5.56 Rifle Ammo",
-      "id": 605467368,
-      "amount": 64,
-      "price": 166
-    },
-    {
-      "name": "Electric Fuse",
-      "id": -629028935,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Fluid Switch & Pump",
-      "id": 443432036,
-      "amount": 1,
-      "price": 30
-    },
-    {
-      "name": "Hazmat Suit",
-      "id": 1266491000,
-      "amount": 1,
-      "price": 196
-    },
-    {
-      "name": "M249",
-      "id": -2069578888,
-      "amount": 1,
-      "price": 624
-    },
-    {
-      "name": "Salvaged Icepick",
-      "id": -1780802565,
-      "amount": 1,
-      "price": 105
-    },
-    {
-      "name": "Sprinkler",
-      "id": -781014061,
-      "amount": 1,
-      "price": 15
-    },
-    {
-      "name": "HBHF Sensor",
-      "id": -1507239837,
-      "amount": 1,
-      "price": 8
+      "price": 32
     },
     {
       "name": "Sewing Kit",
@@ -1351,46 +439,154 @@
       "price": 15
     },
     {
-      "name": "Watch Tower",
-      "id": -463122489,
+      "name": "Salvaged Hammer",
+      "id": -1506397857,
       "amount": 1,
-      "price": 4
+      "price": 35
     },
     {
-      "name": "Armored Passenger Vehicle Module",
-      "id": -1615281216,
+      "name": "Metal Pipe",
+      "id": 95950017,
       "amount": 1,
-      "price": 25
+      "price": 30
     },
     {
-      "name": "Paddle",
-      "id": 1491189398,
+      "name": "Advanced Healing Tea",
+      "id": -2123125470,
       "amount": 1,
-      "price": 25
+      "price": 80
     },
     {
-      "name": "Cockpit With Engine Vehicle Module",
-      "id": 170758448,
+      "name": "Button",
+      "id": -1778897469,
       "amount": 1,
-      "price": 27
+      "price": 8
     },
     {
-      "name": "Chainsaw",
-      "id": 1104520648,
+      "name": "40mm Shotgun Round",
+      "id": 1055319033,
       "amount": 1,
-      "price": 350
+      "price": 3
     },
     {
-      "name": "Armored Cockpit Vehicle Module",
-      "id": 1874610722,
+      "name": "Modular Car Lift",
+      "id": 1696050067,
       "amount": 1,
-      "price": 25
+      "price": 155
     },
     {
-      "name": "OR Switch",
-      "id": -1286302544,
+      "name": "Empty Propane Tank",
+      "id": -1673693549,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Switch",
+      "id": 1951603367,
       "amount": 1,
       "price": 10
+    },
+    {
+      "name": "SAM Ammo",
+      "id": -384243979,
+      "amount": 1,
+      "price": 31
+    },
+    {
+      "name": "Tech Trash",
+      "id": 73681876,
+      "amount": 1,
+      "price": 250
+    },
+    {
+      "name": "Yellow Berry",
+      "id": 1660145984,
+      "amount": 2,
+      "price": 10
+    },
+    {
+      "name": "Engine Vehicle Module",
+      "id": 1559779253,
+      "amount": 1,
+      "price": 16
+    },
+    {
+      "name": "Diving Mask",
+      "id": -113413047,
+      "amount": 1,
+      "price": 15
+    },
+    {
+      "name": "High Quality Crankshaft",
+      "id": 1158340332,
+      "amount": 1,
+      "price": 12
+    },
+    {
+      "name": "Semi-Automatic Pistol",
+      "id": 818877484,
+      "amount": 1,
+      "price": 65
+    },
+    {
+      "name": "Fridge",
+      "id": 1413014235,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "Green Keycard",
+      "id": 37122747,
+      "amount": 1,
+      "price": 15
+    },
+    {
+      "name": "Electrical Branch",
+      "id": -1448252298,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "Passenger Vehicle Module",
+      "id": 895374329,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Cockpit Vehicle Module",
+      "id": -1501451746,
+      "amount": 1,
+      "price": 17
+    },
+    {
+      "name": "Fluid Switch & Pump",
+      "id": 443432036,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Heavy Plate Jacket",
+      "id": -1102429027,
+      "amount": 1,
+      "price": 68
+    },
+    {
+      "name": "Fluid Combiner",
+      "id": -265292885,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Explosive 5.56 Rifle Ammo",
+      "id": -1321651331,
+      "amount": 64,
+      "price": 299
+    },
+    {
+      "name": "Stones",
+      "id": -2099697608,
+      "amount": 1000,
+      "price": 50
     },
     {
       "name": "Strengthened Glass Window",
@@ -1399,9 +595,369 @@
       "price": 5
     },
     {
-      "name": "Small Rechargeable Battery",
-      "id": -692338819,
+      "name": "Road Signs",
+      "id": 1199391518,
       "amount": 1,
+      "price": 50
+    },
+    {
+      "name": "Chainsaw",
+      "id": 1104520648,
+      "amount": 1,
+      "price": 350
+    },
+    {
+      "name": "Salvaged Axe",
+      "id": -262590403,
+      "amount": 1,
+      "price": 105
+    },
+    {
+      "name": "High External Stone Gate",
+      "id": -691113464,
+      "amount": 1,
+      "price": 640
+    },
+    {
+      "name": "Cloth",
+      "id": -858312878,
+      "amount": 100,
+      "price": 12
+    },
+    {
+      "name": "Armored Double Door",
+      "id": 1221063409,
+      "amount": 1,
+      "price": 675
+    },
+    {
+      "name": "Wooden Ladder",
+      "id": -316250604,
+      "amount": 1,
+      "price": 18
+    },
+    {
+      "name": "Explosives",
+      "id": -592016202,
+      "amount": 5,
+      "price": 104
+    },
+    {
+      "name": "Silencer",
+      "id": -1850571427,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Custom SMG",
+      "id": 1796682209,
+      "amount": 1,
+      "price": 95
+    },
+    {
+      "name": "Electric Heater",
+      "id": -784870360,
+      "amount": 1,
+      "price": 75
+    },
+    {
+      "name": "Armored Passenger Vehicle Module",
+      "id": -1615281216,
+      "amount": 1,
+      "price": 25
+    },
+    {
+      "name": "Workbench Level 2",
+      "id": -41896755,
+      "amount": 1,
+      "price": 590
+    },
+    {
+      "name": "L96 Rifle",
+      "id": -778367295,
+      "amount": 1,
+      "price": 339
+    },
+    {
+      "name": "Bolt Action Rifle",
+      "id": 1588298435,
+      "amount": 1,
+      "price": 219
+    },
+    {
+      "name": "Auto Turret",
+      "id": -2139580305,
+      "amount": 1,
+      "price": 1281
+    },
+    {
+      "name": "Water Pump",
+      "id": -1284169891,
+      "amount": 1,
+      "price": 200
+    },
+    {
+      "name": "Metal Facemask",
+      "id": -194953424,
+      "amount": 1,
+      "price": 220
+    },
+    {
+      "name": "High Quality Spark Plugs",
+      "id": 1072924620,
+      "amount": 2,
+      "price": 24
+    },
+    {
+      "name": "Spas-12 Shotgun",
+      "id": -41440462,
+      "amount": 1,
+      "price": 250
+    },
+    {
+      "name": "Pumpkin",
+      "id": -567909622,
+      "amount": 10,
+      "price": 50
+    },
+    {
+      "name": "Black Berry",
+      "id": 1771755747,
+      "amount": 2,
+      "price": 10
+    },
+    {
+      "name": "Advanced Rad. Removal Tea",
+      "id": 2021351233,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Pistol Bullet",
+      "id": 785728077,
+      "amount": 64,
+      "price": 43
+    },
+    {
+      "name": "Semi Automatic Body",
+      "id": 573926264,
+      "amount": 1,
+      "price": 27
+    },
+    {
+      "name": "High External Stone Wall",
+      "id": -967648160,
+      "amount": 1,
+      "price": 75
+    },
+    {
+      "name": "Medical Syringe",
+      "id": 1079279582,
+      "amount": 2,
+      "price": 16
+    },
+    {
+      "name": "Pressure Pad",
+      "id": -2049214035,
+      "amount": 1,
+      "price": 188
+    },
+    {
+      "name": "Leather",
+      "id": 1381010055,
+      "amount": 100,
+      "price": 200
+    },
+    {
+      "name": "Rear Seats Vehicle Module",
+      "id": 1376065505,
+      "amount": 1,
+      "price": 17
+    },
+    {
+      "name": "RF Pager",
+      "id": -566907190,
+      "amount": 1,
+      "price": 258
+    },
+    {
+      "name": "Shotgun Trap",
+      "id": 352499047,
+      "amount": 1,
+      "price": 293
+    },
+    {
+      "name": "High Velocity Rocket",
+      "id": -1841918730,
+      "amount": 1,
+      "price": 64
+    },
+    {
+      "name": "Garage Door",
+      "id": -148794216,
+      "amount": 1,
+      "price": 280
+    },
+    {
+      "name": "CCTV Camera",
+      "id": 634478325,
+      "amount": 1,
+      "price": 504
+    },
+    {
+      "name": "Timer",
+      "id": 665332906,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "Blocker",
+      "id": -690968985,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "Memory Cell",
+      "id": -746647361,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "XOR Switch",
+      "id": 1293102274,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Speargun Spear",
+      "id": -1800345240,
+      "amount": 1,
+      "price": 5
+    },
+    {
+      "name": "Muzzle Brake",
+      "id": 1478091698,
+      "amount": 1,
+      "price": 16
+    },
+    {
+      "name": "Flatbed Vehicle Module",
+      "id": -1880231361,
+      "amount": 1,
+      "price": 12
+    },
+    {
+      "name": "Ladder Hatch",
+      "id": 1948067030,
+      "amount": 1,
+      "price": 423
+    },
+    {
+      "name": "White Berry",
+      "id": 854447607,
+      "amount": 2,
+      "price": 10
+    },
+    {
+      "name": "Advanced Max Health Tea",
+      "id": 603811464,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Road Sign Jacket",
+      "id": -2002277461,
+      "amount": 1,
+      "price": 170
+    },
+    {
+      "name": "Advanced Scrap Tea",
+      "id": 524678627,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Hoodie",
+      "id": 1751045826,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Rope",
+      "id": 1414245522,
+      "amount": 1,
+      "price": 4
+    },
+    {
+      "name": "OR Switch",
+      "id": -1286302544,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Door Controller",
+      "id": -502177121,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "High External Wooden Wall",
+      "id": 99588025,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Pure Scrap Tea",
+      "id": 2024467711,
+      "amount": 1,
+      "price": 320
+    },
+    {
+      "name": "Adv. Anti-Rad Tea",
+      "id": -1729415579,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Night Vision Goggles",
+      "id": -1518883088,
+      "amount": 1,
+      "price": 520
+    },
+    {
+      "name": "Semi-Automatic Rifle",
+      "id": -904863145,
+      "amount": 1,
+      "price": 140
+    },
+    {
+      "name": "Fluid Splitter",
+      "id": -1166712463,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Coffee Can Helmet",
+      "id": -803263829,
+      "amount": 1,
+      "price": 23
+    },
+    {
+      "name": "High Quality Carburetor",
+      "id": 656371026,
+      "amount": 1,
+      "price": 17
+    },
+    {
+      "name": "12 Gauge Incendiary Shell",
+      "id": -1036635990,
+      "amount": 32,
+      "price": 115
+    },
+    {
+      "name": "Red Berry",
+      "id": 1272194103,
+      "amount": 2,
       "price": 10
     },
     {
@@ -1411,70 +967,64 @@
       "price": 8
     },
     {
-      "name": "Rad. Removal Tea",
-      "id": -496584751,
-      "amount": 1,
-      "price": 20
-    },
-    {
-      "name": "Incendiary Pistol Bullet",
-      "id": 51984655,
-      "amount": 64,
-      "price": 111
-    },
-    {
-      "name": "Cockpit Vehicle Module",
-      "id": -1501451746,
-      "amount": 1,
-      "price": 17
-    },
-    {
-      "name": "M92 Pistol",
-      "id": -852563019,
-      "amount": 1,
-      "price": 250
-    },
-    {
-      "name": "Small Oil Refinery",
-      "id": -1293296287,
-      "amount": 1,
-      "price": 179
-    },
-    {
-      "name": "High Quality Metal",
-      "id": 317398316,
-      "amount": 10,
-      "price": 20
-    },
-    {
-      "name": "Beancan Grenade",
-      "id": 1840822026,
+      "name": "Survey Charge",
+      "id": 1975934948,
       "amount": 1,
       "price": 22
     },
     {
-      "name": "Green Keycard",
-      "id": 37122747,
-      "amount": 1,
-      "price": 15
+      "name": "5.56 Rifle Ammo",
+      "id": -1211166256,
+      "amount": 64,
+      "price": 57
     },
     {
-      "name": "Large Flatbed Vehicle Module",
-      "id": -1693832478,
+      "name": "Computer Station",
+      "id": -1588628467,
       "amount": 1,
-      "price": 18
+      "price": 1287
     },
     {
-      "name": "RF Broadcaster",
-      "id": -1044468317,
+      "name": "Basic Healing Tea",
+      "id": -929092070,
       "amount": 1,
-      "price": 260
+      "price": 20
     },
     {
-      "name": "Door Closer",
-      "id": 1409529282,
+      "name": "Siren Light",
+      "id": 762289806,
       "amount": 1,
-      "price": 63
+      "price": 12
+    },
+    {
+      "name": "16x Zoom Scope",
+      "id": 174866732,
+      "amount": 1,
+      "price": 300
+    },
+    {
+      "name": "Armored Cockpit Vehicle Module",
+      "id": 1874610722,
+      "amount": 1,
+      "price": 25
+    },
+    {
+      "name": "Corn",
+      "id": 1367190888,
+      "amount": 10,
+      "price": 7
+    },
+    {
+      "name": "Metal Chest plate",
+      "id": 1110385766,
+      "amount": 1,
+      "price": 270
+    },
+    {
+      "name": "Electric Fuse",
+      "id": -629028935,
+      "amount": 1,
+      "price": 20
     },
     {
       "name": "Muzzle Boost",
@@ -1483,10 +1033,460 @@
       "price": 20
     },
     {
+      "name": "Advanced Wood Tea",
+      "id": -541206665,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Salvaged Cleaver",
+      "id": -1978999529,
+      "amount": 1,
+      "price": 55
+    },
+    {
+      "name": "12 Gauge Buckshot",
+      "id": -1685290200,
+      "amount": 32,
+      "price": 62
+    },
+    {
+      "name": "Roadsign Gloves",
+      "id": -699558439,
+      "amount": 1,
+      "price": 120
+    },
+    {
+      "name": "Pants",
+      "id": 237239288,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Small Rechargeable Battery",
+      "id": -692338819,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Splitter",
+      "id": -563624462,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Bed",
+      "id": -1273339005,
+      "amount": 1,
+      "price": 48
+    },
+    {
+      "name": "Green Berry",
+      "id": 858486327,
+      "amount": 2,
+      "price": 10
+    },
+    {
+      "name": "LR-300 Assault Rifle",
+      "id": -1812555177,
+      "amount": 1,
+      "price": 500
+    },
+    {
+      "name": "Pure Max Health Tea",
+      "id": 1712261904,
+      "amount": 1,
+      "price": 320
+    },
+    {
+      "name": "Large Solar Panel",
+      "id": 2090395347,
+      "amount": 1,
+      "price": 260
+    },
+    {
+      "name": "Anti-Rad Tea",
+      "id": -487356515,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Storage Monitor",
+      "id": 1149964039,
+      "amount": 1,
+      "price": 256
+    },
+    {
+      "name": "Gears",
+      "id": 479143914,
+      "amount": 1,
+      "price": 125
+    },
+    {
+      "name": "Large Planter Box",
+      "id": 1581210395,
+      "amount": 1,
+      "price": 64
+    },
+    {
+      "name": "Targeting Computer",
+      "id": 1523195708,
+      "amount": 1,
+      "price": 757
+    },
+    {
+      "name": "Snow Jacket",
+      "id": -48090175,
+      "amount": 1,
+      "price": 23
+    },
+    {
+      "name": "Rifle Body",
+      "id": 176787552,
+      "amount": 1,
+      "price": 29
+    },
+    {
+      "name": "Metal Spring",
+      "id": -1021495308,
+      "amount": 1,
+      "price": 60
+    },
+    {
+      "name": "Smart Alarm",
+      "id": -695978112,
+      "amount": 1,
+      "price": 256
+    },
+    {
+      "name": "Potato",
+      "id": -2086926071,
+      "amount": 10,
+      "price": 50
+    },
+    {
+      "name": "Heavy Plate Pants",
+      "id": -1778159885,
+      "amount": 1,
+      "price": 38
+    },
+    {
+      "name": "Red Keycard",
+      "id": -1880870149,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Counter",
+      "id": -216999575,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "Satchel Charge",
+      "id": -1878475007,
+      "amount": 1,
+      "price": 94
+    },
+    {
+      "name": "Basic Max Health Tea",
+      "id": -1184406448,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Test Generator",
+      "id": -295829489,
+      "amount": 1,
+      "price": 346
+    },
+    {
+      "name": "Powered Water Purifier",
+      "id": -365097295,
+      "amount": 1,
+      "price": 150
+    },
+    {
+      "name": "Workbench Level 3",
+      "id": -1607980696,
+      "amount": 1,
+      "price": 1550
+    },
+    {
+      "name": "Hazmat Suit",
+      "id": 1266491000,
+      "amount": 1,
+      "price": 196
+    },
+    {
+      "name": "Large Medkit",
+      "id": 254522515,
+      "amount": 1,
+      "price": 21
+    },
+    {
+      "name": "Salvaged Shelves",
+      "id": 1950721418,
+      "amount": 1,
+      "price": 25
+    },
+    {
+      "name": "Road Sign Kilt",
+      "id": 1850456855,
+      "amount": 1,
+      "price": 100
+    },
+    {
+      "name": "Beancan Grenade",
+      "id": 1840822026,
+      "amount": 1,
+      "price": 22
+    },
+    {
+      "name": "Diving Fins",
+      "id": 296519935,
+      "amount": 1,
+      "price": 25
+    },
+    {
+      "name": "40mm HE Grenade",
+      "id": 349762871,
+      "amount": 1,
+      "price": 54
+    },
+    {
+      "name": "Heavy Plate Helmet",
+      "id": 1181207482,
+      "amount": 1,
+      "price": 38
+    },
+    {
+      "name": "Incendiary 5.56 Rifle Ammo",
+      "id": 605467368,
+      "amount": 64,
+      "price": 166
+    },
+    {
+      "name": "Cockpit With Engine Vehicle Module",
+      "id": 170758448,
+      "amount": 1,
+      "price": 27
+    },
+    {
+      "name": "Holosight",
+      "id": 442289265,
+      "amount": 1,
+      "price": 274
+    },
+    {
+      "name": "Wooden Barricade",
+      "id": 866889860,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Python Revolver",
+      "id": 1373971859,
+      "amount": 1,
+      "price": 200
+    },
+    {
+      "name": "Flame Turret",
+      "id": 528668503,
+      "amount": 1,
+      "price": 250
+    },
+    {
+      "name": "Incendiary Rocket",
+      "id": 1638322904,
+      "amount": 1,
+      "price": 290
+    },
+    {
+      "name": "M92 Pistol",
+      "id": -852563019,
+      "amount": 1,
+      "price": 250
+    },
+    {
+      "name": "Diving Tank",
+      "id": -2022172587,
+      "amount": 1,
+      "price": 35
+    },
+    {
+      "name": "Metal Fragments",
+      "id": 69511070,
+      "amount": 250,
+      "price": 25
+    },
+    {
+      "name": "Basic Ore Tea",
+      "id": 1480022580,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Torpedo",
+      "id": -1671551935,
+      "amount": 1,
+      "price": 38
+    },
+    {
       "name": "Workbench Level 1",
       "id": 1524187186,
       "amount": 1,
       "price": 70
+    },
+    {
+      "name": "Pump Shotgun",
+      "id": 795371088,
+      "amount": 1,
+      "price": 150
+    },
+    {
+      "name": "Locker",
+      "id": -110921842,
+      "amount": 1,
+      "price": 40
+    },
+    {
+      "name": "AND Switch",
+      "id": 1171735914,
+      "amount": 1,
+      "price": 10
+    },
+    {
+      "name": "Ceiling Light",
+      "id": 1142993169,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Tarp",
+      "id": 2019042823,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Watch Tower",
+      "id": -463122489,
+      "amount": 1,
+      "price": 4
+    },
+    {
+      "name": "12 Gauge Slug",
+      "id": -727717969,
+      "amount": 32,
+      "price": 62
+    },
+    {
+      "name": "Weapon Flashlight",
+      "id": 952603248,
+      "amount": 1,
+      "price": 6
+    },
+    {
+      "name": "Large Flatbed Vehicle Module",
+      "id": -1693832478,
+      "amount": 1,
+      "price": 18
+    },
+    {
+      "name": "Search Light",
+      "id": 2087678962,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Pure Ore Tea",
+      "id": 1729374708,
+      "amount": 1,
+      "price": 320
+    },
+    {
+      "name": "8x Zoom Scope",
+      "id": 567235583,
+      "amount": 1,
+      "price": 100
+    },
+    {
+      "name": "Rad. Removal Tea",
+      "id": -496584751,
+      "amount": 1,
+      "price": 20
+    },
+    {
+      "name": "Diesel Fuel",
+      "id": 1568388703,
+      "amount": 1,
+      "price": 150
+    },
+    {
+      "name": "Flame Thrower",
+      "id": -1215753368,
+      "amount": 1,
+      "price": 262
+    },
+    {
+      "name": "RAND Switch",
+      "id": 492357192,
+      "amount": 1,
+      "price": 8
+    },
+    {
+      "name": "Mixing Table",
+      "id": 1259919256,
+      "amount": 1,
+      "price": 175
+    },
+    {
+      "name": "Door Closer",
+      "id": 1409529282,
+      "amount": 1,
+      "price": 63
+    },
+    {
+      "name": "Salvaged Sword",
+      "id": 1326180354,
+      "amount": 1,
+      "price": 17
+    },
+    {
+      "name": "Advanced Ore Tea",
+      "id": 2063916636,
+      "amount": 1,
+      "price": 80
+    },
+    {
+      "name": "Combat Knife",
+      "id": 2040726127,
+      "amount": 1,
+      "price": 5
+    },
+    {
+      "name": "Sheet Metal",
+      "id": -1994909036,
+      "amount": 1,
+      "price": 30
+    },
+    {
+      "name": "Metal Blade",
+      "id": 1882709339,
+      "amount": 1,
+      "price": 15
+    },
+    {
+      "name": "Pure Rad. Removal Tea",
+      "id": 1905387657,
+      "amount": 1,
+      "price": 320
+    },
+    {
+      "name": "Armored Door",
+      "id": 1353298668,
+      "amount": 1,
+      "price": 665
     }
   ]
 }

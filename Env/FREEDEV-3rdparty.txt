@@ -9,3 +9,5 @@ https://umod.org/plugins/VehicleDecayProtection.cs
 https://umod.org/plugins/ZoneManager.cs
 https://umod.org/plugins/ClanTeam.cs
 https://umod.org/plugins/RemoverTool.cs
+https://umod.org/plugins/XPerience.cs
+https://umod.org/plugins/StackSizeController.cs

@@ -1,0 +1,58 @@
+Human Skull = Corrupted Focus
+Wolf Skull = Natural Focus
+Targeting Computer = Techno Focus
+Pookie Bear = Spirit Focus
+Rock = Magic Focus
+
+Magic Focus :
+	clap: smoke grenade
+	ok: health tea
+	thumbsdown: wood chest
+	thumbsup: ladder
+	victory: molotov
+	friendly: NPCs ignore you if they're not already aware of you
+	wave: warp to bag
+	sillydance: Push to day
+	sillydance2: respawn loot
+Natural Focus : 
+	thumbsup: Find nearest plant
+	thumbsdown: Find nearest ore
+	friendly: Find nearest player
+	wave: Swap with nearby animal
+	ok:  Tree tea
+	victory: Spawn Plants
+	clap: Stop Bleed
+	sillydance: Clear Weather
+	sillydance2: Fast Growth
+Corrupted Focus :
+	thumbsup : dehydrate
+	thumbsdown : starve
+	friendly : radiate
+	wave : swap with person
+	ok : max health tea
+	victory : bleed
+	clap : clear self radiation
+	sillydance : push to night
+	sillydance2 : spawn wolves near players
+Techno Focus:  
+	thumbsup : Refill nearby battery
+	thumbsdown : Breaks a powersource connection
+	friendly : Find Vehicle
+	wave : Hop to telephone
+	ok : Scrap tea
+	victory : tesla dmg
+	clap : open door
+	sillydance : storm
+	sillydance2 : repair vehicle
+Spirit Focus:
+	shrug : self wisp
+	point : Attach wisp
+	thumbsup : Self day / AOE night
+	thumbsdown : bush
+	friendly : mute	
+	wave : warp to nearest corpse
+	ok : Ore tea
+	victory : Phase shift
+	clap :  jump
+	sillydance : Fog
+	sillydance2: Spawn zombies near players	

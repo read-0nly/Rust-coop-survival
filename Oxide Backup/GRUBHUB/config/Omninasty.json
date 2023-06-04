@@ -81,7 +81,9 @@
     "ElectricGenerator": null,
     "ItemBasedFlowRestrictor": null,
     "DeployableBoomBox": null,
-    "GrowableEntity": null
+    "GrowableEntity": null,
+    "ComputerStation": null,
+    "CH47HelicopterAIController": null
   },
   "Alliances": {
     "Player-Aligned": [
@@ -91,26 +93,24 @@
     ],
     "Bandits": [
       "Player",
-      "Carnivores",
       "Shopkeep",
-      "Dwellers",
       "76561198004703684",
-      "76561198274996910"
+      "76561198274996910",
+      "Herbivores"
     ],
     "Herbivores": [
       "Player-Aligned",
       "Shopkeep",
       "76561198004703684",
-      "Scientist",
-      "Player"
+      "Player",
+      "Bandits"
     ],
     "Dwellers": [
-      "Carnivores",
       "Shopkeep",
-      "Bandits",
       "76561198004703684",
       "Player",
-      "76561198274996910"
+      "76561198274996910",
+      "Carnivores"
     ],
     "Carnivores": [
       "Dwellers",
@@ -121,11 +121,9 @@
       "76561198274996910"
     ],
     "Scientist": [
-      "Shopkeep",
-      "Herbivores"
+      "Shopkeep"
     ],
     "Player": [
-      "Carnivores",
       "Bandits",
       "Shopkeep",
       "Dwellers",
@@ -133,8 +131,9 @@
       "76561198274996910"
     ],
     "Default": [
-      "Scientist",
-      "Herbivores"
+      "Carnivores",
+      "Dwellers",
+      "Bandits"
     ]
   }
 }

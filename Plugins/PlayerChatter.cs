@@ -87,9 +87,10 @@ namespace Oxide.Plugins{
 			List<Network.Connection> connections = new List<Network.Connection>();
 			List<Network.Connection> farConnections = new List<Network.Connection>();
 			foreach(BasePlayer bp in BasePlayer.activePlayerList){
-				if(Vector3.Distance(bp.transform.position, player.transform.position)<300){
+				float dist = Vector3.Distance(bp.transform.position, player.transform.position);
+				if(dist<200){
 					connections.Add(bp.net.connection);
-				}else if (Vector3.Distance(bp.transform.position, player.transform.position)<500){
+				}else if (dist>200 && dist<500){
 					farConnections.Add(bp.net.connection);					
 				}
 			}
