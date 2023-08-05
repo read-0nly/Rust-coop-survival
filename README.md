@@ -2,7 +2,7 @@
 
 # Repo for development of my modded Rust server
 
-- Discord (open beta): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
+- Discord (open beta, has connection details): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
 
 ## What you need to know before going in
 - Dynamic faction scores - you start out with a score of 0 (bandit-aligned).
