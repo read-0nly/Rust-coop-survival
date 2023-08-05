@@ -16,6 +16,16 @@
 - Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
   - Wire tool now also works like this, including on electronics at monuments - you can hack puzzles with a gas generator
 
+## Next up
+- Weapon swapping
+- NPC vehicle ride-along (they hop into your vehicle if squadded)
+- CH47, patrol heli, and bradley faction implementation
+- Animal/NPC  mutual violence for regular NPC churn
+- Crafting  experience  system
+- Bring  back  survival  mods (thirst/hunger mods)
+- Bring  back food rot/preservation
+- ritual magic  plugin
+
 ## So you're trying to build this thing
 Proper instructions incoming.
 
