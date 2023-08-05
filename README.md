@@ -2,46 +2,19 @@
 
 # Repo for development of my modded Rust server
 
-- Console connect URL: 78.108.218.16:28015
-- Name in modded server list : GRUBHUB [Warring Factions]
-- Discord (open beta): https://discord.gg/DMBbNEUPs5
-- Website (this is also the command and control system): http://nullzer0.42web.io/
+- Discord (open beta): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
 
 ## What you need to know before going in
-- Dynamic tides - burning things makes it worst, planting hemp and letting it "die" (where it'll turn into a tree) makes it better.
-- Dynamic faction scores - you start out very slightly pacifist. Killing scientists increases bandit score slightly and decreases scientist score, and vice versa. Killing animal raises score with both. Positive score with one aligns with that faction, with both aligns pacifist, with neither aligns Wild. Wild is the animal faction - they won't autoaggro on wild players.
+- Dynamic faction scores - you start out with a score of 0 (bandit-aligned).
+- Shooting NPCs and other players will alter your score and theirs, pushing you in and out of alignment with the factions
 - While in a faction:
   - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
 - Each Bandit or Scientist is also a shop, with their own pricing - it's a bit above their heads
-  - Buying from them and from stores in monuments they're sharing a cell with / orbiting will increase their funds, used for spawning from junkpiles
 - Players also have faction score - shooting an aligned player could push you out of alignment and have your faction turn on you
-- Look at an NPC in your faction, then drop an item to have him drop his current item and take yours. You can use this to swap out weapons.
-- Look at an animal while wild and drop a chair or sled to tie it to the animal
-- While in a seat, animals that are squadded will run in the direction you're looking, while staying within a radius
-  - Hold SHIFT to go faster, hold CTRL to go slower
-  - Hold Right-Click to lock direction, allowing drivebys
-  - This allows you to lead your animals into battle against the other factions
-  - You don't need to be sitting on the animal to do this - sit in a friend's sled while they drive from the chair, and drive your own squad as a forward team!
 - Backpack follows in death, so use it to store things in an unlootable way. Limited to 4 rows.
 - Traps trigger on NPCs
 - Deploy things anywhere if deployment is otherwise valid by using the middle click button instead of the left click.
   - Wire tool now also works like this, including on electronics at monuments - you can hack puzzles with a gas generator
-- Raw meat as well as berries will rot if not stored either in a fridge or alongside salt
-  - You get salt by purifying fresh water - when you open the intake, you get the salt automatically, as if scraping it off the inside.
-  - Rot happens randomly on a clock, when a stack is picked the whole stack rots
-  - If meat is stored alongside salt and gets picked for rotting, it turns to jerky instead
-  - If berries are targeted the same way, they just stay fresh berries
-  - Preserve berries by combining them with salt in an oven - campfire or bbq
-  - Because salt is a reskinned gunpowder, selling it is... complicated. Best to just trade in persone
-  - Eat everything you scavenge when you start. As you start to stabilize your food needs, start working on salt production or rush fridge
-  - A communal fridge at the faction town might be a good way to assure shared food security
-- Create orders both in-game using notes in sky lanterns and using C&C on the website! [http://nullzer0.42web.io/](http://nullzer0.42web.io/)
-  - Uses the following pattern (calls 5 for 300 seconds / 5 minutes)
-```
-help!
-send:5
-timeout:300
-```
 
 ## So you're trying to build this thing
 Proper instructions incoming.
@@ -49,6 +22,10 @@ Proper instructions incoming.
 
 ## [Prefab/Plugin Credits](Credits.md)
 ## Updates
+
+### 5/8/2023 Another overhaul
+
+The old AI revamp was good up until there was any real load on the server - then the thinking loops would start decaying until AI started locking up. New, slimmer approach is behaving properly, been rebuilding it since the last update.
 
 ### 23/8/2022 Is that the finish line?
 - The command revamp is mostly functional - no more AI Information zones, everything is a grid now. Fireworks and lanterns are now inert. Just need to make a different page for each faction and a bit of tweaking in the server code. Grid based, webpage driven, NPCs holding monuments and stores gives faction currency for spawning npcs - basically play rust in the browser as a weird mashup of chess, battleship, and settlers of catan
