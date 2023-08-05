@@ -1,4 +1,4 @@
-# Project on hold till I get my head straight again
+# Project is back on but progress is slow
 
 # Repo for development of my modded Rust server
 
