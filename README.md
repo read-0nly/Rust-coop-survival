@@ -17,7 +17,7 @@
   - Wire tool now also works like this, including on electronics at monuments - you can hack puzzles with a gas generator
 
 ## Next up
-- Weapon swapping
+- NPC Weapon swapping (lets you equip them with new stuff)
 - NPC vehicle ride-along (they hop into your vehicle if squadded)
 - CH47, patrol heli, and bradley faction implementation
 - Animal/NPC  mutual violence for regular NPC churn
