@@ -1,3 +1,5 @@
+Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's the [ko-fi](https://ko-fi.com/therustbard)
+
 # Project is back on but progress is slow
 
 # Repo for development of my modded Rust server
