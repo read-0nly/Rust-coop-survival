@@ -4,7 +4,7 @@ Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's t
 
 # Repo for development of my modded Rust server
 
-- Discord (open beta, has connection details): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
+- Discord (beta on hold until revamp is ready, join up to be notified of next test dates): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
 
 ## What you need to know before going in
 - Dynamic faction scores - you start out with a score of 0 (bandit-aligned).
