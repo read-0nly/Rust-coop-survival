@@ -3,7 +3,7 @@ Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's t
 # Project is back on but progress is slow
 
 # Outdated video explaining the concept:
-[![Watch the video](https://img.youtube.com/vi/ELlP-U8JQnY/maxresdefault.jpg)](https://www.youtube.com/watch?v=ELlP-U8JQnY)
+[Click here](https://youtu.be/ELlP-U8JQnY)
 # Repo for development of my modded Rust server
 
 - Discord (beta on hold until revamp is ready, join up to be notified of next test dates): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
