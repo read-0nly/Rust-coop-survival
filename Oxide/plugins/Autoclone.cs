@@ -19,7 +19,7 @@ using Oxide.Core;
 namespace Oxide.Plugins
 {
     [Info("Autoclone", "obsol", "1.0.0")]
-    [Description("Adds a machine that clones the plant within it")]
+    [Description("Adds a machine that clones the plant within it. Intended for use with Autofarm, but not required. ORiginal idea comes from S0faKingAwes0me")]
     public class Autoclone : CovalencePlugin
     {
 		#region top-level variables
