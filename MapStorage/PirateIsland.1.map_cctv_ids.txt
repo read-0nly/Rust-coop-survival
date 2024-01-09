@@ -1,0 +1,8 @@
+ID: TOWNWEAPONS - Location: (50.42, 8.70, 14.75)
+ID: OILRIG1L4 - Location: (103.97, 40.04, 148.79)
+ID: OILRIG1L3 - Location: (107.74, 26.39, 144.70)
+ID: OILRIG1L2 - Location: (95.40, 21.78, 131.23)
+ID: OILRIG1L1 - Location: (60.21, 17.58, 154.06)
+ID: OILRIG1DOCK - Location: (87.10, 9.64, 137.67)
+ID: OILRIG1HELI - Location: (92.79, 40.04, 156.19)
+ID: CASINO - Location: (-1.42, 10.10, 23.53)
