@@ -8,6 +8,7 @@ Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's t
 ## What you need to know before going in
 - Dynamic faction scores - you start out with a score of 0 (bandit-aligned).
 - Shooting NPCs and other players will alter your score and theirs, pushing you in and out of alignment with the factions
+- Factions autonomously take over monuments and wage war on eachother
 - While in a faction:
   - Hitting a faction NPC with a lit torch will put them in "squad mode", where they stay in your orbit. Do it again to release them.
 - Each Bandit or Scientist is also a shop, with their own pricing - it's a bit above their heads
