@@ -2,17 +2,8 @@ Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's t
 
 # Project is back on - I NEED TESTERS. Message me or file an issue if interested with some way to contact you and we'll sort it out
 
-# Outdated video explaining the concept:
-
-
-
-https://github.com/read-0nly/Rust-coop-survival/assets/33932119/86a8d520-fee3-4405-9cbf-3d42acad3e87
-
-
 
 # Repo for development of my modded Rust server
-
-- Discord (beta on hold until revamp is ready, join up to be notified of next test dates): [https://discord.gg/DMBbNEUPs5](https://discord.gg/VCsw3YCD)
 
 ## What you need to know before going in
 - Dynamic faction scores - you start out with a score of 0 (bandit-aligned).
