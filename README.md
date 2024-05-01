@@ -1,6 +1,6 @@
 Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's the [ko-fi](https://ko-fi.com/therustbard)
 
-# Project is back on but progress is slow
+# Project is back on - I NEED TESTERS. Message me or file an issue if interested with some way to contact you and we'll sort it out
 
 # Outdated video explaining the concept:
 
