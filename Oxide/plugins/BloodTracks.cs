@@ -29,7 +29,8 @@ namespace Oxide.Plugins{
  /*
 Planned:	Permission system
 		Configuration file (control overlay, spheres, rays, as well as which types of entities get followed)
-
+		Implementation of cinelight on target
+  		
  */
 		Timer myTimer;
 		public class LineSegment{
