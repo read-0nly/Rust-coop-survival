@@ -1,41 +1,107 @@
-
-
 #region using
-	using Convert = System.Convert;
-	using Network;
-	using Newtonsoft.Json;
-	using System;
-	using System.Collections.Generic;
-	using System.Collections;
-	using System.Linq;
-	using System.Text;
-	using Oxide.Core.Libraries.Covalence;
-	using Oxide.Plugins;
-	using Oxide.Core.Plugins;
-	using Oxide.Core;
-	using UnityEngine; 
-	using UnityEngine.SceneManagement;
-	using UnityEngine.AI;
-	using Rust.Ai;
-	using Oxide.Ext.RustEdit;
-	using Oxide.Ext.RustEdit.NPC;
+using Convert = System.Convert;
+using Network;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using Oxide.Core.Libraries.Covalence;
+using Oxide.Plugins;
+using Oxide.Core.Plugins;
+using Oxide.Core;
+using UnityEngine; 
+using UnityEngine.SceneManagement;
+using UnityEngine.AI;
+using Rust.Ai;
+using Oxide.Ext.RustEdit;
+using Oxide.Ext.RustEdit.NPC;
 using Oxide.Game.Rust.Cui;
 using CompanionServer.Handlers;
+
 #endregion
+
 namespace Oxide.Plugins{
 	[Info("BloodTracks", "obsol", "0.2.1")]
 	[Description("Sends target positions to players for some time after hit")]
 	public class BloodTracks: CovalencePlugin{
- /*
-Planned:	Permission system
-		Configuration file (control overlay, spheres, rays, as well as which types of entities get followed)
-		Implementation of cinelight on target
-  		
- */
+		/*
+		
+		Permissions:
+			
+			bloodtracks.track.animal : Allows tracking animals
+			bloodtracks.track.npc : Allows tracking npc
+			bloodtracks.track.player : Allows tracking players
+			bloodtracks.style.overlay : Allows tracking using overlay (ddraw text) if allowed by config
+			bloodtracks.style.sphere : Allows tracking using overlay (ddraw text) if allowed by config
+
+		Example Config:
+		{
+		  "overlay": false,
+		  "sphere": true,
+		  "version": {
+			"Major": 0,
+			"Minor": 2,
+			"Patch": 1
+		  }
+		}
+		
+		Planned:	Implementation of cinelight on target
+				
+		*/
 		Timer myTimer;
+		public static BloodTracks instance;
+		public ConfigData config;
+
+
+		public class ConfigData
+		{
+			
+			[JsonProperty("overlay", ObjectCreationHandling = ObjectCreationHandling.Replace)]			
+			public bool overlay = false;
+			
+			[JsonProperty("sphere", ObjectCreationHandling = ObjectCreationHandling.Replace)]			
+			public bool sphere = true;
+			
+			[JsonProperty("version", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public Oxide.Core.VersionNumber Version = default(VersionNumber);
+		}
+		protected override void LoadConfig()
+        {
+            base.LoadConfig();
+            try
+            {
+                config = Config.ReadObject<ConfigData>();
+                if (config == null)
+                {
+                    LoadDefaultConfig();
+                }
+            }
+            catch (Exception ex)
+            {
+                PrintError($"The configuration file is corrupted or missing. \n{ex}");
+                LoadDefaultConfig();
+            }
+            SaveConfig();
+        }
+
+        protected override void LoadDefaultConfig()
+        {
+			Puts("Version mismatch for config");
+            config = new ConfigData();
+            config.Version = Version;
+			config.overlay = false;
+			config.sphere = true;
+        }
+
+        protected override void SaveConfig()
+        {
+            Config.WriteObject(config);
+        }
+
+
 		public class LineSegment{
-			public static bool overlay=false;
-			public static bool sphere=true;
 			
 			public static Queue<LineSegment> queue = new Queue<LineSegment>();
 			public static Dictionary<BaseCombatEntity,List<LineSegment>> static_targets = new Dictionary<BaseCombatEntity,List<LineSegment>>();
@@ -74,8 +140,15 @@ Planned:	Permission system
 			}
 			
 			public bool update_target(){
-				if(target==null||target.transform==null) return false;
-				if(overlay){
+				if(target==null||target.transform==null||rx==null||rx.IPlayer==null) return false;
+				
+				if(target is BaseNpc && !rx.IPlayer.HasPermission("bloodtracks.track.animal")) return false;
+				
+				if(target is NPCPlayer && !rx.IPlayer.HasPermission("bloodtracks.track.npc")) return false;
+				
+				if((target is BasePlayer) && (target as BasePlayer).Connection != null && !rx.IPlayer.HasPermission("bloodtracks.track.player")) return false;
+				
+				if(BloodTracks.instance.config.overlay && rx.IPlayer.HasPermission("bloodtracks.style.overlay")){
 					ConsoleNetwork.SendClientCommand(rx.Connection,"ddraw.text", new object[]
 					{
 						timeout,
@@ -84,7 +157,7 @@ Planned:	Permission system
 						"∙"
 					});
 				}
-				if(sphere){
+				if(BloodTracks.instance.config.sphere && rx.IPlayer.HasPermission("bloodtracks.style.sphere")){
 					ConsoleNetwork.SendClientCommand(rx.Connection,"ddraw.sphere", new object[]
 					{
 						timeout,
@@ -115,11 +188,30 @@ Planned:	Permission system
 				return true;
 			}
 		}
+		
+        [Command("bloodtracks.SaveConfig")]//
+        void SaveConfig_cmd(IPlayer player, string command, string[] args)
+        {
+			SaveConfig();
+		}
+        [Command("bloodtracks.LoadConfig")]//
+        void LoadConfig_cmd(IPlayer player, string command, string[] args)
+        {
+			LoadConfig();
+		}
 		void OnServerInitialized(){
+			LoadConfig();
+			instance=this;
 			myTimer=timer.Every(1f, () =>
 			{
 				LineSegment.process_queue(3);
 			});
+			
+			permission.RegisterPermission("bloodtracks.track.animal
+			permission.RegisterPermission("bloodtracks.track.npc
+			permission.RegisterPermission("bloodtracks.track.player	
+			permission.RegisterPermission("bloodtracks.style.overlay
+			permission.RegisterPermission("bloodtracks.style.sphere			
 
 		}
 		
@@ -153,7 +245,7 @@ Planned:	Permission system
 			
 		}
 		void Unloaded(){
-			
+			SaveConfig();
 			myTimer.Destroy();
 		}
 		
