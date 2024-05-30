@@ -22,10 +22,15 @@
 using Oxide.Game.Rust.Cui;
 using CompanionServer.Handlers;
 #endregion
-namespace Oxide.Plugins{// Requires: Navmesher
+namespace Oxide.Plugins{
 	[Info("BloodTracks", "obsol", "0.2.1")]
 	[Description("Sends target positions to players for some time after hit")]
 	public class BloodTracks: CovalencePlugin{
+ /*
+Planned:	Permission system
+		Configuration file (control overlay, spheres, rays, as well as which types of entities get followed)
+
+ */
 		Timer myTimer;
 		public class LineSegment{
 			public static bool overlay=false;
