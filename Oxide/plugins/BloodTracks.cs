@@ -27,7 +27,7 @@ namespace Oxide.Plugins{
 	[Description("Sends target positions to players for some time after hit")]
 	public class BloodTracks: CovalencePlugin{
 		/*
-		
+		https://github.com/read-0nly/Rust-coop-survival/tree/main/Oxide/plugins
 		Permissions:
 			
 			bloodtracks.track.animal : Allows tracking animals
