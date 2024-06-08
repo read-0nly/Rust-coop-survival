@@ -37,10 +37,10 @@ namespace Oxide.Plugins
 		void Loaded(){
 			//ConVar.AI.npc_enable=false;
 			//NextFrame(scan3);
-			System.Reflection.Assembly assembly = System.Reflection.Assembly.LoadFrom(".\\RustDedicated_Data\\Managed\\Unity.AI.Navigation.dll");
+			/*System.Reflection.Assembly assembly = System.Reflection.Assembly.LoadFrom(".\\RustDedicated_Data\\Managed\\Unity.AI.Navigation.dll");
 			AppDomain.CurrentDomain.Load(assembly.GetName());
 			navtype = assembly.GetType("Unity.AI.Navigation.NavMeshSurface");
-			Puts(navtype.ToString());
+			Puts(navtype.ToString());*/
 		}
 		void OnTerrainInitialized(){
 			
