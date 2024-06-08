@@ -26,7 +26,7 @@ using Oxide.Core;
 namespace Oxide.Plugins
 {
 	[Info("JumpTest", "obsol", "0.0.1")]
-	[Description("Re-bakes everything for Agent 0 and spawns everything Agent 0")]
+	[Description("Jumping from navmesh to navmesh using offmesh links")]
 	public class JumpTest : CovalencePlugin
 	{
 	
