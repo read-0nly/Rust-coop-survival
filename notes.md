@@ -1,0 +1,4 @@
+- We are now capable of jumping
+- Make it work for ladders and map-baked
+- fix bloodtrail
+- this.internalBurstAimConeScale masterclass weapons
