@@ -2,3 +2,38 @@
 - Make it work for ladders and map-baked
 - fix bloodtrail
 - this.internalBurstAimConeScale masterclass weapons
+- AIMovePointPath type paths to represent different levels of abstraction
+  - Monuments have standard AIMovePointPath
+  - Roads have collections of transit points (indexsA,indexB)
+  - MonumentTree is built
+  - Level that sets top-level order 1
+  -  - Defend Home
+     - Pull Back
+     - Expand
+     - Attack
+  - Level that extends that order 3
+     - Pick target based on top-level order
+  - Level that executes that order 4-5
+     - Navigates the road network as waves
+  - Squadrons 2-3
+     - a greater unit of fireteams - explore the target as a group, each fireteam picking a different path / direction
+     - Squadron leader sends fireteams forward, staying behind with oen fireteam. in monument, will follow another fireteam. Initial exploration explores all paths in order
+       - medic - light weapon and armor, full of meds, heals injured in monument
+       - heavy - beefier, heavier weaponry
+     - when monument clear, squadron leader comes. If no control center, and impossible not flagged, squad leader explores building biome for space to deploy with roof
+     -  - sleeping bag X3 (picked up on move)
+        - hobobarrel
+        - computer
+        -  - this is where you buy allegiance and send/view orders
+           - using it takes ownership of monument
+           - squadron leader will use it while holding the position
+       - Medic sets up station
+       - - bed
+         - water purifier (picked up on move)
+         - large wood box (emptied of meds and ammor on move)
+         - chair (picked up on move)
+         - t2 workbench (picked up on move)
+  - Fireteam 2-3
+     - one field lead with sniper and long vision, climb tendency
+     - One first shotgunner, will move between cover, if he can't find cover near player, he'll find cover near second and fight with sidearm
+     - One second assault, leads the approach when out of range, lays suppressive fire, throws grenades
