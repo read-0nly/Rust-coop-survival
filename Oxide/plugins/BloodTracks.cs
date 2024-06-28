@@ -27,7 +27,7 @@ namespace Oxide.Plugins{
 	[Description("Sends target positions to players for some time after hit")]
 	public class BloodTracks: CovalencePlugin{
 		/*
-		https://github.com/read-0nly/Rust-coop-survival/tree/main/Oxide/plugins
+		
 		Permissions:
 			
 			bloodtracks.track.animal : Allows tracking animals
@@ -68,37 +68,37 @@ namespace Oxide.Plugins{
 			public Oxide.Core.VersionNumber Version = default(VersionNumber);
 		}
 		protected override void LoadConfig()
-        {
-            base.LoadConfig();
-            try
-            {
-                config = Config.ReadObject<ConfigData>();
-                if (config == null)
-                {
-                    LoadDefaultConfig();
-                }
-            }
-            catch (Exception ex)
-            {
-                PrintError($"The configuration file is corrupted or missing. \n{ex}");
-                LoadDefaultConfig();
-            }
-            SaveConfig();
+		{
+			base.LoadConfig();
+			try
+			{
+				config = Config.ReadObject<ConfigData>();
+				if (config == null)
+				{
+					LoadDefaultConfig();
+				}
+			}
+			catch (Exception ex)
+			{
+				PrintError($"The configuration file is corrupted or missing. \n{ex}");
+				LoadDefaultConfig();
+			}
+			SaveConfig();
         }
 
-        protected override void LoadDefaultConfig()
-        {
+		protected override void LoadDefaultConfig()
+		{
 			Puts("Version mismatch for config");
-            config = new ConfigData();
-            config.Version = Version;
+			config = new ConfigData();
+			config.Version = Version;
 			config.overlay = false;
 			config.sphere = true;
-        }
+		}
 
-        protected override void SaveConfig()
-        {
-            Config.WriteObject(config);
-        }
+		protected override void SaveConfig()
+		{
+			Config.WriteObject(config);
+		}
 
 
 		public class LineSegment{
@@ -207,11 +207,11 @@ namespace Oxide.Plugins{
 				LineSegment.process_queue(3);
 			});
 			
-			permission.RegisterPermission("bloodtracks.track.animal
-			permission.RegisterPermission("bloodtracks.track.npc
-			permission.RegisterPermission("bloodtracks.track.player	
-			permission.RegisterPermission("bloodtracks.style.overlay
-			permission.RegisterPermission("bloodtracks.style.sphere			
+			permission.RegisterPermission("bloodtracks.track.animal",this);
+			permission.RegisterPermission("bloodtracks.track.npc",this);
+			permission.RegisterPermission("bloodtracks.track.player",this);
+			permission.RegisterPermission("bloodtracks.style.overlay",this);
+			permission.RegisterPermission("bloodtracks.style.sphere",this);			
 
 		}
 		

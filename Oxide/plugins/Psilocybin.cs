@@ -306,15 +306,20 @@ namespace Oxide.Plugins
 				if (brain==null){return;}//
 				brain.InstanceSpecificDesign = aid;
 				if(bn.HasBrain) brain.LoadAIDesignAtIndex(0);
+				brain.AllowedToSleep=false;
+				Puts("Processed "+entity.transform.name);
 					
 			}else{
 				BaseAIBrain brain = (hn.GetComponent<BaseAIBrain>());
+				(hn as HumanNPC).VirtualInfoZone =null;
+				(hn as HumanNPC).cachedInfoZone = AIInformationZone.GetForPoint(hn.transform.position, true);
 				if (brain==null){ brain = (hn.GetComponent<ScientistBrain>() as BaseAIBrain);}
 				if (brain==null){return;}//
 				brain.InstanceSpecificDesign = aid;
 				if(hn.HasBrain) brain.LoadAIDesignAtIndex(0);
+				hn.Brain.AllowedToSleep=false;
 				
-				
+				Puts("Processed "+entity.transform.name);
 			}
 		}
 		
@@ -471,7 +476,7 @@ namespace Oxide.Plugins
 	}
 }
 
-// Important Enums
+// Important Enums  
 
 /* public enum AIEventType
 {

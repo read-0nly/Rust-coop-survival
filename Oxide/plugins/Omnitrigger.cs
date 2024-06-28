@@ -1,5 +1,4 @@
 
-// Requires: Omninasty
 using Oxide.Plugins;
 using Oxide.Core.Plugins;
 using UnityEngine;
@@ -29,7 +28,6 @@ namespace Oxide.Plugins
 				
 				
 		Configuration config;
-		Omninasty omninasty;
 		public class Configuration
 		{
 			[JsonProperty("LayerMask", ObjectCreationHandling = ObjectCreationHandling.Replace)]
@@ -62,10 +60,6 @@ namespace Oxide.Plugins
 			LoadConfig();
 		}
 		
-		void Loaded(){
-			
-			omninasty = (Omninasty)Manager.GetPlugin("Omninasty");
-		}
 		private void Unload()
 		{
 			SaveConfig();
@@ -146,7 +140,7 @@ namespace Oxide.Plugins
 		}
 		object OnTrapTrigger(BaseTrap trap, GameObject go)
 		{
-			if(omninasty.getFaction(trap)==omninasty.getFaction(go.GetComponent<BaseEntity>())) return trap;
+			return trap;
 			return null;
 		}
 	

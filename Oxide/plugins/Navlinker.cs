@@ -34,6 +34,7 @@ namespace Oxide.Plugins
         void OnTerrainInitialized()
         {
             createOffmeshes();
+			createOffmesh(new Vector3(-11.55f,11.44f,-14.98f),new Vector3(-11.76f,4.85f,-19.45f),false,true,true);
 
         }
 
@@ -120,9 +121,11 @@ namespace Oxide.Plugins
             }, new Vector3(8f, 0.25f, 0f), new Vector3(13f, 0f, 0f), true, false, true));
             
             metadata.Add(new OffmeshMetadata(new string[] {
-                "assets/content/structures/train_tunnels/entrance_monuments_b.prefab"
-            }, new Vector3(-8f, 0.25f, 0f), new Vector3(-13f, 0f, 0f), true, false, true));
-            
+                "assets/bundled/prefabs/autospawn/monument/offshore/oilrig_1.prefab"
+            }, new Vector3(-13.45f, 5.4f, -2.25f), new Vector3(-14.6f, 1.125f, -2.25f), true, true, true));
+			/*
+			
+			*/
             metadata.Add(new OffmeshMetadata(new string[] {
                 "assets/content/structures/train_tunnels/entrance_monuments_b.prefab"
             }, new Vector3(0f, 0.25f, 8f), new Vector3(0f, 0f, 13f), true, false, true));
@@ -342,19 +345,27 @@ namespace Oxide.Plugins
         void pt1(IPlayer player, string command, string[] args)
         {
             pt1v = (player.Object as BasePlayer).transform.position;
-            player.Message("Generated point1");
+            player.Message("Generated point1 "+pt1v);
         }
         [Command("point2")]
         void pt2(IPlayer player, string command, string[] args)
         {
             pt2v = (player.Object as BasePlayer).transform.position;
-            player.Message("Generated point2");
+            player.Message("Generated point2 "+pt2v);
         }
         [Command("generate")]
         void pgeneratet2(IPlayer player, string command, string[] args)
         {
             if (pt1v == new Vector3(0, 0, 0) || pt2v == new Vector3(0, 0, 0)) return;
             omLink=createOffmesh(pt1v,pt2v,true);
+            player.Message("Generated Link");
+
+        }
+        [Command("generatejump")]
+        void pgeneratet2jump(IPlayer player, string command, string[] args)
+        {
+            if (pt1v == new Vector3(0, 0, 0) || pt2v == new Vector3(0, 0, 0)) return;
+            omLink=createOffmesh(pt1v,pt2v,false);
             player.Message("Generated Link");
 
         }

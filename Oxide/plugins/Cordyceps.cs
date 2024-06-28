@@ -62,8 +62,8 @@ namespace Oxide.Plugins
 		
 		// Requires custom injection : BaseAIBrain.InitializeAI() injection index 0, continue, just this//
 		void OnAIInitialize(BaseAIBrain brain)
-		{
-			ApplyDesign(brain.Navigator.BaseEntity);
+        {
+            ApplyDesign(brain.Navigator.BaseEntity);
 		}
 		
 		public bool ApplyDesign(BaseEntity entity){
@@ -75,7 +75,9 @@ namespace Oxide.Plugins
 				}
 				return false;
 			}else{		
-				hn.GetComponent<BaseNavigator>().PlaceOnNavMesh();
+				hn.GetComponent<BaseNavigator>().PlaceOnNavMesh(0);
+				hn.GetComponent<BaseNavigator>().TriggerStuckEvent = true;
+				hn.Brain.AllowedToSleep=false;
 				return SwapHumanState(hn.Brain);
 			}
 		}
@@ -103,15 +105,24 @@ namespace Oxide.Plugins
 		}
 		public bool SwapHumanState(BaseAIBrain brain,AIState stateType,BaseAIBrain.BasicAIState state){
 			try{
-				if (brain.states.ContainsKey(stateType)){
-					if(brain.CurrentState!=null)
-						if(brain.CurrentState.StateType==stateType)
-							brain.states[stateType].StateLeave(brain,brain.Navigator.BaseEntity);
-				}
+				bool isInState = false;
+				if (brain.CurrentState != null)
+					if (brain.CurrentState.StateType == stateType)
+					{
+						brain.SwitchToState(AIState.Idle, 0);
+						isInState = true;
+
+                    }
 				BaseAIBrain.BasicAIState state2 = (BaseAIBrain.BasicAIState)System.Activator.CreateInstance(state.GetType());
+				
+				System.Console.ForegroundColor = ConsoleColor.Cyan;
+				System.Console.WriteLine(state.GetType().ToString() + " Set for "+brain.transform.name);
+				System.Console.ResetColor();
 				state2.brain = brain;
 				brain.states[stateType]=state2;
-				return true;
+
+                if(isInState) brain.SwitchToState(stateType, 0);
+                return true;
 			}catch(Exception e){
 				Puts(e.ToString());
 				return false;
@@ -148,7 +159,8 @@ namespace Oxide.Plugins
 
 		public bool SwapHumanState(BaseAIBrain brain){
 			bool result = false;
-			if(StateAssignments.ContainsKey(brain.gameObject.transform.name)){
+            //Puts(brain.gameObject.transform.name +":" + (StateAssignments.ContainsKey(brain.gameObject.transform.name)).ToString());
+            if (StateAssignments.ContainsKey(brain.gameObject.transform.name)){
 				foreach(AIState state in StateAssignments[brain.gameObject.transform.name].Keys){
 					bool stateResult = (SwapHumanState(brain,state,StateAssignments[brain.gameObject.transform.name][state]));
 					result = result || stateResult;
