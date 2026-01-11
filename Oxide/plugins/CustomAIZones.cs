@@ -109,9 +109,9 @@ namespace Oxide.Plugins
 		public void GetCustomAIPoints(){//
 			GameObject[] all = UnityEngine.Object.FindObjectsOfType(typeof(GameObject)) as GameObject[];
 			foreach(GameObject go in all){
-				if(go.transform.name.Contains("assets/rust.ai/cover/")){
+				if(go.transform.name.Contains("assets/prefabs/npc/scientist/patrolpoint.prefab")){
 					//Puts("Found point! " + go.transform.name);
-					if(go.transform.name.Contains("oilrig_patrolpoints")){
+					if(go.transform.localScale.y>0){
 
 						AIMovePoint movepoint = go.GetComponent<AIMovePoint>();
 						if(movepoint ==null){
@@ -119,17 +119,18 @@ namespace Oxide.Plugins
 							
 							//Puts("Movepoint added!");
 						}
-						movepoint.WaitTime = (go.transform.localScale.y*60);
-						Puts("Found point! " + movepoint.WaitTime);
+						movepoint.WaitTime = (go.transform.localScale.y*10);
+						Puts("Found MOVE point! " + movepoint.WaitTime + " " + go.transform.localScale.ToString());
 						if(!customMovePoints.Contains(movepoint)){
 							customMovePoints.Add(movepoint);
 							//Puts("Added Movepoint to processing :");
 						}
 						customPoints.Add(movepoint);
 					}
-					if(go.transform.name.Contains("oilrig_coverpoints")){
+					else{
 						
 						AICoverPoint coverpoint = go.GetComponent<AICoverPoint>();
+						Puts("Found COVER point! " + go.transform.localScale.ToString());
 						if(coverpoint ==null){
 							coverpoint=go.AddComponent<AICoverPoint>();
 							//Puts("coverpoint added!");
