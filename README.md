@@ -1,6 +1,6 @@
 Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's the [ko-fi](https://ko-fi.com/therustbard)
 
-# Project is on ice for lack of interest. HMU if that changes
+# Project is on ice
 
 
 # Repo for development of my modded Rust server
