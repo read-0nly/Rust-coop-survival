@@ -119,7 +119,7 @@ namespace Oxide.Plugins
 							
 							//Puts("Movepoint added!");
 						}
-						movepoint.WaitTime = (go.transform.localScale.y*10);
+						movepoint.WaitTime = (go.transform.localScale.y*1);
 						Puts("Found MOVE point! " + movepoint.WaitTime + " " + go.transform.localScale.ToString());
 						if(!customMovePoints.Contains(movepoint)){
 							customMovePoints.Add(movepoint);
@@ -354,4 +354,5 @@ namespace Oxide.Plugins
 		}
 		
 	}
+
 }
