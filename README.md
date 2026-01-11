@@ -1,6 +1,6 @@
 Using/enjoying a plugin of mine and you'd like to toss a dollar my way? Here's the [ko-fi](https://ko-fi.com/therustbard)
 
-# Project is back on - I NEED TESTERS. Message me or file an issue if interested we'll sort it out
+# Project is on ice for lack of interest. HMU if that changes
 
 
 # Repo for development of my modded Rust server
