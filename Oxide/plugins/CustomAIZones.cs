@@ -100,11 +100,99 @@ namespace Oxide.Plugins
 		List<AICoverPoint> customCoverPoints = new List<AICoverPoint>();
 		List<MonumentInfo> customMonuments = new List<MonumentInfo>();
 		List<AIMovePointPath> allPaths = new List<AIMovePointPath>();
-		
+		struct AgentProperties{
+			public static float acceleration;
+			public static int agentTypeID;
+			public static float angularSpeed;
+			public static int areaMask;
+			public static bool autoBraking;
+			public static bool autoRepath;
+			public static bool autoTraverseOffMeshLink;
+			public static int avoidancePriority;
+			public static float baseOffset;
+			public static float height;
+			public static ObstacleAvoidanceType obstacleAvoidanceType;
+			public static float radius;
+			public static float speed;
+			public static float stoppingDistance;
+			public static bool updatePosition;
+			public static bool updateRotation;
+			public static bool updateUpAxis;
+			public static int walkableMask;
+			
+			public static void Store(NavMeshAgent nma){
+			 acceleration = nma.acceleration;
+			 agentTypeID = nma.agentTypeID;
+			 angularSpeed = nma.angularSpeed;
+			 areaMask = nma.areaMask;
+			 autoBraking = nma.autoBraking;
+			 autoRepath = nma.autoRepath;
+			 autoTraverseOffMeshLink = nma.autoTraverseOffMeshLink;
+			 avoidancePriority = nma.avoidancePriority;
+			 baseOffset = nma.baseOffset;
+			 height = nma.height;
+			 obstacleAvoidanceType = nma.obstacleAvoidanceType;
+			 radius = nma.radius;
+			 speed = nma.speed;
+			 stoppingDistance = nma.stoppingDistance;
+			 updatePosition = nma.updatePosition;
+			 updateRotation = nma.updateRotation;
+			 updateUpAxis = nma.updateUpAxis;
+			 walkableMask = nma.walkableMask;
+				
+			}
+			public static void Set(NavMeshAgent nma){
+			 nma.acceleration = acceleration;
+			 nma.agentTypeID = agentTypeID;
+			 nma.angularSpeed = angularSpeed;
+			 nma.areaMask = areaMask;
+			 nma.autoBraking = autoBraking;
+			 nma.autoRepath = autoRepath;
+			 nma.autoTraverseOffMeshLink = autoTraverseOffMeshLink;
+			 nma.avoidancePriority = avoidancePriority;
+			 nma.baseOffset = baseOffset;
+			 nma.height = height;
+			 nma.obstacleAvoidanceType = obstacleAvoidanceType;
+			 nma.radius = radius;
+			 nma.speed = speed;
+			 nma.stoppingDistance = stoppingDistance;
+			 nma.updatePosition = updatePosition;
+			 nma.updateRotation = updateRotation;
+			 nma.updateUpAxis = updateUpAxis;
+			 nma.walkableMask = walkableMask;
+				
+			}
+		}
 		private void OnServerInitialized()
         {
+			Puts("Getting Points");
 			GetCustomAIPoints();
+			
+			Puts("Getting markers");
 			GetMonumentMarkers();//assets/bundled/prefabs/modding/volumes_and_triggers/monument_marker.prefab
+			Puts("Getting safe Navmesh Agent params");
+			
+			BaseEntity baseEntity = GameManager.server.CreateEntity("assets/rust.ai/agents/wolf/wolf.prefab", Vector3.zero,Quaternion.LookRotation(Vector3.forward, Vector3.up), false);
+			
+			AgentProperties.Store(baseEntity.GetComponent<NavMeshAgent>());
+			GameObject.Destroy(baseEntity.gameObject);
+			
+			
+		}
+		
+		public class NavmeshAgentSwapFlag : BaseMonoBehaviour{
+			public bool swapped = true;
+			
+		}
+		private void OnEntitySpawned(HumanNPC hn){
+			if(hn.GetComponent<NavmeshAgentSwapFlag>()){return;}
+			BaseEntity baseEntity = GameManager.server.CreateEntity(hn.gameObject.name, hn.transform.position, hn.transform.rotation, false);
+			AgentProperties.Set(baseEntity.GetComponent<NavMeshAgent>());
+			baseEntity.gameObject.AddComponent<NavmeshAgentSwapFlag>();
+			baseEntity.gameObject.AwakeFromInstantiate();
+			baseEntity.Spawn();
+			
+			hn.Kill();
 		}
 		public void GetCustomAIPoints(){//
 			GameObject[] all = UnityEngine.Object.FindObjectsOfType(typeof(GameObject)) as GameObject[];
@@ -284,75 +372,9 @@ namespace Oxide.Plugins
 				}
 				
 			}
-			/*
-			while(pointsToProcess.Count()>0){
-				Puts("List has "+pointsToProcess.Count());
-				AIMovePoint point = null;
-				foreach(AIMovePoint p1 in pointsToProcess){
-					if(p1.transform.localScale.y>1){
-						Puts(p1.transform.localScale.y.ToString());
-						point = p1;
-					}
-				}
-				if(point==null){
-					break;
-				}
-				AIMovePointPath path = point.gameObject.GetComponent<AIMovePointPath>();
-				
-				path.Points.Clear();
-				
-				path.AddPoint(point);
-				pointsToProcess.Remove(point);		
-				AIMovePoint fromPoint = point;
-				int i = 0;
-				while(i<maxSeek){
-					/*
-					List<AIMovePoint> pointsToProcessForPoint = new List<AIMovePoint>(pointsToProcess.ToArray());
-					pointsToProcessForPoint.Sort(delegate(AIMovePoint x, AIMovePoint y)
-					{
-						return (Vector3.Distance(fromPoint.transform.position,x.transform.position)>Vector3.Distance(fromPoint.transform.position,y.transform.position)?
-							1:-1);
-					});
-					AIMovePoint target = null;
-					float targetScore = 0.9f;
-					foreach(AIMovePoint p in pointsToProcessForPoint){
-						if(p != fromPoint && (int)(p.localScale.x*100)==){
-							Vector3 forward = fromPoint.transform.TransformDirection(Vector3.forward);
-							Vector3 toOther = Vector3.Normalize(p.transform.position - fromPoint.transform.position);
-
-							float thisScore = Vector3.Dot(forward, toOther);
-							if(thisScore >= targetScore){
-								target=p;
-								targetScore = thisScore;//
-								break;
-							}
-						}
-					}
-					if(target==null || target==fromPoint){
-						break;
-					}				
-					if(pointsToProcessForPoint.Contains(target)){
-						pointsToProcessForPoint.Remove(target);		
-						pointsToProcess.Remove(target);	
-					}		
-					path.AddPoint(target);
-					fromPoint=target;
-					i++;
-					*/
-					/*
-				}
-					Puts("Path has "+path.Points.Count()+" points");
-				if(path.Points.Count()<maxSeek && path.Points.Count()>1){
-					result.Add(path);
-					allPaths.Add(path);
-				}
-				
-			}
-			*/
-			//shut up I`m still working on it//
+			
 			return result;
 		}
 		
 	}
-
 }
