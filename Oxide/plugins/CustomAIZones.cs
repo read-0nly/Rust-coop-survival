@@ -169,8 +169,11 @@ namespace Oxide.Plugins
 			 if(bn!=null){bn.DefaultArea =DefaultArea;}
 			}
 		}
-		
+		ProtoBuf.AIDesign roamDesign = new ProtoBuf.AIDesign();
 		private void OnTerrainInitialized(){
+			loaddefaultnpcstuff();
+		}
+		private void loaddefaultnpcstuff(){
 			UnityEngine.Debug.LogError("TriggeredAgentProp");
 			ConVar.Entity.EntitySpawnRequest spawnEntityFromName = ConVar.Entity.GetSpawnEntityFromName("scientistnpc_junkpile_pistol");
 			if (!spawnEntityFromName.Valid)
@@ -182,8 +185,34 @@ namespace Oxide.Plugins
 			AgentProperties.Store(baseEntity.GetComponent<NavMeshAgent>());
 			UnityEngine.Debug.LogError("FinishedAgentProp");
 			GameObject.Destroy(baseEntity.gameObject);//
+			
+			spawnEntityFromName = ConVar.Entity.GetSpawnEntityFromName("scientistnpc_roam");
+			if (!spawnEntityFromName.Valid)
+			{
+				return;
+			}
+			BaseEntity baseEntity2 = GameManager.server.CreateEntity(spawnEntityFromName.PrefabName, Vector3.zero,Quaternion.LookRotation(Vector3.forward, Vector3.up), false);
+			
+			BaseAIBrain brain = baseEntity2.gameObject.GetComponent<BaseAIBrain>();
+			if(brain!=null){
+				if(brain.InstanceSpecificDesign!=null){
+					Puts("Instance Loaded");////
+					brain.InstanceSpecificDesign.CopyTo(roamDesign);
+				}
+				else{
+					if(brain.Designs.Count>0){
+						Puts("Design Loaded");
+						AIDesigns.GetByNameOrInstance(brain.Designs[0].Filename, null).CopyTo(roamDesign);
+					}else{
+						Puts("DesignSO Loaded");
+						AIDesigns.GetByNameOrInstance(brain.DefaultDesignSO.Filename, null).CopyTo(roamDesign);
+					}
+				}
+			}
+			GameObject.Destroy(baseEntity2.gameObject);//
+			UnityEngine.Debug.LogError("FinishedAgentStateGrab");
+			
 		}
-		
 		private void OnServerInitialized()
         {
 			Puts("Getting Points");
@@ -192,7 +221,7 @@ namespace Oxide.Plugins
 			Puts("Getting markers");
 			GetMonumentMarkers();//assets/bundled/prefabs/modding/volumes_and_triggers/monument_marker.prefab
 			Puts("Getting safe Navmesh Agent params");//
-			
+			loaddefaultnpcstuff();
 			
 			
 		}
@@ -203,11 +232,24 @@ namespace Oxide.Plugins
 		}
 		private void OnEntitySpawned(HumanNPC hn){
 			if(hn.GetComponent<NavmeshAgentSwapFlag>()){return;}
-			BaseEntity baseEntity = GameManager.server.CreateEntity(hn.gameObject.name, hn.transform.position, hn.transform.rotation, false);
-			AgentProperties.Set(baseEntity.GetComponent<NavMeshAgent>());
+			HumanNPC baseEntity = GameManager.server.CreateEntity(hn.gameObject.name, hn.transform.position, hn.transform.rotation, false) as HumanNPC;	
+			NavMeshAgent nma = baseEntity.GetComponent<NavMeshAgent>();
+			BaseAIBrain brain = baseEntity.gameObject.GetComponent<BaseAIBrain>();
+			NPCPlayerNavigator nav = baseEntity.gameObject.GetComponent<NPCPlayerNavigator>();
+			AgentProperties.Set(nma);	
+			if(brain!=null && roamDesign!=null){
+				brain.InstanceSpecificDesign=roamDesign;
+				brain.UseAIDesign=true;
+				Puts("Design Applied");
+			}
 			baseEntity.gameObject.AddComponent<NavmeshAgentSwapFlag>();
+			//baseEntity.IsDormant=false;
+			//baseEntity.syncPosition=true;
 			baseEntity.gameObject.AwakeFromInstantiate();
+			//nma.enabled=true;
+			//nav.enabled=true;
 			baseEntity.Spawn();
+			//nav.Warp(baseEntity.transform.position);
 			SpawnPointInstance spi = hn.gameObject.GetComponent<SpawnPointInstance>();
 			if(spi!=null){
 					SpawnPointInstance spawnPointInstance = baseEntity.gameObject.AddComponent<SpawnPointInstance>();
