@@ -120,6 +120,8 @@ namespace Oxide.Plugins
 			public static bool updateUpAxis;
 			public static int walkableMask;
 			
+			public static string DefaultArea = "Walkable";
+			
 			public static void Store(NavMeshAgent nma){
 			 acceleration = nma.acceleration;
 			 agentTypeID = nma.agentTypeID;
@@ -139,7 +141,9 @@ namespace Oxide.Plugins
 			 updateRotation = nma.updateRotation;
 			 updateUpAxis = nma.updateUpAxis;
 			 walkableMask = nma.walkableMask;
-				
+			 
+			 BaseNavigator bn = nma.GetComponent<BaseNavigator>();
+			 if(bn!=null){DefaultArea = bn.DefaultArea;}
 			}
 			public static void Set(NavMeshAgent nma){
 			 nma.acceleration = acceleration;
@@ -161,8 +165,25 @@ namespace Oxide.Plugins
 			 nma.updateUpAxis = updateUpAxis;
 			 nma.walkableMask = walkableMask;
 				
+			 BaseNavigator bn = nma.GetComponent<BaseNavigator>();
+			 if(bn!=null){bn.DefaultArea =DefaultArea;}
 			}
 		}
+		
+		private void OnTerrainInitialized(){
+			UnityEngine.Debug.LogError("TriggeredAgentProp");
+			ConVar.Entity.EntitySpawnRequest spawnEntityFromName = ConVar.Entity.GetSpawnEntityFromName("scientistnpc_junkpile_pistol");
+			if (!spawnEntityFromName.Valid)
+			{
+				return;
+			}
+			BaseEntity baseEntity = GameManager.server.CreateEntity(spawnEntityFromName.PrefabName, Vector3.zero,Quaternion.LookRotation(Vector3.forward, Vector3.up), false);
+			
+			AgentProperties.Store(baseEntity.GetComponent<NavMeshAgent>());
+			UnityEngine.Debug.LogError("FinishedAgentProp");
+			GameObject.Destroy(baseEntity.gameObject);//
+		}
+		
 		private void OnServerInitialized()
         {
 			Puts("Getting Points");
@@ -170,12 +191,8 @@ namespace Oxide.Plugins
 			
 			Puts("Getting markers");
 			GetMonumentMarkers();//assets/bundled/prefabs/modding/volumes_and_triggers/monument_marker.prefab
-			Puts("Getting safe Navmesh Agent params");
+			Puts("Getting safe Navmesh Agent params");//
 			
-			BaseEntity baseEntity = GameManager.server.CreateEntity("assets/rust.ai/agents/wolf/wolf.prefab", Vector3.zero,Quaternion.LookRotation(Vector3.forward, Vector3.up), false);
-			
-			AgentProperties.Store(baseEntity.GetComponent<NavMeshAgent>());
-			GameObject.Destroy(baseEntity.gameObject);
 			
 			
 		}
@@ -191,7 +208,16 @@ namespace Oxide.Plugins
 			baseEntity.gameObject.AddComponent<NavmeshAgentSwapFlag>();
 			baseEntity.gameObject.AwakeFromInstantiate();
 			baseEntity.Spawn();
-			
+			SpawnPointInstance spi = hn.gameObject.GetComponent<SpawnPointInstance>();
+			if(spi!=null){
+					SpawnPointInstance spawnPointInstance = baseEntity.gameObject.AddComponent<SpawnPointInstance>();
+					spawnPointInstance.parentSpawnPointUser = spi.parentSpawnPointUser;
+					spawnPointInstance.parentSpawnPoint = spi.parentSpawnPoint;
+					spawnPointInstance.Entity = baseEntity;
+					spawnPointInstance.Notify();
+					spi.Retire();
+					Puts("Transferred spawn instance");
+			}
 			hn.Kill();
 		}
 		public void GetCustomAIPoints(){//
