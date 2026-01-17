@@ -233,6 +233,7 @@ namespace Oxide.Plugins
 		private void OnEntitySpawned(HumanNPC hn){
 			if(hn.GetComponent<NavmeshAgentSwapFlag>()){return;}
 			HumanNPC baseEntity = GameManager.server.CreateEntity(hn.gameObject.name, hn.transform.position, hn.transform.rotation, false) as HumanNPC;	
+			Vector3 spawnpoint = hn.transform.position;
 			NavMeshAgent nma = baseEntity.GetComponent<NavMeshAgent>();
 			BaseAIBrain brain = baseEntity.gameObject.GetComponent<BaseAIBrain>();
 			NPCPlayerNavigator nav = baseEntity.gameObject.GetComponent<NPCPlayerNavigator>();
@@ -240,27 +241,27 @@ namespace Oxide.Plugins
 			if(brain!=null && roamDesign!=null){
 				brain.InstanceSpecificDesign=roamDesign;
 				brain.UseAIDesign=true;
-				Puts("Design Applied");
 			}
 			baseEntity.gameObject.AddComponent<NavmeshAgentSwapFlag>();
 			//baseEntity.IsDormant=false;
 			//baseEntity.syncPosition=true;
 			baseEntity.gameObject.AwakeFromInstantiate();
 			//nma.enabled=true;
-			//nav.enabled=true;
 			baseEntity.Spawn();
 			//nav.Warp(baseEntity.transform.position);
-			SpawnPointInstance spi = hn.gameObject.GetComponent<SpawnPointInstance>();
-			if(spi!=null){
-					SpawnPointInstance spawnPointInstance = baseEntity.gameObject.AddComponent<SpawnPointInstance>();
-					spawnPointInstance.parentSpawnPointUser = spi.parentSpawnPointUser;
-					spawnPointInstance.parentSpawnPoint = spi.parentSpawnPoint;
-					spawnPointInstance.Entity = baseEntity;
-					spawnPointInstance.Notify();
-					spi.Retire();
-					Puts("Transferred spawn instance");
-			}
-			hn.Kill();
+			NextFrame(()=>{
+				SpawnPointInstance spi = hn.gameObject.GetComponent<SpawnPointInstance>();
+				if(spi!=null){
+						Puts("Transferring spawn instance");
+						SpawnPointInstance spawnPointInstance = baseEntity.gameObject.AddComponent<SpawnPointInstance>();
+						spawnPointInstance.parentSpawnPointUser = spi.parentSpawnPointUser;
+						spawnPointInstance.parentSpawnPoint = spi.parentSpawnPoint;
+						spawnPointInstance.Entity = baseEntity;
+						spawnPointInstance.Notify();
+						Puts("Transferred spawn instance");
+				}
+				hn.Kill();//
+			});
 		}
 		public void GetCustomAIPoints(){//
 			GameObject[] all = UnityEngine.Object.FindObjectsOfType(typeof(GameObject)) as GameObject[];
