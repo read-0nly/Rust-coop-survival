@@ -170,6 +170,7 @@ namespace Oxide.Plugins
 			}
 		}
 		ProtoBuf.AIDesign roamDesign = new ProtoBuf.AIDesign();
+		ProtoBuf.AIDesign followpathdesign = new ProtoBuf.AIDesign();
 		private void OnTerrainInitialized(){
 			loaddefaultnpcstuff();
 		}
@@ -208,6 +209,19 @@ namespace Oxide.Plugins
 						AIDesigns.GetByNameOrInstance(brain.DefaultDesignSO.Filename, null).CopyTo(roamDesign);
 					}
 				}
+				if(roamDesign!=null){
+					roamDesign.CopyTo(followpathdesign);
+					for(int i = 0; i < followpathdesign.availableStates.Count(); i++){
+						if(followpathdesign.availableStates[i]==2){
+							followpathdesign.availableStates[i]=0x14;
+						}
+					}
+					for(int i = 0; i < followpathdesign.stateContainers.Count(); i++){
+						if(followpathdesign.stateContainers[i].state==2){
+							followpathdesign.stateContainers[i].state=0x14;
+						}
+					}
+				}
 			}
 			GameObject.Destroy(baseEntity2.gameObject);//
 			UnityEngine.Debug.LogError("FinishedAgentStateGrab");
@@ -238,8 +252,17 @@ namespace Oxide.Plugins
 			BaseAIBrain brain = baseEntity.gameObject.GetComponent<BaseAIBrain>();
 			NPCPlayerNavigator nav = baseEntity.gameObject.GetComponent<NPCPlayerNavigator>();
 			AgentProperties.Set(nma);	
-			if(brain!=null && roamDesign!=null){
-				brain.InstanceSpecificDesign=roamDesign;
+			if(brain!=null && roamDesign!=null && followpathdesign!=null){	
+				global::AIInformationZone forPoint = AIInformationZone.GetForPoint(baseEntity.ServerPosition, true);
+				if (forPoint == null)
+				{			
+					brain.InstanceSpecificDesign=roamDesign;
+					Puts("Applied Roam State");
+				}else{
+					brain.InstanceSpecificDesign=followpathdesign;
+					Puts("Applied Followpath State");
+
+				}
 				brain.UseAIDesign=true;
 			}
 			baseEntity.gameObject.AddComponent<NavmeshAgentSwapFlag>();
