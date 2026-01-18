@@ -299,7 +299,7 @@ namespace Oxide.Plugins
 							
 							//Puts("Movepoint added!");
 						}
-						movepoint.WaitTime = (go.transform.localScale.y*1);
+						movepoint.WaitTime = (go.transform.localScale.y*5);
 						Puts("Found MOVE point! " + movepoint.WaitTime + " " + go.transform.localScale.ToString());
 						if(!customMovePoints.Contains(movepoint)){
 							customMovePoints.Add(movepoint);
