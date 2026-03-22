@@ -18,20 +18,25 @@ using Oxide.Plugins;
 using System.Threading;
 	using Oxide.Core;
 	using Newtonsoft.Json;
+using Oxide.Ext.RustEdit;
+using System.Reflection;
 
 namespace Oxide.Plugins
 {
-	[Info("CustomAIZones", "obsol", "0.0.1")]
-	[Description("For breaking monuments")]
+	[Info("CustomAIZones", "obsol", "0.1.1")]
+	[Description("Allows the creation of custom AI zones, move and cover points for custom monuments - allows using native AI in custom monuments. If you're a map maker, visit <url> for details on how to make compatible monuments. Facepunch if you read this why haven't you done this yet. Why is AI designing also locked down? Why is the default statemap still likely to completely break if takecover can't find cover? StateError isn't handled")]
 	public class CustomAIZones : CovalencePlugin
 	{
 		
 		#region config
-		public ConfigData config;
+		public static ConfigData config;
+		public bool zonesCreated = false;
 		public class ConfigData
 		{
 			[JsonProperty("version", ObjectCreationHandling = ObjectCreationHandling.Replace)]
 			public Oxide.Core.VersionNumber Version = default(VersionNumber);
+			[JsonProperty("debug mode", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+			public bool debug = false;
 		}
 		protected override void LoadConfig()
         {
@@ -93,6 +98,18 @@ namespace Oxide.Plugins
             return true;
         }
 
+		[Command("CAZ-loadcfg")] //
+		private void CAZloadcfg(IPlayer iplayer, string command, string[] args){
+			LoadConfig();
+		}
+		[Command("CAZ-savecfg")] //
+		private void CAZsavecfg(IPlayer iplayer, string command, string[] args){	
+			SaveConfig();
+		}
+		[Command("CAZ-debug")] //
+		private void CAZdebug(IPlayer iplayer, string command, string[] args){	
+			config.debug=!config.debug;
+		}
 		#endregion
 		
 		List<AIPoint> customPoints = new List<AIPoint>();
@@ -171,7 +188,59 @@ namespace Oxide.Plugins
 		}
 		ProtoBuf.AIDesign roamDesign = new ProtoBuf.AIDesign();
 		ProtoBuf.AIDesign followpathdesign = new ProtoBuf.AIDesign();
+		
+		void RustEdit_OnMapDataProcessed(){
+			Puts("Getting RE spawners");
+			RESpawners = GameObject.FindObjectsOfType<Oxide.Ext.RustEdit.NPC.NPCSpawner>();
+			Puts("Found " +RESpawners.Count()+ " spawners");
+			
+		}
+		
+		private void RustEdit_NPCSpawned(BasePlayer spawned){
+			Vector3 pos = spawned.transform.position;
+			NextFrame(()=>{NextFrame(()=>{
+				if(RESpawners == null || RESpawners.Count()==0){//
+					return;
+				}
+				List<HumanNPC> list = new List<HumanNPC>();//
+				Vis.Entities<global::HumanNPC>(pos, 0.1f, list, -1, QueryTriggerInteraction.UseGlobal);
+				if(list == null || list.Count==0){
+					return;
+				}
+				
+				Oxide.Ext.RustEdit.NPC.NPCSpawner spawnpick = null;
+				float bestDist=999;
+				foreach(Oxide.Ext.RustEdit.NPC.NPCSpawner spawner in RESpawners){
+					float dist = Vector3.Distance(spawner.transform.position,pos);
+					if(dist<bestDist){
+						bestDist=dist;
+						spawnpick=spawner;
+					}
+				}
+				if(spawnpick==null){return;}
+				FieldInfo[] myFieldInfo;
+				Type myType = spawnpick.GetType();
+				// Get the type and fields of FieldInfoClass.
+				myFieldInfo = myType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance
+					| BindingFlags.Public);
+					
+				for(int i = 0; i < myFieldInfo.Length; i++)
+				{
+					if(myFieldInfo[i].FieldType.ToString()=="BaseCombatEntity"){						
+						myFieldInfo[i].SetValue(spawnpick, list[0]);
+						Puts("Assigned NPC to RustEdit Spawn");
+					}
+				}
+				
+			});});
+		}
 		private void OnTerrainInitialized(){
+			Puts("Getting Points");
+			GetCustomAIPoints();
+			
+			Puts("Getting markers");
+			zonesCreated=true;
+			GetMonumentMarkers();//assets/bundled/prefabs/modding/volumes_and_triggers/monument_marker.prefab
 			loaddefaultnpcstuff();
 		}
 		private void loaddefaultnpcstuff(){
@@ -229,23 +298,76 @@ namespace Oxide.Plugins
 		}
 		private void OnServerInitialized()
         {
-			Puts("Getting Points");
-			GetCustomAIPoints();
-			
-			Puts("Getting markers");
-			GetMonumentMarkers();//assets/bundled/prefabs/modding/volumes_and_triggers/monument_marker.prefab
-			Puts("Getting safe Navmesh Agent params");//
-			loaddefaultnpcstuff();
+			if(!zonesCreated){
+				Puts("Getting Points");
+				GetCustomAIPoints();
+				
+				Puts("Getting markers");
+				GetMonumentMarkers();//assets/bundled/prefabs/modding/volumes_and_triggers/monument_marker.prefab
+				zonesCreated=true;
+				Puts("Getting safe Navmesh Agent params");//
+				loaddefaultnpcstuff();
+			}
 			
 			
 		}
-		
+		Oxide.Ext.RustEdit.NPC.NPCSpawner[] RESpawners;
 		public class NavmeshAgentSwapFlag : BaseMonoBehaviour{
 			public bool swapped = true;
 			
 		}
 		private void OnEntitySpawned(HumanNPC hn){
+			if(zonesCreated==false){hn.Kill();return;}
 			if(hn.GetComponent<NavmeshAgentSwapFlag>()){return;}
+			NavMeshHit navMeshHit;
+			bool inZone = false;
+			
+			AIInformationZone forPoint=null;
+			foreach(MonumentInfo custom in customMonuments){
+				if(custom.GetComponent<AIInformationZone>()!=null&&custom.GetComponent<AIInformationZone>().bounds.Contains(hn.transform.position)){
+					inZone=true;
+					forPoint=custom.GetComponent<AIInformationZone>();
+					break;
+				}			
+			}	
+			if(!inZone){
+				hn.gameObject.AddComponent<NavmeshAgentSwapFlag>();
+				
+				NextFrame(()=>{
+					SpawnPointInstance spi = hn.gameObject.GetComponent<SpawnPointInstance>();
+					NPCPlayerNavigator nma2 = hn.GetComponent<NPCPlayerNavigator>();
+					if(spi!=null && nma2!=null && spi.parentSpawnPointUser is NPCSpawner){
+						nma2.Path = (spi.parentSpawnPointUser as NPCSpawner).Path;
+						Puts("NOTINZONE: Has Path?"+((spi.parentSpawnPointUser as NPCSpawner).Path!=null));
+						Puts("NOTINZONE: NPCSPAWNER "+(spi.parentSpawnPointUser as NPCSpawner).transform.parent.name);
+						AIMovePointPath t = (spi.parentSpawnPointUser as NPCSpawner).transform.parent.gameObject.GetComponentInChildren<AIMovePointPath>();
+						Puts("NOTINZONE: FoundPint"+(t!=null));
+						if(nma2.Path==null){
+							nma2.Path=t;
+						}
+						Puts("NOTINZONE: HasDesign?"+(hn.gameObject.GetComponent<BaseAIBrain>().AIDesign!=null).ToString());
+						Puts("NOTINZONE: Idle?"+hn.gameObject.GetComponent<BaseAIBrain>().SwitchToState(AIState.Idle,0));
+						foreach(int aisc_key in hn.gameObject.GetComponent<BaseAIBrain>().AIDesign.stateContainers.Keys){
+							if(hn.gameObject.GetComponent<BaseAIBrain>().AIDesign.stateContainers[aisc_key].State ==AIState.FollowPath){
+								Puts("NOTINZONE: FollowPath?"+hn.gameObject.GetComponent<BaseAIBrain>().SwitchToState(AIState.FollowPath,aisc_key));
+								
+							}
+						}
+						Puts("");
+					}
+				});
+				if(config.debug){
+					ConsoleNetwork.BroadcastToAllClients("ddraw.text", new object[]
+					{
+						600,
+						global::UnityEngine.Color.red,
+						hn.transform.position,
+						"[ ]"
+					});
+				}
+				return;
+			}
+			Puts("In Zone");
 			HumanNPC baseEntity = GameManager.server.CreateEntity(hn.gameObject.name, hn.transform.position, hn.transform.rotation, false) as HumanNPC;	
 			Vector3 spawnpoint = hn.transform.position;
 			NavMeshAgent nma = baseEntity.GetComponent<NavMeshAgent>();
@@ -253,7 +375,6 @@ namespace Oxide.Plugins
 			NPCPlayerNavigator nav = baseEntity.gameObject.GetComponent<NPCPlayerNavigator>();
 			AgentProperties.Set(nma);	
 			if(brain!=null && roamDesign!=null && followpathdesign!=null){	
-				global::AIInformationZone forPoint = AIInformationZone.GetForPoint(baseEntity.ServerPosition, true);
 				if (forPoint == null)
 				{			
 					brain.InstanceSpecificDesign=roamDesign;
@@ -269,20 +390,59 @@ namespace Oxide.Plugins
 			//baseEntity.IsDormant=false;
 			//baseEntity.syncPosition=true;
 			baseEntity.gameObject.AwakeFromInstantiate();
+			baseEntity.EnableSaving(false);//
 			//nma.enabled=true;
 			baseEntity.Spawn();
 			//nav.Warp(baseEntity.transform.position);
 			NextFrame(()=>{
 				SpawnPointInstance spi = hn.gameObject.GetComponent<SpawnPointInstance>();
-				if(spi!=null){
+				if(spi!=null){//assets/bundled/prefabs/autospawn/monument/medium/compound.prefab
 						Puts("Transferring spawn instance");
 						SpawnPointInstance spawnPointInstance = baseEntity.gameObject.AddComponent<SpawnPointInstance>();
+						(spi.parentSpawnPointUser as SpawnGroup).PostSpawnProcess(baseEntity, spi.parentSpawnPoint);
 						spawnPointInstance.parentSpawnPointUser = spi.parentSpawnPointUser;
 						spawnPointInstance.parentSpawnPoint = spi.parentSpawnPoint;
 						spawnPointInstance.Entity = baseEntity;
 						spawnPointInstance.Notify();
 						Puts("Transferred spawn instance");
 				}
+				if(config.debug){
+					ConsoleNetwork.BroadcastToAllClients("ddraw.text", new object[]
+					{
+						600,
+						global::UnityEngine.Color.green,
+						hn.transform.position,
+						"[ ]"
+					});
+				}
+				Puts("Can Idle?");
+				brain.SwitchToState(AIState.Idle,0);
+				Puts("Setting path/roam");
+				if (forPoint == null)
+				{			
+					foreach(int aisc_key in brain.AIDesign.stateContainers.Keys){
+						if(brain.AIDesign.stateContainers[aisc_key].State ==AIState.Roam){
+							Puts("Key found "+aisc_key);
+							Puts("Custom Roam?"+brain.SwitchToState(AIState.Roam,aisc_key));
+							break;
+						}
+					}
+				}else{
+					foreach(int aisc_key in brain.AIDesign.stateContainers.Keys){
+						if(brain.AIDesign.stateContainers[aisc_key].State ==AIState.FollowPath){
+							Puts("Key found "+aisc_key);
+							Puts("Custom FollowPath?"+brain.SwitchToState(AIState.FollowPath,aisc_key));
+							
+							break;
+						}
+					}
+					
+				}
+				nav.Warp(baseEntity.transform.position+new Vector3(0,-0.5f,0));
+				nav.PlaceOnNavMesh(1f);
+				nav.Agent.enabled=true;
+				Puts("isSleep?"+brain.sleeping.ToString());
+				Puts("");
 				hn.Kill();//
 			});
 		}
