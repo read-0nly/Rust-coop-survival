@@ -23,7 +23,7 @@ using System.Reflection;
 
 namespace Oxide.Plugins
 {
-	[Info("CustomAIZones", "obsol", "0.1.1")]
+	[Info("CustomAIZones", "obsol", "0.6.1")]
 	[Description("Allows the creation of custom AI zones, move and cover points for custom monuments - allows using native AI in custom monuments. If you're a map maker, visit <url> for details on how to make compatible monuments. Facepunch if you read this why haven't you done this yet. Why is AI designing also locked down? Why is the default statemap still likely to completely break if takecover can't find cover? StateError isn't handled")]
 	public class CustomAIZones : CovalencePlugin
 	{
